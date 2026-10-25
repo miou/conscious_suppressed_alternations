@@ -1,0 +1,46 @@
+[project]
+name = "conscious_suppressed_alternations"
+version = "0.1.0"
+description = "Code for conscious suppressed alternation paper."
+authors = [
+    {name = "Conor McGrory", email = "cmcgrory@princeton.edu"},
+    {name = "Janis Hesse", email = "janishesse@googlemail.edu"},
+]
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.11"
+dependencies = [
+    "h5py>=3.12.1",
+    "hmmlearn",
+    "ipykernel>=6.29.5",
+    "joblib>=1.4.2",
+    "matplotlib>=3.10.0",
+    "notebook>=7.3.2",
+    "numpy>=2.2.1",
+    "pytest>=8.3.4",
+    "scikit-learn>=1.6.1",
+    "scipy>=1.15.1",
+    "seaborn>=0.13.2",
+    "statsmodels>=0.14.6",
+    "tqdm>=4.67.1",
+    "dvc>=3.66.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/percept_hmm"]
+
+[tool.uv.sources]
+hmmlearn = { git = "https://github.com/hmmlearn/hmmlearn", branch = "main" }
+
+[tool.ruff]
+line-length = 100
+indent-width = 4
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "space"
+
