@@ -167,13 +167,13 @@ def estimate_states_trial(hmm: PoissonHMM, spikes: np.ndarray, bin_size: int) ->
 
 
 def estimate_states(hmm: PoissonHMM, trials: list[np.ndarray], bin_size: int) -> list[np.ndarray]:
-    """Estimate On-Off states on data."""
+    """Estimate HMM states on all trials."""
 
     return [estimate_states_trial(hmm, t, bin_size) for t in trials]
 
 
 def get_posterior_trial(hmm: PoissonHMM, spikes: np.ndarray, bin_size: int) -> np.ndarray:
-    """Calculate posterior probability of On state for all time points in trial."""
+    """Calculate posterior probability of each HMM state for all time points in trial."""
 
     # Bin spikes in trial, keeping track of number of points removed during binning
     spikes_bin = bin_trial(spikes, bin_size)
@@ -193,6 +193,6 @@ def get_posterior_trial(hmm: PoissonHMM, spikes: np.ndarray, bin_size: int) -> n
 
 
 def get_posterior(hmm: PoissonHMM, trials: list[np.ndarray], bin_size: int) -> list[np.ndarray]:
-    """Calculate posterior probability of On state for all trials."""
+    """Calculate posterior probability of each HMM state for all trials."""
 
     return [get_posterior_trial(hmm, t, bin_size) for t in trials]

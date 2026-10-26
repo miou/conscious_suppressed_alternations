@@ -1,0 +1,731 @@
+# Recording lists for flash suppression sessions
+
+# List of all sessions with flash-suppression paradigm
+ses_all:
+  - s133
+  - s137
+  - s138
+  - s139
+  - s140
+  - s141
+  - s142
+  - s143
+  - s144
+  - s145
+  - s146
+  - s148
+  - s150
+  - s151
+  - s160
+  - s161
+  - s162
+  - s163
+  - s164
+  - s166
+  - s167
+  - s168
+  - s169
+  - s170
+  - s171
+  
+# Recordings (session + paradigm)
+rec_all:
+  - session: s133
+    paradigm: fsor
+    probes: p1
+  - session: s133
+    paradigm: fsor
+    probes: p2
+  - session: s133
+    paradigm: fsor
+    probes: p12
+  - session: s137
+    paradigm: fsor
+    probes: p1
+  - session: s137
+    paradigm: fsor
+    probes: p2
+  - session: s137
+    paradigm: fsor
+    probes: p12    
+  - session: s138
+    paradigm: fsor
+    probes: p1
+  - session: s138
+    paradigm: fsor
+    probes: p2
+  - session: s138
+    paradigm: fsor
+    probes: p12    
+  - session: s139
+    paradigm: fso
+    probes: p1
+  - session: s140
+    paradigm: fsor
+    probes: p1
+  - session: s140
+    paradigm: fsor
+    probes: p2
+  - session: s140
+    paradigm: fsor
+    probes: p12    
+  - session: s141
+    paradigm: fso
+    probes: p1
+  - session: s141
+    paradigm: fso
+    probes: p2
+  - session: s141
+    paradigm: fso
+    probes: p12    
+  - session: s142
+    paradigm: fso
+    probes: p1
+  - session: s142
+    paradigm: fso
+    probes: p2
+  - session: s142
+    paradigm: fso
+    probes: p12    
+  - session: s143
+    paradigm: fso
+    probes: p1
+  - session: s143
+    paradigm: fso
+    probes: p2
+  - session: s143
+    paradigm: fso
+    probes: p12    
+  #- session: s144
+  #  paradigm: fso
+  #   probes: p1
+  #- session: s144
+  #  paradigm: fso
+  #  probes: p2
+  #- session: s144
+  #  paradigm: fso
+  #  probes: p12    
+  - session: s145
+    paradigm: fso
+    probes: p1
+  - session: s145
+    paradigm: fso
+    probes: p2
+  - session: s145
+    paradigm: fso
+    probes: p12    
+  - session: s146
+    paradigm: fso
+    probes: p1
+  - session: s146
+    paradigm: fso
+    probes: p2
+  - session: s146
+    paradigm: fso
+    probes: p12 
+  - session: s148
+    paradigm: fso
+    probes: p1
+  - session: s148
+    paradigm: fso
+    probes: p2
+  - session: s148
+    paradigm: fso
+    probes: p12    
+  - session: s150
+    paradigm: fso
+    probes: p1
+  - session: s150
+    paradigm: fso
+    probes: p2
+  - session: s150
+    paradigm: fso
+    probes: p12 
+  - session: s151
+    paradigm: fso
+    probes: p1
+  - session: s151
+    paradigm: fso
+    probes: p2
+  - session: s151
+    paradigm: fso
+    probes: p12 
+  - session: s160
+    paradigm: fsm
+    probes: p1
+  - session: s160
+    paradigm: fsm
+    probes: p2
+  - session: s160
+    paradigm: fsm
+    probes: p12
+  - session: s161
+    paradigm: fsm
+    probes: p1
+  - session: s161
+    paradigm: fsm
+    probes: p2
+  - session: s161
+    paradigm: fsm
+    probes: p12
+  - session: s162
+    paradigm: fsm
+    probes: p1
+  - session: s162
+    paradigm: fsm
+    probes: p2
+  - session: s162
+    paradigm: fsm
+    probes: p12
+  - session: s163
+    paradigm: fsmt
+    probes: p1
+  - session: s163
+    paradigm: fsmt
+    probes: p2
+  - session: s163
+    paradigm: fsmt
+    probes: p12
+  - session: s164
+    paradigm: fsm
+    probes: p1
+  - session: s164
+    paradigm: fsm
+    probes: p2
+  - session: s164
+    paradigm: fsm
+    probes: p12
+  - session: s166
+    paradigm: fsm
+    probes: p1
+  - session: s166
+    paradigm: fsm
+    probes: p2
+  - session: s166 # PFC
+    paradigm: fsm
+    probes: p3
+  - session: s166
+    paradigm: fsm
+    probes: p123
+  - session: s166 # IT
+    paradigm: fsm
+    probes: p12
+  - session: s167
+    paradigm: fso
+    probes: p1
+  - session: s167
+    paradigm: fso
+    probes: p2
+  - session: s167
+    paradigm: fso
+    probes: p12    
+  - session: s168
+    paradigm: fsm
+    probes: p1
+  - session: s168
+    paradigm: fsm
+    probes: p2
+  - session: s168 # PFC
+    paradigm: fsm
+    probes: p3
+  - session: s168
+    paradigm: fsm
+    probes: p123
+  - session: s168 # IT
+    paradigm: fsm
+    probes: p12
+  - session: s169
+    paradigm: fsm
+    probes: p1
+  - session: s169
+    paradigm: fsm
+    probes: p2
+  - session: s169 # PFC
+    paradigm: fsm
+    probes: p3
+  - session: s169
+    paradigm: fsm
+    probes: p123
+  - session: s169 # IT
+    paradigm: fsm
+    probes: p12
+  - session: s170 # IT
+    paradigm: fsm
+    probes: p1
+  - session: s170
+    paradigm: fsm
+    probes: p2
+  - session: s170 
+    paradigm: fsm
+    probes: p3
+  - session: s170
+    paradigm: fsm
+    probes: p123
+  - session: s170 # PFC
+    paradigm: fsm
+    probes: p23
+  - session: s169 # PFC
+    paradigm: fsm
+    probes: p23
+  - session: s171 # IT patch (ML)
+    paradigm: fsm
+    probes: p1
+  - session: s171
+    paradigm: fsm
+    probes: p2
+  - session: s171
+    paradigm: fsm
+    probes: p3
+  #- session: s171 # HMM crashed with 50 ms bin
+  #  paradigm: fsm
+  #  probes: p123
+  #- session: s171 # PFC patches (PO, PVL) HMM crashed due to unvisited state
+  #  paradigm: fsm
+  #  probes: p23
+
+# List of recordings from locations in IT (no PFC or pulvinar, etc.)
+rec_it:
+  - session: s133
+    paradigm: fsor
+    probes: p1
+  - session: s133
+    paradigm: fsor
+    probes: p2
+  - session: s133
+    paradigm: fsor
+    probes: p12
+  - session: s137
+    paradigm: fsor
+    probes: p1
+  - session: s137
+    paradigm: fsor
+    probes: p2
+  - session: s137
+    paradigm: fsor
+    probes: p12    
+  - session: s138
+    paradigm: fsor
+    probes: p1
+  - session: s138
+    paradigm: fsor
+    probes: p2
+  - session: s138
+    paradigm: fsor
+    probes: p12    
+  - session: s140
+    paradigm: fsor
+    probes: p1
+  - session: s140
+    paradigm: fsor
+    probes: p2
+  - session: s140
+    paradigm: fsor
+    probes: p12    
+  - session: s141
+    paradigm: fso
+    probes: p1
+  - session: s141
+    paradigm: fso
+    probes: p2
+  - session: s141
+    paradigm: fso
+    probes: p12    
+  - session: s142
+    paradigm: fso
+    probes: p1
+  - session: s142
+    paradigm: fso
+    probes: p2
+  #- session: s142 # HMM fitting crashed with responses computed from 300-1000ms
+  #  paradigm: fso
+  #  probes: p12    
+  - session: s143
+    paradigm: fso
+    probes: p1
+  - session: s143
+    paradigm: fso
+    probes: p2
+  - session: s143
+    paradigm: fso
+    probes: p12    
+  #- session: s144
+  #  paradigm: fso
+  #   probes: p1  
+  - session: s145
+    paradigm: fso
+    probes: p1
+  - session: s146
+    paradigm: fso
+    probes: p1
+  - session: s146
+    paradigm: fso
+    probes: p2
+  - session: s146
+    paradigm: fso
+    probes: p12 
+  - session: s148
+    paradigm: fso
+    probes: p1
+  - session: s150
+    paradigm: fso
+    probes: p1
+  - session: s151
+    paradigm: fso
+    probes: p1
+  - session: s160
+    paradigm: fsm
+    probes: p1
+  - session: s160
+    paradigm: fsm
+    probes: p2
+  - session: s160
+    paradigm: fsm
+    probes: p12
+  - session: s161
+    paradigm: fsm
+    probes: p1
+  - session: s161
+    paradigm: fsm
+    probes: p2
+  - session: s161
+    paradigm: fsm
+    probes: p12
+  - session: s162
+    paradigm: fsm
+    probes: p1
+  - session: s162
+    paradigm: fsm
+    probes: p2
+  - session: s162
+    paradigm: fsm
+    probes: p12
+  - session: s163
+    paradigm: fsmt
+    probes: p1
+  - session: s163
+    paradigm: fsmt
+    probes: p2
+  - session: s163
+    paradigm: fsmt
+    probes: p12
+  - session: s164
+    paradigm: fsm
+    probes: p1
+  #- session: s164 # Crashed when I ran with face + high pass units, and on 4-state model
+  #  paradigm: fsm
+  #  probes: p2
+  - session: s164
+    paradigm: fsm
+    probes: p12
+  - session: s166
+    paradigm: fsm
+    probes: p1
+  - session: s166
+    paradigm: fsm
+    probes: p2
+  - session: s166
+    paradigm: fsm
+    probes: p12
+  - session: s167
+    paradigm: fso
+    probes: p1
+  - session: s168
+    paradigm: fsm
+    probes: p1
+  - session: s168
+    paradigm: fsm
+    probes: p2
+  - session: s168
+    paradigm: fsm
+    probes: p12
+  - session: s169
+    paradigm: fsm
+    probes: p1
+  - session: s169
+    paradigm: fsm
+    probes: p2
+  - session: s169
+    paradigm: fsm
+    probes: p12
+  - session: s170
+    paradigm: fsm
+    probes: p1
+  - session: s171
+    paradigm: fsm
+    probes: p1
+ 
+# Recordings to compute unit subset coherence on
+rec_unit_subset_coherence:
+  - session: s166
+    paradigm: fsm
+    probes: p1
+  - session: s166
+    paradigm: fsm
+    probes: p2
+  - session: s166
+    paradigm: fsm
+    probes: p12
+  - session: s167
+    paradigm: fso
+    probes: p1
+  - session: s168
+    paradigm: fsm
+    probes: p12
+  - session: s169
+    paradigm: fsm
+    probes: p12
+
+# List of recordings where first probe is ML and second probe is AM
+rec_ml_am:
+  - session: s133
+    paradigm: fsor
+    probes: p12
+  - session: s137
+    paradigm: fsor
+    probes: p12    
+  - session: s138
+    paradigm: fsor
+    probes: p12    
+  - session: s140
+    paradigm: fsor
+    probes: p12    
+  - session: s141
+    paradigm: fso
+    probes: p12    
+  #- session: s142
+  #  paradigm: fso
+  #  probes: p12    
+  - session: s143
+    paradigm: fso
+    probes: p12    
+  - session: s146
+    paradigm: fso
+    probes: p12 
+  - session: s160
+    paradigm: fsm
+    probes: p12
+  - session: s161
+    paradigm: fsm
+    probes: p12
+  - session: s162
+    paradigm: fsm
+    probes: p12
+  - session: s163
+    paradigm: fsmt
+    probes: p12
+  #- session: s164
+  #  paradigm: fsm
+  #  probes: p12
+  - session: s166 
+    paradigm: fsm
+    probes: p12
+  - session: s168 
+    paradigm: fsm
+    probes: p12
+  - session: s169
+    paradigm: fsm
+    probes: p12
+
+# FSO Recordings
+rec_fso:
+  - session: s133
+    paradigm: fsor
+    probes: p1
+  - session: s133
+    paradigm: fsor
+    probes: p2
+  - session: s133
+    paradigm: fsor
+    probes: p12
+  - session: s137
+    paradigm: fsor
+    probes: p1
+  - session: s137
+    paradigm: fsor
+    probes: p2
+  - session: s137
+    paradigm: fsor
+    probes: p12    
+  - session: s138
+    paradigm: fsor
+    probes: p1
+  - session: s138
+    paradigm: fsor
+    probes: p2
+  - session: s138
+    paradigm: fsor
+    probes: p12    
+  - session: s140
+    paradigm: fsor
+    probes: p1
+  - session: s140
+    paradigm: fsor
+    probes: p2
+  - session: s140
+    paradigm: fsor
+    probes: p12    
+  - session: s141
+    paradigm: fso
+    probes: p1
+  - session: s141
+    paradigm: fso
+    probes: p2
+  - session: s141
+    paradigm: fso
+    probes: p12    
+  - session: s142
+    paradigm: fso
+    probes: p1
+  - session: s142
+    paradigm: fso
+    probes: p2
+  #- session: s142
+  #  paradigm: fso
+  #  probes: p12    
+  - session: s143
+    paradigm: fso
+    probes: p1
+  - session: s143
+    paradigm: fso
+    probes: p2
+  - session: s143
+    paradigm: fso
+    probes: p12    
+  #- session: s144
+  #  paradigm: fso
+  #   probes: p1
+  - session: s145
+    paradigm: fso
+    probes: p1
+  - session: s146
+    paradigm: fso
+    probes: p1
+  - session: s146
+    paradigm: fso
+    probes: p2
+  - session: s146
+    paradigm: fso
+    probes: p12 
+  - session: s148
+    paradigm: fso
+    probes: p1
+  - session: s150
+    paradigm: fso
+    probes: p1
+  - session: s151
+    paradigm: fso
+    probes: p1
+  - session: s167
+    paradigm: fso
+    probes: p1
+
+# Recordings from IT to use for plots
+rec_plot_it:
+  # FSO sessions: 133, 137, 138, 140, 143, 145, 146, 148, 151, 167
+  - session: s133
+    paradigm: fsor
+    probes: p12
+  - session: s137
+    paradigm: fsor
+    probes: p12    
+  - session: s138
+    paradigm: fsor
+    probes: p12    
+  - session: s140
+    paradigm: fsor
+    probes: p12    
+  - session: s143
+    paradigm: fso
+    probes: p12    
+  - session: s145
+    paradigm: fso
+    probes: p1
+  - session: s146
+    paradigm: fso
+    probes: p12 
+  - session: s148
+    paradigm: fso
+    probes: p1
+  - session: s151
+    paradigm: fso
+    probes: p1
+  - session: s167
+    paradigm: fso
+    probes: p1
+  # FSM sessions: 160, 161, 162, 164, 166, 168, 169, 170, 171
+  - session: s160
+    paradigm: fsm
+    probes: p12
+  - session: s161
+    paradigm: fsm
+    probes: p12
+  - session: s162
+    paradigm: fsm
+    probes: p12
+  - session: s164
+    paradigm: fsm
+    probes: p12
+  - session: s166
+    paradigm: fsm
+    probes: p12
+  - session: s168
+    paradigm: fsm
+    probes: p12
+  - session: s169
+    paradigm: fsm
+    probes: p12
+  - session: s170
+    paradigm: fsm
+    probes: p1
+  - session: s171
+    paradigm: fsm
+    probes: p1
+
+# Recordings for local testing
+rec_test_local:
+  - session: s133
+    paradigm: fsor
+    probes: p1
+  - session: s133
+    paradigm: fsor
+    probes: p2
+  - session: s133
+    paradigm: fsor
+    probes: p12
+  - session: s162
+    paradigm: fsm
+    probes: p1
+  - session: s162
+    paradigm: fsm
+    probes: p2
+  - session: s162
+    paradigm: fsm
+    probes: p12
+  - session: s168 
+    paradigm: fsm
+    probes: p12
+  - session: s168 
+    paradigm: fsm
+    probes: p1
+  - session: s168 
+    paradigm: fsm
+    probes: p2
+
+# FSO recordings for local testing
+rec_test_local_fso:
+  - session: s133
+    paradigm: fsor
+    probes: p1
+  - session: s133
+    paradigm: fsor
+    probes: p2
+  - session: s133
+    paradigm: fsor
+    probes: p12
+
+# ML/AM recordings for local testing
+rec_test_local_ml_am:
+  - session: s133
+    paradigm: fsor
+    probes: p12
+ 

@@ -1,0 +1,85 @@
+# Parameters file
+
+# Filepaths (relative to current directory)
+paths:
+  script_dir: '../../python/scripts/fixed_hmm_fs'
+  fs_script_dir: '../../python/scripts/fs_rivalry'
+  data_dir: '../preprocessed'
+  extract_data_dir: 'extract_data'
+  pred_all_units_dir: 'pred_all_units'
+  pred_random_stim_dir: 'pred_random_stim'
+  pred_unit_subset_dir: 'pred_unit_subset'
+  unit_subset_coherence_dir: 'unit_subset_coherence'
+  probe_coherence_dir: 'probe_coherence'
+  fso_decoding_dir: 'fso_decoding'
+  stats_dir: 'stats'
+  dwell_time_dir: 'dwell_time'
+  summary_stats_dir: 'summary_stats'
+  states_loglik_dir: 'states_loglik'
+  compile_data_dir: 'compile_data'
+
+# Data parameters
+extract_data:
+  select_valid_units: false
+  select_face_units: false 
+  select_high_pass_units: false 
+  select_visual_units: false
+  select_repeat_stimuli: true
+
+# Model parameters
+model:
+  bin_size: 10
+  r_floor: 0.00000001
+  r_start: 100
+  r_stop: 1000
+  rng_seed: 20240408
+
+# Random stimulus control analysis parameters
+pred_random_stim:
+  rng_seed: 20260222
+
+# Subset of units control analysis parameters
+pred_unit_subset:
+  rng_seed: 20260227
+  frac_units_hmm: 0.5
+
+# Unit subset HMM overlap parameters
+unit_subset_coherence:
+  rng_seed: 1997
+  frac_units_hmm: 0.5
+  n_samples: 5
+
+# Probe coherence parameters
+probe_coherence:
+  t_start: 300
+  t_stop: 1000
+  lag: 40
+
+# FSO decoding parameters
+fso_decoding:
+  win_start: 300
+  win_stop: 1000
+  max_iter: 10000
+  n_folds_cv: 4
+  rng_seed_cv: 999
+  min_win_frac: 0.25
+
+# Basic statistics parameters
+stats:
+  t_start: 300
+  t_stop: 1000
+
+# Dwell time statistics parameters
+dwell_time:
+  t_start: 300
+  t_stop: 1000
+  drop_edges: false 
+
+# State sequence log-likelihood parameters
+states_loglik:
+  rng_seed: 20120519
+  frac_units_hmm: 0.5
+  bin_size: 5
+  win_start: 300
+  win_stop: 1000
+  mix_alpha_red: 0.5
