@@ -1,5 +1,4 @@
 function [ims_reconstructed] = flash_suppression_axes_compute_reconstructions(config,xml_folder,xml_filename,stimulus_list,priming_stimuli,folder_name,features,predicted_features_cv,unique_stimuli,unique_stimulus_index_other_list,unique_stimuli_is_high_repeat,red_cyan_pair_indices)
-b_shuffle_for_checking = false;
 b_make_images_gray = true;
 if isfield(config,'states_to_use') && ~isempty(config.states_to_use) && config.states_to_use.state_value == 1
     skip_image = 4;%default 3 for state 2, 4 for state 1.
@@ -7,9 +6,6 @@ elseif isfield(config,'states_to_use') && ~isempty(config.states_to_use) && conf
     skip_image =3;%default 3 for state 2, 4 for state 1.
 else
     skip_image = [];
-end
-if b_shuffle_for_checking
-    rng(42);
 end
 
 distance_method = 'dotproduct';
@@ -114,7 +110,6 @@ for unique_stimulus_index_to_check = find(unique_stimuli_is_high_repeat)%1:lengt
     imshow(uint8(reconstructed_image))
     title('Reconstructed')
     figure(43)
-    b_shuffle_recomputed_other = false;
 
     %Compare whether reconstruction is closer to recomputed_image or
     %recomputed_image_other
@@ -141,30 +136,14 @@ for unique_stimulus_index_to_check = find(unique_stimuli_is_high_repeat)%1:lengt
     end
 
 
-    if b_shuffle_for_checking
-        if rand>0.5
-            b_shuffle_recomputed_other = true;
-        end
+    nexttile
+    imshow(uint8(recomputed_image))
+    title('Dominant')
+    nexttile
+    if ~isnan(unique_stimulus_index_other)
+        imshow(uint8(recomputed_image_other))
     end
-    if b_shuffle_recomputed_other
-        nexttile
-        if ~isnan(unique_stimulus_index_other)
-            imshow(uint8(recomputed_image_other))
-        end
-        title('Suppressed')
-        nexttile
-        imshow(uint8(recomputed_image))
-        title('Dominant')
-    else
-        nexttile
-        imshow(uint8(recomputed_image))
-        title('Dominant')
-        nexttile
-        if ~isnan(unique_stimulus_index_other)
-            imshow(uint8(recomputed_image_other))
-        end
-        title('Suppressed')
-    end
+    title('Suppressed')
     if skip_image==3
         nexttile;axis off;
     end
@@ -205,11 +184,6 @@ f=figure(43);set(f,'Units','normalized','Position',[0         0    1.5000    1.4
 if ~isnan(unique_stimulus_index_other)
 sgtitle([num2str(nanmean(correct_pair)*100) '% correct.'])
 end
-if b_shuffle_for_checking
-    shuffle_string = '_shuffle';
-else
-    shuffle_string = '';
-end
 if b_make_images_gray
     gray_string = '_gray';
 else
@@ -220,5 +194,5 @@ if config.b_use_control_1_stimuli
 else
     control_1b_string = '';
 end
-file_name = [folder_name filesep 'reconstructions_with_other' shuffle_string gray_string control_1b_string];
+file_name = [folder_name filesep 'reconstructions_with_other' gray_string control_1b_string];
 if folder_name;print(f,file_name, '-dpng','-r0');end

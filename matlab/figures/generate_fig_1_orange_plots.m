@@ -1,29 +1,9 @@
-%Load 250225_184612_Alfie
-paradigm_data = session.paradigms_data{1};
-time_window_response = [50, paradigm_data.on_duration + 100];
-time_window_baseline = [0, 50];
-
-peri_stimulus_range = [0:time_window_response(2)];
-[raster, b_in_range] = computeRaster(paradigm_data.timecourse_on_times,paradigm_data.timecourse_all_units',-peri_stimulus_range(1), peri_stimulus_range(end));
-
-start_index_response = find(peri_stimulus_range==time_window_response(1));
-end_index_response = find(peri_stimulus_range==time_window_response(2));
-start_index_baseline = find(peri_stimulus_range==time_window_baseline(1));
-end_index_baseline = find(peri_stimulus_range==time_window_baseline(2));
-
-
-responses_avg_across_time = squeeze(mean(raster(:,start_index_response:end_index_response,:),2)); %n_trials x n_units
-baselines_avg_across_time = squeeze(mean(raster(:,start_index_baseline:end_index_baseline,:),2)); %n_trials x n_units
-unit_baselines = mean(baselines_avg_across_time,1); %n_trials x n_units
-nstimuli = max(paradigm_data.stimulus_index_valid);
-orange_matrix = nan(size(responses_avg_across_time,2),nstimuli);
-for stimulus_index = 1:nstimuli
-    orange_matrix(:,stimulus_index)= mean(responses_avg_across_time(paradigm_data.stimulus_index_valid == stimulus_index,:),1);
-end
-
-orange_matrix_minus_baseline = orange_matrix - repmat(unit_baselines',[1,size(orange_matrix,2)]);
-orange_matrix_minus_baseline_normalized = orange_matrix_minus_baseline./repmat((max(abs(orange_matrix_minus_baseline),[],2)),[1,size(orange_matrix,2)]);
-b_selected = true(1,size(orange_matrix,1));
+% Expects a loaded `session` (e.g. session_250225_Alfie) and `rivalry_config` in the workspace.
+% The orange matrix (per-unit face/object responses, baseline-subtracted and normalized across
+% stimuli) is precomputed and stored on the session. The FOB paradigm's raster is dropped from
+% the released sessions to save space, so use the stored matrix rather than recomputing it.
+orange_matrix_minus_baseline_normalized = session.orange_matrix_minus_baseline_normalized{1};
+b_selected = true(1,size(orange_matrix_minus_baseline_normalized,1));
 
 probe_indices = unique(session.unit_probes_index);
 
@@ -32,7 +12,7 @@ probe_indices = unique(session.unit_probes_index);
 %% only visually-responsive, sorted by FSI
 mode='nature';
 paths = set_paths; outputfolder = fullfile(paths.figures_out,'fig_1'); if ~exist(outputfolder,'dir'); mkdir(outputfolder); end
-paradigm_index = find(strcmp(cat(1,{data.paradigms.name}),'FOB'));
+paradigm_index = find(strcmp(cat(1,{rivalry_config.paradigms.name}),'FOB'));
 b_selected_visually_responsive = and(b_selected, session.face_vs_object(paradigm_index).p_value_visual_response<0.05);
 [~,sort_indices_fsi] = sort(session.face_vs_object(paradigm_index).fsi);
 for probe_index = 1:length(probe_indices)

@@ -1,4 +1,4 @@
-data = switches_config_release;
+rivalry_config = switches_config_release;
 paths = set_paths;
 %Make figures
 mode='nature';
@@ -58,11 +58,11 @@ if ~exist(figure_folder_name,'dir'); mkdir(figure_folder_name); end
 
 %% EV panel
 [f, ax, S] = make_standard_figure(mode,'FigureNumber',100, 'HeightInHalfColumnWidths', figure2_panel_height);
-plot(100*mean(summaries.priming.explained_variance_features_cv_high_repeat(:,:,end),2),'-','Color',data.state_colors{3})
-plot(100*mean(summaries.state_1.explained_variance_features_cv_high_repeat(:,:,end),2),'-','Color',data.state_colors{1})
-plot(100*mean(summaries.state_1.explained_variance_features_cv_high_repeat_other(:,:,end),2),'--','Color',data.state_colors{1})
-plot(100*mean(summaries.state_2.explained_variance_features_cv_high_repeat(:,:,end),2),'-','Color',data.state_colors{2})
-plot(100*mean(summaries.state_2.explained_variance_features_cv_high_repeat_other(:,:,end),2),'--','Color',data.state_colors{2})
+plot(100*mean(summaries.priming.explained_variance_features_cv_high_repeat(:,:,end),2),'-','Color',rivalry_config.state_colors{3})
+plot(100*mean(summaries.state_1.explained_variance_features_cv_high_repeat(:,:,end),2),'-','Color',rivalry_config.state_colors{1})
+plot(100*mean(summaries.state_1.explained_variance_features_cv_high_repeat_other(:,:,end),2),'--','Color',rivalry_config.state_colors{1})
+plot(100*mean(summaries.state_2.explained_variance_features_cv_high_repeat(:,:,end),2),'-','Color',rivalry_config.state_colors{2})
+plot(100*mean(summaries.state_2.explained_variance_features_cv_high_repeat_other(:,:,end),2),'--','Color',rivalry_config.state_colors{2})
 set(gca,'ylim',[-100,100])
 set(gca,'XLim',[1 50])
 finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[figure_folder_name filesep 'explained_variance'])
@@ -80,17 +80,15 @@ qpair = 0.5*(q(pm(pk(:,1))) + q(pm(pk(:,2))));                          % one sc
 fprintf('Reconstruction dissociation: t(%d)=%.1f, p=%.2e (n=%d pairs)\n', st.df, st.tstat, p, numel(qpair));
 
 %% Decoding bars (debug figure, not a saved panel)
-% figure(1);clf;
-% bar_with_std(1:4,[summaries.state_1.percentage_correct_cv(10,:)',summaries.state_2.percentage_correct_cv(10,:)',summaries.state_1.percentage_correct_cv_other(10,:)',summaries.state_2.percentage_correct_cv_other(10,:)']) ;set(gca,'ylim',[0 1]);box off;set(gca,'xlim',[0 5]);h = gca;h.XAxis.Visible = 'off';
 
 
 %% Decoding curve panel
 [f, ax, S] = make_standard_figure(mode,'FigureNumber',201, 'HeightInHalfColumnWidths', figure2_panel_height);
-[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.priming.percentage_correct_cv(:,:,end)');p.LineStyle='-';p.Color = data.state_colors{3};errorarea.FaceColor=data.state_colors{3};
-[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.state_1.percentage_correct_cv(:,:,end)');p.LineStyle='-';p.Color = data.state_colors{1};errorarea.FaceColor=data.state_colors{1};
-[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.state_1.percentage_correct_cv_other(:,:,end)');p.LineStyle='--';p.Color = data.state_colors{1};errorarea.FaceColor=data.state_colors{1};
-[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.state_2.percentage_correct_cv(:,:,end)');p.LineStyle='-';p.Color = data.state_colors{2};errorarea.FaceColor=data.state_colors{2};
-[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.state_2.percentage_correct_cv_other(:,:,end)');p.LineStyle='--';p.Color = data.state_colors{2};errorarea.FaceColor=data.state_colors{2};
+[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.priming.percentage_correct_cv(:,:,end)');p.LineStyle='-';p.Color = rivalry_config.state_colors{3};errorarea.FaceColor=rivalry_config.state_colors{3};
+[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.state_1.percentage_correct_cv(:,:,end)');p.LineStyle='-';p.Color = rivalry_config.state_colors{1};errorarea.FaceColor=rivalry_config.state_colors{1};
+[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.state_1.percentage_correct_cv_other(:,:,end)');p.LineStyle='--';p.Color = rivalry_config.state_colors{1};errorarea.FaceColor=rivalry_config.state_colors{1};
+[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.state_2.percentage_correct_cv(:,:,end)');p.LineStyle='-';p.Color = rivalry_config.state_colors{2};errorarea.FaceColor=rivalry_config.state_colors{2};
+[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.state_2.percentage_correct_cv_other(:,:,end)');p.LineStyle='--';p.Color = rivalry_config.state_colors{2};errorarea.FaceColor=rivalry_config.state_colors{2};
 ylim([0 100])
 finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[figure_folder_name filesep 'euclidean_decoding'])
 
@@ -122,11 +120,11 @@ finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[figure_folder_na
 
 
 %% Single-trial decoding (Fig 3h/i) -- half-neuron IT. trial_decoding is computed in the
-% release modulation sweep (run_and_save_modulation) and carried in the modulation summaries.
+% release modulation sweep (step3_run_and_save_modulation) and carried in the modulation summaries.
 %IT LLR
 region = 'IT';
-state_1 = load(release_modulation_summary(paths,'Fixed rate LLR IT 10 ms half neurons',1));
-state_2 = load(release_modulation_summary(paths,'Fixed rate LLR IT 10 ms half neurons',2));
+summary_state_1 = load(release_modulation_summary(paths,'Fixed rate LLR IT 10 ms half neurons',1));
+summary_state_2 = load(release_modulation_summary(paths,'Fixed rate LLR IT 10 ms half neurons',2));
 figure_folder_name = fullfile(paths.figures_out,'fig_3_half_neurons'); if ~exist(figure_folder_name,'dir'); mkdir(figure_folder_name); end
 example_session_index = 7; %250518_Mowgli (the paper's example session, originally index 146)
 
@@ -138,40 +136,40 @@ decoding_binocular_dominant_state_1 = [];
 decoding_binocular_suppressed_state_1 = [];
 decoding_binocular_dominant_state_2 = [];
 decoding_binocular_suppressed_state_2 = [];
-for session_index_across_sessions = 1:length(state_1.flash_suppression_results_all_sessions)
-    if ~isempty(state_1.flash_suppression_results_all_sessions{session_index_across_sessions})
-        fs = state_1.flash_suppression_results_all_sessions{session_index_across_sessions};
-        if isfield(state_1.flash_suppression_results_all_sessions{session_index_across_sessions}.trial_decoding,region)
-            decoding_unambiguous_dominant_all_states = [decoding_unambiguous_dominant_all_states state_1.flash_suppression_results_all_sessions{session_index_across_sessions}.trial_decoding.(region).decoding_accuracy_testing_dominant_full_trial.unambiguous];
-            decoding_unambiguous_suppressed_all_states = [decoding_unambiguous_suppressed_all_states state_1.flash_suppression_results_all_sessions{session_index_across_sessions}.trial_decoding.(region).decoding_accuracy_testing_suppressed_full_trial.unambiguous];
-            decoding_binocular_dominant_all_states = [decoding_binocular_dominant_all_states state_1.flash_suppression_results_all_sessions{session_index_across_sessions}.trial_decoding.(region).decoding_accuracy_testing_dominant_full_trial.binocular];
-            decoding_binocular_suppressed_all_states = [decoding_binocular_suppressed_all_states state_1.flash_suppression_results_all_sessions{session_index_across_sessions}.trial_decoding.(region).decoding_accuracy_testing_suppressed_full_trial.binocular];
-            decoding_binocular_dominant_state_1 = [decoding_binocular_dominant_state_1 state_1.flash_suppression_results_all_sessions{session_index_across_sessions}.trial_decoding.(region).decoding_accuracy_testing_dominant_state_full_trial.binocular];
-            decoding_binocular_suppressed_state_1 = [decoding_binocular_suppressed_state_1 state_1.flash_suppression_results_all_sessions{session_index_across_sessions}.trial_decoding.(region).decoding_accuracy_testing_suppressed_state_full_trial.binocular];
-            decoding_binocular_dominant_state_2 = [decoding_binocular_dominant_state_2 state_2.flash_suppression_results_all_sessions{session_index_across_sessions}.trial_decoding.(region).decoding_accuracy_testing_dominant_state_full_trial.binocular];
-            decoding_binocular_suppressed_state_2 = [decoding_binocular_suppressed_state_2 state_2.flash_suppression_results_all_sessions{session_index_across_sessions}.trial_decoding.(region).decoding_accuracy_testing_suppressed_state_full_trial.binocular];
+for session_index_across_sessions = 1:length(summary_state_1.flash_suppression_results_all_sessions)
+    if ~isempty(summary_state_1.flash_suppression_results_all_sessions{session_index_across_sessions})
+        fs = summary_state_1.flash_suppression_results_all_sessions{session_index_across_sessions};
+        if isfield(summary_state_1.flash_suppression_results_all_sessions{session_index_across_sessions}.trial_decoding,region)
+            decoding_unambiguous_dominant_all_states = [decoding_unambiguous_dominant_all_states summary_state_1.flash_suppression_results_all_sessions{session_index_across_sessions}.trial_decoding.(region).decoding_accuracy_testing_dominant_full_trial.unambiguous];
+            decoding_unambiguous_suppressed_all_states = [decoding_unambiguous_suppressed_all_states summary_state_1.flash_suppression_results_all_sessions{session_index_across_sessions}.trial_decoding.(region).decoding_accuracy_testing_suppressed_full_trial.unambiguous];
+            decoding_binocular_dominant_all_states = [decoding_binocular_dominant_all_states summary_state_1.flash_suppression_results_all_sessions{session_index_across_sessions}.trial_decoding.(region).decoding_accuracy_testing_dominant_full_trial.binocular];
+            decoding_binocular_suppressed_all_states = [decoding_binocular_suppressed_all_states summary_state_1.flash_suppression_results_all_sessions{session_index_across_sessions}.trial_decoding.(region).decoding_accuracy_testing_suppressed_full_trial.binocular];
+            decoding_binocular_dominant_state_1 = [decoding_binocular_dominant_state_1 summary_state_1.flash_suppression_results_all_sessions{session_index_across_sessions}.trial_decoding.(region).decoding_accuracy_testing_dominant_state_full_trial.binocular];
+            decoding_binocular_suppressed_state_1 = [decoding_binocular_suppressed_state_1 summary_state_1.flash_suppression_results_all_sessions{session_index_across_sessions}.trial_decoding.(region).decoding_accuracy_testing_suppressed_state_full_trial.binocular];
+            decoding_binocular_dominant_state_2 = [decoding_binocular_dominant_state_2 summary_state_2.flash_suppression_results_all_sessions{session_index_across_sessions}.trial_decoding.(region).decoding_accuracy_testing_dominant_state_full_trial.binocular];
+            decoding_binocular_suppressed_state_2 = [decoding_binocular_suppressed_state_2 summary_state_2.flash_suppression_results_all_sessions{session_index_across_sessions}.trial_decoding.(region).decoding_accuracy_testing_suppressed_state_full_trial.binocular];
         end
     end
 end
 
-time_points = 1e-3*(state_1.flash_suppression_results_all_sessions{example_session_index}.time_window_starts+state_1.flash_suppression_results_all_sessions{example_session_index}.time_window_length/2);
+time_points = 1e-3*(summary_state_1.flash_suppression_results_all_sessions{example_session_index}.time_window_starts+summary_state_1.flash_suppression_results_all_sessions{example_session_index}.time_window_length/2);
 [f, ax, S] = make_standard_figure(mode,'FigureNumber',801, 'HeightInHalfColumnWidths', figure2_panel_height/2.5,  'WidthInHalfColumns',1/2);
-plot(time_points,100*state_1.flash_suppression_results_all_sessions{example_session_index}.trial_decoding.(region).decoding_accuracy_testing_dominant.binocular,'-','Color',[.5 .5 .5]);
-plot(time_points,100*state_1.flash_suppression_results_all_sessions{example_session_index}.trial_decoding.(region).decoding_accuracy_testing_suppressed.binocular,'--','Color',[.5 .5 .5]);
+plot(time_points,100*summary_state_1.flash_suppression_results_all_sessions{example_session_index}.trial_decoding.(region).decoding_accuracy_testing_dominant.binocular,'-','Color',[.5 .5 .5]);
+plot(time_points,100*summary_state_1.flash_suppression_results_all_sessions{example_session_index}.trial_decoding.(region).decoding_accuracy_testing_suppressed.binocular,'--','Color',[.5 .5 .5]);
 set(gca,'ylim',[0 100]);
 set(gca,'xlim',1e-3*[-100,2000])
 finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[figure_folder_name filesep 'single_trial_decoding_example_all_states'])
 
 [f, ax, S] = make_standard_figure(mode,'FigureNumber',802, 'HeightInHalfColumnWidths', figure2_panel_height/2.5,  'WidthInHalfColumns',1/2);
-plot(time_points,100*state_1.flash_suppression_results_all_sessions{example_session_index}.trial_decoding.(region).decoding_accuracy_testing_dominant_state.binocular,'-','Color',data.state_colors{1});
-plot(time_points,100*state_1.flash_suppression_results_all_sessions{example_session_index}.trial_decoding.(region).decoding_accuracy_testing_suppressed_state.binocular,'--','Color',data.state_colors{1});
+plot(time_points,100*summary_state_1.flash_suppression_results_all_sessions{example_session_index}.trial_decoding.(region).decoding_accuracy_testing_dominant_state.binocular,'-','Color',rivalry_config.state_colors{1});
+plot(time_points,100*summary_state_1.flash_suppression_results_all_sessions{example_session_index}.trial_decoding.(region).decoding_accuracy_testing_suppressed_state.binocular,'--','Color',rivalry_config.state_colors{1});
 set(gca,'ylim',[0 100]);
 set(gca,'xlim',1e-3*[-100,2000])
 finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[figure_folder_name filesep 'single_trial_decoding_example_state_1'])
 
 [f, ax, S] = make_standard_figure(mode,'FigureNumber',803, 'HeightInHalfColumnWidths', figure2_panel_height/2.5,  'WidthInHalfColumns',1/2);
-plot(time_points,100*state_2.flash_suppression_results_all_sessions{example_session_index}.trial_decoding.(region).decoding_accuracy_testing_dominant_state.binocular,'-','Color',data.state_colors{2});
-plot(time_points,100*state_2.flash_suppression_results_all_sessions{example_session_index}.trial_decoding.(region).decoding_accuracy_testing_suppressed_state.binocular,'--','Color',data.state_colors{2});
+plot(time_points,100*summary_state_2.flash_suppression_results_all_sessions{example_session_index}.trial_decoding.(region).decoding_accuracy_testing_dominant_state.binocular,'-','Color',rivalry_config.state_colors{2});
+plot(time_points,100*summary_state_2.flash_suppression_results_all_sessions{example_session_index}.trial_decoding.(region).decoding_accuracy_testing_suppressed_state.binocular,'--','Color',rivalry_config.state_colors{2});
 set(gca,'ylim',[0 100]);
 set(gca,'xlim',1e-3*[-100,2000])
 finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[figure_folder_name filesep 'single_trial_decoding_example_state_2'])
@@ -184,10 +182,10 @@ plot(x,100*[mean(decoding_binocular_suppressed_all_states),mean(decoding_binocul
 plot(x,100*[decoding_binocular_suppressed_all_states',decoding_binocular_suppressed_state_1',decoding_binocular_suppressed_state_2'],'--','Color',[0 0 0 .5],'LineWidth',0.1)
 plot([1],100*[mean(decoding_binocular_dominant_all_states) ],'o','MarkerFaceColor',[.5 .5 .5],'MarkerEdgeColor',[.5 .5 .5],'MarkerSize',S.marker_size*0.75,'LineWidth',S.line_width)
 plot([1],100*[mean(decoding_binocular_suppressed_all_states)],'o','MarkerEdgeColor',[.5 .5 .5],'MarkerFaceColor',[1 1 1],'MarkerSize',S.marker_size*0.75,'LineWidth',S.line_width)
-plot([2],100*[mean(decoding_binocular_dominant_state_1) ],'o','MarkerFaceColor',data.state_colors{1},'MarkerEdgeColor',data.state_colors{1},'MarkerSize',S.marker_size*0.75,'LineWidth',S.line_width)
-plot([2],100*[mean(decoding_binocular_suppressed_state_1)],'o','MarkerEdgeColor',data.state_colors{1},'MarkerFaceColor',[1 1 1],'MarkerSize',S.marker_size*0.75,'LineWidth',S.line_width)
-plot([3],100*[mean(decoding_binocular_dominant_state_2) ],'o','MarkerFaceColor',data.state_colors{2},'MarkerEdgeColor',data.state_colors{2},'MarkerSize',S.marker_size*0.75,'LineWidth',S.line_width)
-plot([3],100*[mean(decoding_binocular_suppressed_state_2)],'o','MarkerEdgeColor',data.state_colors{2},'MarkerFaceColor',[1 1 1],'MarkerSize',S.marker_size*0.75,'LineWidth',S.line_width)
+plot([2],100*[mean(decoding_binocular_dominant_state_1) ],'o','MarkerFaceColor',rivalry_config.state_colors{1},'MarkerEdgeColor',rivalry_config.state_colors{1},'MarkerSize',S.marker_size*0.75,'LineWidth',S.line_width)
+plot([2],100*[mean(decoding_binocular_suppressed_state_1)],'o','MarkerEdgeColor',rivalry_config.state_colors{1},'MarkerFaceColor',[1 1 1],'MarkerSize',S.marker_size*0.75,'LineWidth',S.line_width)
+plot([3],100*[mean(decoding_binocular_dominant_state_2) ],'o','MarkerFaceColor',rivalry_config.state_colors{2},'MarkerEdgeColor',rivalry_config.state_colors{2},'MarkerSize',S.marker_size*0.75,'LineWidth',S.line_width)
+plot([3],100*[mean(decoding_binocular_suppressed_state_2)],'o','MarkerEdgeColor',rivalry_config.state_colors{2},'MarkerFaceColor',[1 1 1],'MarkerSize',S.marker_size*0.75,'LineWidth',S.line_width)
 set(gca,'xlim',[0.5 3.5]);set(gca,'YLim',[0 100]);set(gca,'xticklabels',{'Average','State 1','State 2'})
 finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[figure_folder_name filesep 'single_trial_decoding_summary'])
 
@@ -196,8 +194,8 @@ finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[figure_folder_na
 %% Modulation index panel
 
 %LLR IT
-state_1 = load(release_modulation_summary(paths,'Fixed rate LLR IT 10 ms half neurons',1));
-state_2 = load(release_modulation_summary(paths,'Fixed rate LLR IT 10 ms half neurons',2));
+summary_state_1 = load(release_modulation_summary(paths,'Fixed rate LLR IT 10 ms half neurons',1));
+summary_state_2 = load(release_modulation_summary(paths,'Fixed rate LLR IT 10 ms half neurons',2));
 regions_to_plot = {'ML','AM','all'}; %Only ML and AM for all
 outputfolder = figure_folder_name;
 context_significance = 'priming';
@@ -231,7 +229,7 @@ across_sessions_analysis_all_combinations_modulation_aux
 [f, ax, S] = make_standard_figure(mode,'FigureNumber',701, 'HeightInHalfColumnWidths', panel_size, 'WidthInHalfColumns', panel_size);
 scatter(modulation_indices_context_1_significant_1{regions_to_plot_index},modulation_indices_context_2_significant_1{regions_to_plot_index},marker_size,'filled','MarkerFaceColor','k','MarkerFaceAlpha',marker_face_alpha,'MarkerEdgeAlpha',marker_edge_alpha);
 plot([-1 1], [-1 1],'k--','LineWidth',S.reference_line_width);plot([0 0], [-1 1],'k--','LineWidth',S.reference_line_width);plot( [-1 1],[0 0],'k--','LineWidth',S.reference_line_width);axis square;%set(gca,'XLim',[-1 1]);set(gca,'YLim',[-1 1]);xticks(-1:.5:1);yticks(-1:.5:1);set(gca,'xticklabels','');set(gca,'yticklabels','')
-set(gca,'xlim',[-1 1]);set(gca,'ylim',[-1 1]);xticks(-1:1);yticks(-1:1)%!!!!
+set(gca,'xlim',[-1 1]);set(gca,'ylim',[-1 1]);xticks(-1:1);yticks(-1:1)
 finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[outputfolder filesep 'modulation_all_states']);figure(f);
 [~,p_average_modulation,~,st] = ttest(modulation_indices_context_1_significant_1{regions_to_plot_index},modulation_indices_context_2_significant_1{regions_to_plot_index})  % paired t-test on average modulation (reported in Fig 1h)
 [r_average,p_average] = corrcoef(modulation_indices_context_1_significant_1{regions_to_plot_index},modulation_indices_context_2_significant_1{regions_to_plot_index},'Rows','complete')
@@ -243,7 +241,7 @@ across_sessions_analysis_all_combinations_modulation_aux
 [f, ax, S] = make_standard_figure(mode,'FigureNumber',702, 'HeightInHalfColumnWidths', panel_size, 'WidthInHalfColumns', panel_size);
 scatter(modulation_indices_context_1_significant_1{regions_to_plot_index},modulation_indices_context_2_significant_1{regions_to_plot_index},marker_size,'filled','MarkerFaceColor','k','MarkerFaceAlpha',marker_face_alpha,'MarkerEdgeAlpha',marker_edge_alpha);
 plot([-1 1], [-1 1],'k--','LineWidth',S.reference_line_width);plot([0 0], [-1 1],'k--','LineWidth',S.reference_line_width);plot( [-1 1],[0 0],'k--','LineWidth',S.reference_line_width);axis square;%set(gca,'XLim',[-1 1]);set(gca,'YLim',[-1 1]);xticks(-1:.5:1);yticks(-1:.5:1);set(gca,'xticklabels','');set(gca,'yticklabels','')
-set(gca,'xlim',[-1 1]);set(gca,'ylim',[-1 1]);xticks(-1:1);yticks(-1:1)%!!!!
+set(gca,'xlim',[-1 1]);set(gca,'ylim',[-1 1]);xticks(-1:1);yticks(-1:1)
 finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[outputfolder filesep 'modulation_state_1']);figure(f);
 [r_state_1,p_state_1] = corrcoef(modulation_indices_context_1_significant_1{regions_to_plot_index},modulation_indices_context_2_significant_1{regions_to_plot_index},'Rows','complete')
 [pstr, log10p] = pearson_p(r_state_1(2),length(modulation_indices_context_1_significant_1{regions_to_plot_index}))
@@ -255,7 +253,7 @@ across_sessions_analysis_all_combinations_modulation_aux
 [f, ax, S] = make_standard_figure(mode,'FigureNumber',703, 'HeightInHalfColumnWidths', panel_size, 'WidthInHalfColumns', panel_size);
 scatter(modulation_indices_context_1_significant_1{regions_to_plot_index},modulation_indices_context_2_significant_1{regions_to_plot_index},marker_size,'filled','MarkerFaceColor','k','MarkerFaceAlpha',marker_face_alpha,'MarkerEdgeAlpha',marker_edge_alpha);
 plot([-1 1], [1 -1],'k--','LineWidth',S.reference_line_width);plot([0 0], [-1 1],'k--','LineWidth',S.reference_line_width);plot( [-1 1],[0 0],'k--','LineWidth',S.reference_line_width);axis square;%set(gca,'XLim',[-1 1]);set(gca,'YLim',[-1 1]);xticks(-1:.5:1);yticks(-1:.5:1);set(gca,'xticklabels','');set(gca,'yticklabels','')
-set(gca,'xlim',[-1 1]);set(gca,'ylim',[-1 1]);xticks(-1:1);yticks(-1:1)%!!!!
+set(gca,'xlim',[-1 1]);set(gca,'ylim',[-1 1]);xticks(-1:1);yticks(-1:1)
 finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[outputfolder filesep 'modulation_state_2']);figure(f);
 [r_state_2,p_state_2] = corrcoef(modulation_indices_context_1_significant_1{regions_to_plot_index},modulation_indices_context_2_significant_1{regions_to_plot_index},'Rows','complete')
 [pstr, log10p] = pearson_p(r_state_2(2),length(modulation_indices_context_1_significant_1{regions_to_plot_index}))
@@ -267,7 +265,7 @@ across_sessions_analysis_all_combinations_modulation_aux
 [f, ax, S] = make_standard_figure(mode,'FigureNumber',704, 'HeightInHalfColumnWidths', panel_size, 'WidthInHalfColumns', panel_size);
 scatter(modulation_indices_context_1_significant_1{regions_to_plot_index},modulation_indices_context_2_significant_1{regions_to_plot_index},marker_size,'filled','MarkerFaceColor','k','MarkerFaceAlpha',marker_face_alpha,'MarkerEdgeAlpha',marker_edge_alpha);
 plot([-1 1], [-1 1],'k--','LineWidth',S.reference_line_width);plot([0 0], [-1 1],'k--','LineWidth',S.reference_line_width);plot( [-1 1],[0 0],'k--','LineWidth',S.reference_line_width);axis square;%set(gca,'XLim',[-1 1]);set(gca,'YLim',[-1 1]);xticks(-1:.5:1);yticks(-1:.5:1);set(gca,'xticklabels','');set(gca,'yticklabels','')
-set(gca,'xlim',[-1 1]);set(gca,'ylim',[-1 1]);xticks(-1:1);yticks(-1:1)%!!!!
+set(gca,'xlim',[-1 1]);set(gca,'ylim',[-1 1]);xticks(-1:1);yticks(-1:1)
 finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[outputfolder filesep 'modulation_slope_equalized']);figure(f);
 [r_slope_equalized,p_slope_equalized] = corrcoef(modulation_indices_context_1_significant_1{regions_to_plot_index},modulation_indices_context_2_significant_1{regions_to_plot_index},'Rows','complete')
 x=modulation_indices_context_1_significant_1{regions_to_plot_index}; y=modulation_indices_context_2_significant_1{regions_to_plot_index}; ii=~isnan(x)&~isnan(y)&(x>-1)&(y>-1)&(x<1)&(y<1); b=compute_slope(x(ii),y(ii));

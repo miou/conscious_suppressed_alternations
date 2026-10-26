@@ -1,6 +1,6 @@
 function f = release_modulation_summary(paths, variant_name, state, make_dir)
 %RELEASE_MODULATION_SUMMARY  Short path for a pooled modulation summary.
-%  Used by combine_modulation (save) and the modulation figures (load).
+%  Used by step4_combine_modulation (save) and the modulation figures (load).
 %  e.g. 'Fixed rate LLR IT 10 ms', state 1 -> modulation/summary_IT_s1.mat
 if nargin < 4; make_dir = false; end
 tag = variant_name;

@@ -1,10 +1,10 @@
 mode = 'nature';
 paths = set_paths;                       % add code folders to the path + data locations
-data  = switches_config_release;
+rivalry_config  = switches_config_release;
 load(fullfile(paths.sessions,'session_251218_Alfie.mat'),'session');
-% Attach the release inference schemes in memory (step 3) so inference_results{:,si_index}
+% Attach the release inference schemes in memory (states attached on load) so inference_results{:,si_index}
 % is the release scheme (si_index=50 is LLR), independent of any states the session carries.
-[session.inference_schemes, session.inference_results] = switches_infer_states(data, session);
+[session.inference_schemes, session.inference_results] = switches_infer_states(rivalry_config, session);
 
 paradigm_index = find(cellfun(@(x)~isempty(x) && contains(x,'flash_suppression'), session.paradigm_names));
 paradigm_data  = session.paradigms_data{paradigm_index};
@@ -35,14 +35,12 @@ if isfield(session,'inference_schemes') && length(session.inference_schemes)>=si
 
     selected_probes = find(ismember(session.regions,{'ML','AM'}));
 
-    % time_before = 50;
     time_before = 0;
 
     on_time = on_times_in_range(trial_index);
 
     paradigm_data.stimulus_list(stimulus_index_in_range(trial_index))
     snippet_start_times = on_time-time_before% 14020
-    % time_course_snippet_time = 2200;
     time_course_snippet_time = on_durations_in_range(trial_index)+1000;
     snippet_index = 1 ;
     b_only_significant = true;
@@ -97,9 +95,6 @@ if isfield(session,'inference_schemes') && length(session.inference_schemes)>=si
     end
     % % For slides:
 
-    % set(gca,'XTicklabel','')
-    % set(gca,'YTicklabel','')
-    % xticks([])
 
     set(gca,'ylim',[0 number_of_units_plotted+5])
 
@@ -111,9 +106,7 @@ if isfield(session,'inference_schemes') && length(session.inference_schemes)>=si
     S.tick_length = ax.TickLength ;
 
 
-    % plotTimes(on_times_in_range(trial_is_priming),start_index,end_index,'k--');
     p=plotTimes(on_times_in_range(trial_is_binocular),start_index,end_index,'LineWidth',S.line_width/2);p.Color='k';p.LineStyle='-';
-    % plotTimes(on_times_in_range(trial_is_gray),start_index,end_index,'k--');
 
     % Plot states
     snippet_states = session.inference_results{paradigm_index,si_index}.state_timecourse(snippet_start_times:(snippet_start_times+time_course_snippet_time));
@@ -122,12 +115,10 @@ if isfield(session,'inference_schemes') && length(session.inference_schemes)>=si
     snippet_states_flipped((snippet_start_times:(snippet_start_times+time_course_snippet_time)<on_time_next) & snippet_states==2) = 1;
 
     %Old color scheme
-    % snippet_states_to_use = snippet_states;
     %New color scheme
     snippet_states_to_use = snippet_states_flipped;
 
     new_states_times = find([1 diff(snippet_states_to_use)~=0]);
-    % new_states_times = find([0 (~isnan(diff(snippet_states_to_use)) & diff(snippet_states_to_use)~=0)]);
 
 
     for new_states_index = 1:length(new_states_times)
@@ -141,12 +132,9 @@ if isfield(session,'inference_schemes') && length(session.inference_schemes)>=si
         y_lim = ylim;
         dy_lim = y_lim(2) - y_lim(1);
         if ~isnan(snippet_states_to_use(state_start)) && snippet_states_to_use(state_start)~=0
-            % rectangle(gca, 'Position', [state_start+start_index, y_lim(1), state_duration, dy_lim], ...
-            %     'FaceColor', data.state_colors{snippet_states_to_use(state_start)}, 'EdgeColor', 'none', 'FaceAlpha', 0.2); %Requires Matlab 2024a or later
-            patch(gca,[state_start+start_index state_start+start_index+state_duration state_start+start_index+state_duration state_start+start_index],[y_lim(1) y_lim(1) y_lim(1)+dy_lim y_lim(1)+dy_lim],sscanf(data.state_colors{snippet_states_to_use(state_start)}(2:end),'%2x%2x%2x',[1 3])/255,'EdgeColor','none','FaceAlpha',0.2);
+            %     'FaceColor', rivalry_config.state_colors{snippet_states_to_use(state_start)}, 'EdgeColor', 'none', 'FaceAlpha', 0.2); %Requires Matlab 2024a or later
+            patch(gca,[state_start+start_index state_start+start_index+state_duration state_start+start_index+state_duration state_start+start_index],[y_lim(1) y_lim(1) y_lim(1)+dy_lim y_lim(1)+dy_lim],sscanf(rivalry_config.state_colors{snippet_states_to_use(state_start)}(2:end),'%2x%2x%2x',[1 3])/255,'EdgeColor','none','FaceAlpha',0.2);
         end
     end
-    % file_name = [folder_name filesep 'trial_' num2str(trial_index)];
-    % print(f,file_name, '-dpng','-r0')
     finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[folder_name filesep 'example_raster_with_states'])
 end

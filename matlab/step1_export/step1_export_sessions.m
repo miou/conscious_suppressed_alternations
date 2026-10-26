@@ -6,17 +6,17 @@
 % 'session_<session_name>.h5' using the session's own (original) name, so the
 % file names match what the Python pipeline expects.
 %
-% Run step 2 (Python) on these files, then step 3 to attach the returned states.
+% Run step 2 (Python) on these files; the response step (step 3) then attaches the states on load.
 
 paths = set_paths;
-data  = switches_config_release;
+rivalry_config  = switches_config_release;
 
 stim_dir = paths.stimuli;
 if ~exist(paths.h5_export,'dir'); mkdir(paths.h5_export); end
 
-for session_index = 1:numel(data.sessions)
+for session_index = 1:length(rivalry_config.sessions)
 
-    session_file = fullfile(paths.sessions, [data.sessions(session_index).session_name '.mat']);
+    session_file = fullfile(paths.sessions, [rivalry_config.sessions(session_index).session_name '.mat']);
     fprintf('Loading %s...\n', session_file);
     load(session_file, 'session');
 
@@ -35,4 +35,4 @@ for session_index = 1:numel(data.sessions)
     clear session;
 end
 
-fprintf('Step 1 complete: %d sessions exported to %s\n', numel(data.sessions), paths.h5_export);
+fprintf('Step 1 complete: %d sessions exported to %s\n', numel(rivalry_config.sessions), paths.h5_export);

@@ -1,6 +1,6 @@
-%% run_and_save_modulation.m
-% Step 4a (modulation): compute per-cell modulation indices for the many_combinations
-% (all-combinations / "fso") sessions and save ONE file per session. combine_modulation.m
+%% step3_run_and_save_modulation.m
+% Step 3 (modulation): compute per-cell modulation indices for the many_combinations
+% (all-combinations / "fso") sessions and save ONE file per session. step4_combine_modulation.m
 % then assembles the per-state summaries the modulation figures load (fig_1_modulation,
 % fig_6 PFC panels). Parallelizable: run with disjoint session_list, then combine once.
 %
@@ -8,12 +8,12 @@
 % computed from the single loaded session. States attached here if absent.
 
 paths = set_paths;
-data  = switches_config_release;
+rivalry_config  = switches_config_release;
 
 % By default process every session; sessions without the all-combinations paradigm are
 % skipped automatically below. Set session_list in the workspace for parallel subsets.
 if ~exist('session_list','var') || isempty(session_list)
-    session_list = 1:numel(data.sessions);
+    session_list = 1:numel(rivalry_config.sessions);
 end
 
 output_directory = fullfile(paths.results,'per_session_modulation');
@@ -26,34 +26,12 @@ variant_names = {'Fixed rate LLR IT 10 ms half neurons', 'Fixed rate LLR PFC 10 
 state_values  = [1 2];
 
 for session_index = session_list
-    session_name = data.sessions(session_index).session_name;
-    if ~strcmp(data.sessions(session_index).group,'many_combinations'); continue; end   % modulation uses the many_combinations sessions only -- skip without loading
+    session_name = rivalry_config.sessions(session_index).session_name;
+    if ~strcmp(rivalry_config.sessions(session_index).group,'many_combinations'); continue; end   % modulation uses the many_combinations sessions only -- skip without loading
     session_file = fullfile(paths.sessions, [session_name '.mat']);
     if ~exist(session_file,'file'); fprintf('skip (missing): %s\n', session_file); continue; end
-    fprintf('Loading %s ...\n', session_file); load_timer = tic;
-    try
-        load(session_file,'session'); fprintf('  loaded %.0fs\n', toc(load_timer));
-    catch load_error
-        fprintf('  SKIP %s -- load failed: %s\n', session_name, load_error.message); continue;
-    end
-    if ~isfield(session,'simulation'); session.simulation = []; end
-
-    % For memory: drop the LFPs -- not used by the modulation compute, ~100 GB of the
-    % loaded session (matches flash_suppression_analysis.m). On-disk session keeps them.
-    for lfp_clear_paradigm = 1:numel(session.paradigms_data)
-        if ~isempty(session.paradigms_data{lfp_clear_paradigm})
-            if isfield(session.paradigms_data{lfp_clear_paradigm},'lfp_timecourse_all_probes');   session.paradigms_data{lfp_clear_paradigm}.lfp_timecourse_all_probes   = []; end
-            if isfield(session.paradigms_data{lfp_clear_paradigm},'lfp_timecourse_all_channels'); session.paradigms_data{lfp_clear_paradigm}.lfp_timecourse_all_channels = []; end
-        end
-    end
-
-    % Attach states fresh (step 3). A simplified session may still carry an
-    % inference_results from the source pipeline whose schemes are not the ones the
-    % figures use, so (re)attach the release schemes unconditionally rather than trust
-    % whatever is already on the session -- otherwise the variants below are all skipped.
-    fprintf('  attaching states...\n'); attach_timer = tic;
-    [session.inference_schemes, session.inference_results] = switches_infer_states(data, session);
-    fprintf('  states attached %.0fs\n', toc(attach_timer));
+    session = load_session_and_attach_states(session_file, rivalry_config);
+    if isempty(session); continue; end
     % all-combinations sessions carry the flash_suppression_optimized paradigm (not many_stimuli)
     paradigm_indices = find(cellfun(@(x)~isempty(x) && contains(x,'flash_suppression') && ~contains(x,'many_stimuli'), session.paradigm_names));
     if isempty(paradigm_indices); fprintf('  no all-combinations paradigm, skipping\n'); clear session; continue; end
@@ -71,7 +49,7 @@ for session_index = session_list
         config.balance_states_each_trial = false;
         config.minimum_state_proportion_per_trial = [];
         config.remove_other_stimulus_from_training = true;
-        trial_time_window = 300:1000;
+        trial_time_window = rivalry_config.trial_time_window;
         nanmean_function = @(x) squeeze(nanmean(reshape(x,[],1,size(x,3)),1)); %#ok<NASGU>
 
         flash_suppression_get_variables;    % raster + trial/stimulus structure
@@ -112,7 +90,7 @@ for session_index = session_list
                 % Single-trial decoding, computed in the SAME session load as the modulation
                 % (as in the lab pipeline). Fills flash_suppression_results.trial_decoding.<region>
                 % for the single-trial panels (Fig 2k/l, 3h/i, 6). Train-once inside the helper.
-                config.time_window_priming = [300 1000];
+                config.time_window_priming = rivalry_config.time_window_priming;
                 flash_suppression_trial_decoding;
 
                 flash_suppression_results.unit_probes_index = session.unit_probes_index;
@@ -135,4 +113,4 @@ for session_index = session_list
     fprintf('saved %s\n', output_file);
     clear session raster raster_state session_result;
 end
-fprintf('run_and_save_modulation done (per-session). Run combine_modulation to build the summaries.\n');
+fprintf('step3_run_and_save_modulation done (per-session). Run step4_combine_modulation to build the summaries.\n');

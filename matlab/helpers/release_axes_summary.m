@@ -1,6 +1,6 @@
 function f = release_axes_summary(paths, use_for_testing, states_string, make_dir)
 %RELEASE_AXES_SUMMARY  Short, Windows-MAX_PATH-safe path for an axes summary.
-%  Used by BOTH combine_responses (save) and the figures (load) so the two always
+%  Used by BOTH step4_combine_responses (save) and the figures (load) so the two always
 %  agree. Keeps the distinguishing info -- tested condition (priming/binocular),
 %  region (IT/PFC), full vs half-neuron, state (1=conscious, 2=suppressed) -- and
 %  drops the constant/duplicated parts of the original lab naming that overflow the

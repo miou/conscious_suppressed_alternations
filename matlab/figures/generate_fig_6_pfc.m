@@ -1,4 +1,4 @@
-data = switches_config_release;
+rivalry_config = switches_config_release;
 paths = set_paths;
 %Make figures
 mode='nature';
@@ -61,11 +61,11 @@ if ~exist(figure_folder_name,'dir'); mkdir(figure_folder_name); end
 
 %% EV panel
 [f, ax, S] = make_standard_figure(mode,'FigureNumber',100, 'HeightInHalfColumnWidths', figure2_panel_height);
-plot(100*mean(summaries.priming.explained_variance_features_cv_high_repeat(:,:,end),2),'-','Color',data.state_colors{3})
-plot(100*mean(summaries.state_1.explained_variance_features_cv_high_repeat(:,:,end),2),'-','Color',data.state_colors{1})
-plot(100*mean(summaries.state_1.explained_variance_features_cv_high_repeat_other(:,:,end),2),'--','Color',data.state_colors{1})
-plot(100*mean(summaries.state_2.explained_variance_features_cv_high_repeat(:,:,end),2),'-','Color',data.state_colors{2})
-plot(100*mean(summaries.state_2.explained_variance_features_cv_high_repeat_other(:,:,end),2),'--','Color',data.state_colors{2})
+plot(100*mean(summaries.priming.explained_variance_features_cv_high_repeat(:,:,end),2),'-','Color',rivalry_config.state_colors{3})
+plot(100*mean(summaries.state_1.explained_variance_features_cv_high_repeat(:,:,end),2),'-','Color',rivalry_config.state_colors{1})
+plot(100*mean(summaries.state_1.explained_variance_features_cv_high_repeat_other(:,:,end),2),'--','Color',rivalry_config.state_colors{1})
+plot(100*mean(summaries.state_2.explained_variance_features_cv_high_repeat(:,:,end),2),'-','Color',rivalry_config.state_colors{2})
+plot(100*mean(summaries.state_2.explained_variance_features_cv_high_repeat_other(:,:,end),2),'--','Color',rivalry_config.state_colors{2})
 set(gca,'ylim',[-100,100])
 set(gca,'XLim',[1 50])
 finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[figure_folder_name filesep 'explained_variance'])
@@ -83,17 +83,15 @@ qpair = 0.5*(q(pm(pk(:,1))) + q(pm(pk(:,2))));                          % one sc
 fprintf('Reconstruction dissociation: t(%d)=%.1f, p=%.2e (n=%d pairs)\n', st.df, st.tstat, p, numel(qpair));
 
 %% Decoding bars (debug figure, not a saved panel)
-% figure(1);clf;
-% bar_with_std(1:4,[summaries.state_1.percentage_correct_cv(10,:)',summaries.state_2.percentage_correct_cv(10,:)',summaries.state_1.percentage_correct_cv_other(10,:)',summaries.state_2.percentage_correct_cv_other(10,:)']) ;set(gca,'ylim',[0 1]);box off;set(gca,'xlim',[0 5]);h = gca;h.XAxis.Visible = 'off';
 
 
 %% Decoding curve panel
 [f, ax, S] = make_standard_figure(mode,'FigureNumber',201, 'HeightInHalfColumnWidths', figure2_panel_height);
-[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.priming.percentage_correct_cv(:,:,end)');p.LineStyle='-';p.Color = data.state_colors{3};errorarea.FaceColor=data.state_colors{3};
-[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.state_1.percentage_correct_cv(:,:,end)');p.LineStyle='-';p.Color = data.state_colors{1};errorarea.FaceColor=data.state_colors{1};
-[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.state_1.percentage_correct_cv_other(:,:,end)');p.LineStyle='--';p.Color = data.state_colors{1};errorarea.FaceColor=data.state_colors{1};
-[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.state_2.percentage_correct_cv(:,:,end)');p.LineStyle='-';p.Color = data.state_colors{2};errorarea.FaceColor=data.state_colors{2};
-[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.state_2.percentage_correct_cv_other(:,:,end)');p.LineStyle='--';p.Color = data.state_colors{2};errorarea.FaceColor=data.state_colors{2};
+[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.priming.percentage_correct_cv(:,:,end)');p.LineStyle='-';p.Color = rivalry_config.state_colors{3};errorarea.FaceColor=rivalry_config.state_colors{3};
+[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.state_1.percentage_correct_cv(:,:,end)');p.LineStyle='-';p.Color = rivalry_config.state_colors{1};errorarea.FaceColor=rivalry_config.state_colors{1};
+[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.state_1.percentage_correct_cv_other(:,:,end)');p.LineStyle='--';p.Color = rivalry_config.state_colors{1};errorarea.FaceColor=rivalry_config.state_colors{1};
+[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.state_2.percentage_correct_cv(:,:,end)');p.LineStyle='-';p.Color = rivalry_config.state_colors{2};errorarea.FaceColor=rivalry_config.state_colors{2};
+[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.state_2.percentage_correct_cv_other(:,:,end)');p.LineStyle='--';p.Color = rivalry_config.state_colors{2};errorarea.FaceColor=rivalry_config.state_colors{2};
 ylim([0 100])
 finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[figure_folder_name filesep 'euclidean_decoding'])
 

@@ -1,4 +1,4 @@
-function out = control_eye_movement_state(paths, data)
+function out = control_eye_movement_state(paths, rivalry_config)
 % CONTROL_EYE_MOVEMENT_STATE  Is the conscious/suppressed state an eye-movement artifact?
 %   Tests whether the LLR conscious (state 1) vs suppressed (state 2) partition can be
 %   explained by residual eye movements within the fixation window. For each session it
@@ -15,13 +15,13 @@ function out = control_eye_movement_state(paths, data)
 %   out = control_eye_movement_state(set_paths, switches_config_release)
 
 if nargin < 1; paths = set_paths; end
-if nargin < 2; data  = switches_config_release; end
+if nargin < 2; rivalry_config  = switches_config_release; end
 bin = 10;   % ms: one sample per state bin, to avoid within-bin pseudoreplication
 state_dir = fullfile(paths.conor_states,'llr_fs','bin_10_units_all');
 
 rows = struct('session',{},'monkey',{},'d_eyex',{},'d_eyey',{},'d_speed',{},'auc',{});
-for s = 1:numel(data.sessions)
-    name = erase(data.sessions(s).session_name,'session_');          % e.g. 250225_Alfie
+for s = 1:numel(rivalry_config.sessions)
+    name = erase(rivalry_config.sessions(s).session_name,'session_');          % e.g. 250225_Alfie
     sf = dir(fullfile(state_dir, ['hmm_data_' extractBefore(name,'_') '*_p12.mat']));
     if isempty(sf); continue; end
     S = load(fullfile(sf(1).folder, sf(1).name));

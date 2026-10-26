@@ -1,4 +1,4 @@
-data = switches_config_release;
+rivalry_config = switches_config_release;
 paths = set_paths;
 
 % These two loads supply only the POOLED state-1/state-2 responses; the per-cell axis
@@ -144,7 +144,6 @@ for number_of_neuron_index = 1:length(number_of_units_list)
         nonan_rows_mean_subtracted_training = ~any(isnan(feature_matrix_mean_subtracted_training),2);
         nonan_rows_mean_subtracted_testing = ~any(isnan(feature_matrix_mean_subtracted_testing),2);
 
-        % decoding_results = switches_decoder_aux(feature_matrix_mean_subtracted_training(nonan_rows_mean_subtracted_training,:),label_vector_training(nonan_rows_mean_subtracted_training,:),feature_matrix_mean_subtracted_testing(nonan_rows_mean_subtracted_testing,:),label_vector_testing(nonan_rows_mean_subtracted_testing,:),decoding_scheme)
         %Compute as function of neurons;
         decoding_results_mean_subtracted = switches_decoder_aux(feature_matrix_mean_subtracted_training(nonan_rows_mean_subtracted_training,selected_cells),label_vector_training(nonan_rows_mean_subtracted_training),feature_matrix_mean_subtracted_testing(nonan_rows_mean_subtracted_testing,selected_cells),label_vector_testing(nonan_rows_mean_subtracted_testing),decoding_scheme);
         decoding_accuracies_mean_subtracted(iteration_index,number_of_neuron_index) = decoding_results_mean_subtracted.prediction_accuracy_testing;
@@ -258,12 +257,12 @@ finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[outputfolder fil
 responses = responses_state_1(:,cell_index);
 preferred_axis_responses = predicted_responses_cv(:,cell_index);
 plot_axis_tuning_example_cell_margins_x
-hh.Color=data.state_colors{1};hh.LineWidth = S.reference_line_width;
-p.Color=data.state_colors{1};p.LineWidth = S.line_width;
+hh.Color=rivalry_config.state_colors{1};hh.LineWidth = S.reference_line_width;
+p.Color=rivalry_config.state_colors{1};p.LineWidth = S.line_width;
 responses = responses_other_state_2(:,cell_index);
 plot_axis_tuning_example_cell_margins_x;
-hh.Color=data.state_colors{2};hh.LineWidth = S.reference_line_width;
-p.Color=data.state_colors{2};p.LineWidth = S.line_width;
+hh.Color=rivalry_config.state_colors{2};hh.LineWidth = S.reference_line_width;
+p.Color=rivalry_config.state_colors{2};p.LineWidth = S.line_width;
 xticks(xlim);set(gca,'xticklabels','');set(gca,'ylim',[0 9]);yticks([0 9])
 finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[outputfolder filesep 'example_cell_1_margins']);figure(f);
 
@@ -315,24 +314,24 @@ slope_lims = [-0.5 2.5]
 
 %Pair histograms,'EdgeColor','none'
 [f, ax, S] = make_standard_figure(mode,'FigureNumber',603, 'HeightInHalfColumnWidths', panel_height/4, 'WidthInHalfColumns', panel_width);
-histogram(b_state_1_dominant(2,b_selected_neurons),'FaceColor',hex2rgb(data.state_colors(1)),'EdgeColor','none','FaceAlpha',0.3);histogram(b_state_1_suppressed(2,b_selected_neurons),'FaceColor',hex2rgb('#FFD28A'),'EdgeColor','none','FaceAlpha',0.3);
-histogram(b_state_1_dominant(2,b_selected_neurons),'EdgeColor',hex2rgb(data.state_colors(1)),'DisplayStyle','stairs');histogram(b_state_1_suppressed(2,b_selected_neurons),'EdgeColor',hex2rgb('#FFD28A'),'DisplayStyle','stairs');
+histogram(b_state_1_dominant(2,b_selected_neurons),'FaceColor',hex2rgb(rivalry_config.state_colors(1)),'EdgeColor','none','FaceAlpha',0.3);histogram(b_state_1_suppressed(2,b_selected_neurons),'FaceColor',hex2rgb('#FFD28A'),'EdgeColor','none','FaceAlpha',0.3);
+histogram(b_state_1_dominant(2,b_selected_neurons),'EdgeColor',hex2rgb(rivalry_config.state_colors(1)),'DisplayStyle','stairs');histogram(b_state_1_suppressed(2,b_selected_neurons),'EdgeColor',hex2rgb('#FFD28A'),'DisplayStyle','stairs');
 set(gca,'xlim',slope_lims)
 xticks([0 2]);set(gca,'xticklabels','');
 yticks([0 100])
 finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[outputfolder filesep 'slope_histogram_state_1']);figure(f);
 
 [f, ax, S] = make_standard_figure(mode,'FigureNumber',604, 'HeightInHalfColumnWidths', panel_height/4, 'WidthInHalfColumns', panel_width);
-histogram(b_state_2_dominant(2,b_selected_neurons),'FaceColor',hex2rgb('#B56CC7'),'EdgeColor','none','FaceAlpha',0.3);histogram(b_state_2_suppressed(2,b_selected_neurons),'FaceColor',hex2rgb(data.state_colors(2)),'EdgeColor','none','FaceAlpha',0.3);
-histogram(b_state_2_dominant(2,b_selected_neurons),'EdgeColor',hex2rgb('#B56CC7'),'DisplayStyle','stairs');histogram(b_state_2_suppressed(2,b_selected_neurons),'EdgeColor',hex2rgb(data.state_colors(2)),'DisplayStyle','stairs');
+histogram(b_state_2_dominant(2,b_selected_neurons),'FaceColor',hex2rgb('#B56CC7'),'EdgeColor','none','FaceAlpha',0.3);histogram(b_state_2_suppressed(2,b_selected_neurons),'FaceColor',hex2rgb(rivalry_config.state_colors(2)),'EdgeColor','none','FaceAlpha',0.3);
+histogram(b_state_2_dominant(2,b_selected_neurons),'EdgeColor',hex2rgb('#B56CC7'),'DisplayStyle','stairs');histogram(b_state_2_suppressed(2,b_selected_neurons),'EdgeColor',hex2rgb(rivalry_config.state_colors(2)),'DisplayStyle','stairs');
 set(gca,'xlim',slope_lims)
 xticks([0 2]);set(gca,'xticklabels','');
 yticks([0 100])
 finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[outputfolder filesep 'slope_histogram_state_2']);figure(f);
 
 [f, ax, S] = make_standard_figure(mode,'FigureNumber',605, 'HeightInHalfColumnWidths', panel_height/4, 'WidthInHalfColumns', panel_width);
-histogram(b_state_1_dominant(2,b_selected_neurons),'FaceColor',hex2rgb(data.state_colors(1)),'EdgeColor','none','FaceAlpha',0.3);histogram(b_state_2_suppressed(2,b_selected_neurons),'FaceColor',hex2rgb(data.state_colors(2)),'EdgeColor','none','FaceAlpha',0.3);
-histogram(b_state_1_dominant(2,b_selected_neurons),'EdgeColor',hex2rgb(data.state_colors(1)),'DisplayStyle','stairs');histogram(b_state_2_suppressed(2,b_selected_neurons),'EdgeColor',hex2rgb(data.state_colors(2)),'DisplayStyle','stairs');
+histogram(b_state_1_dominant(2,b_selected_neurons),'FaceColor',hex2rgb(rivalry_config.state_colors(1)),'EdgeColor','none','FaceAlpha',0.3);histogram(b_state_2_suppressed(2,b_selected_neurons),'FaceColor',hex2rgb(rivalry_config.state_colors(2)),'EdgeColor','none','FaceAlpha',0.3);
+histogram(b_state_1_dominant(2,b_selected_neurons),'EdgeColor',hex2rgb(rivalry_config.state_colors(1)),'DisplayStyle','stairs');histogram(b_state_2_suppressed(2,b_selected_neurons),'EdgeColor',hex2rgb(rivalry_config.state_colors(2)),'DisplayStyle','stairs');
 set(gca,'xlim',slope_lims)
 xticks([0 2]);%set(gca,'xticklabels','');
 yticks([0 100])
@@ -381,85 +380,3 @@ p.Color='k';errorarea.FaceColor='k';
 plot(xlim,[50 50],'k--','LineWidth',S.reference_line_width)
 ylim([0 100]);axis square;xticks(xlim);
 finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[outputfolder filesep 'state_1_vs_state_2_decoding']);figure(f);
-
-
-
-% %% Modulation index panel
-% 
-% %Old (not used)
-% % state_1 = load("Z:\session_summaries\flash_suppression_all_combinations\flash_suppression_results_fso_HMM_state_IT_1_260531.mat");
-% % state_2 = load("Z:\session_summaries\flash_suppression_all_combinations\flash_suppression_results_fso_HMM_state_IT_2_260531.mat");
-% %HMM IT
-% % state_1 = load('Z:\session_summaries\flash_suppression_all_combinations\modulation_indices_HMM_state_IT_1_260615.mat');
-% % state_2 = load('Z:\session_summaries\flash_suppression_all_combinations\modulation_indices_HMM_state_IT_2_260615.mat');
-% % regions_to_plot = {'ML','AM','all'}; %Only ML and AM for all
-% % outputfolder = 'Z:\Binocular Rivalry Mechanisms Figures\Figure difference state 1 state 2';
-% 
-% %LLR IT
-% state_1 = load("Z:\session_summaries\flash_suppression_all_combinations\flash_suppression_results_fso_LLR_state_IT_1_260718.mat");
-% state_2 = load("Z:\session_summaries\flash_suppression_all_combinations\flash_suppression_results_fso_LLR_state_IT_2_260718.mat");
-% regions_to_plot = {'ML','AM','all'}; %Only ML and AM for all
-% outputfolder = 'Z:\Binocular Rivalry Mechanisms Figures\Figure difference state 1 state 2\LLR\PC1_removed';
-% 
-% %LLR PFC
-% % state_1 = load("Z:\session_summaries\flash_suppression_all_combinations\flash_suppression_results_fso_LLR_state_PFC_1_260806.mat");
-% % state_2 = load("Z:\session_summaries\flash_suppression_all_combinations\flash_suppression_results_fso_LLR_state_PFC_2_260806.mat");
-% % regions_to_plot = {'PO','PVL','all'}; %Only ML and AM for all
-% % outputfolder = 'Z:\Binocular Rivalry Mechanisms Figures\Figure PFC\LLR';
-% 
-% context_significance = 'priming';
-% context_combinations = {{'unambiguous','binocular'}};
-% 
-% marker_size = 3;
-% 
-% % Modulation indices slope fso, currently HMM
-% across_sessions_many_combinations_slopes
-% if strcmp(mode,'poster')
-%     panel_size = 0.6;
-%     marker_face_alpha=0.25;marker_edge_alpha=0.3; %Thinnest
-% elseif strcmp(mode,'nature')
-%     % panel_size = 1.05;   %Figure 1 
-%     panel_size = 0.68;    
-%     % marker_face_alpha=0.15;marker_edge_alpha=0.2; %Thinnest
-%     marker_size = 0.5;
-%     marker_face_alpha=1;marker_edge_alpha=1;
-% 
-% end
-% b_compute_for_state = 0;
-% across_sessions_analysis_all_combinations_modulation_aux
-% [f, ax, S] = make_standard_figure(mode,'FigureNumber',701, 'HeightInHalfColumnWidths', panel_size, 'WidthInHalfColumns', panel_size);
-% scatter(modulation_indices_context_1_significant_1{regions_to_plot_index},modulation_indices_context_2_significant_1{regions_to_plot_index},marker_size,'filled','MarkerFaceColor','k','MarkerFaceAlpha',marker_face_alpha,'MarkerEdgeAlpha',marker_edge_alpha);
-% plot([-1 1], [-1 1],'k--','LineWidth',S.reference_line_width);plot([0 0], [-1 1],'k--','LineWidth',S.reference_line_width);plot( [-1 1],[0 0],'k--','LineWidth',S.reference_line_width);axis square;%set(gca,'XLim',[-1 1]);set(gca,'YLim',[-1 1]);xticks(-1:.5:1);yticks(-1:.5:1);set(gca,'xticklabels','');set(gca,'yticklabels','')
-% set(gca,'xlim',[-1 1]);set(gca,'ylim',[-1 1]);xticks(-1:1);yticks(-1:1)%!!!!
-% finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[outputfolder filesep 'modulation_all_states']);figure(f);
-% [~,p_average_modulation] = ttest(modulation_indices_context_1_significant_1{regions_to_plot_index},modulation_indices_context_2_significant_1{regions_to_plot_index})
-% [r_average,p_average] = corrcoef(modulation_indices_context_1_significant_1{regions_to_plot_index},modulation_indices_context_2_significant_1{regions_to_plot_index},'Rows','complete')
-% 
-% 
-% b_compute_for_state = 1;
-% across_sessions_analysis_all_combinations_modulation_aux
-% [f, ax, S] = make_standard_figure(mode,'FigureNumber',702, 'HeightInHalfColumnWidths', panel_size, 'WidthInHalfColumns', panel_size);
-% scatter(modulation_indices_context_1_significant_1{regions_to_plot_index},modulation_indices_context_2_significant_1{regions_to_plot_index},marker_size,'filled','MarkerFaceColor','k','MarkerFaceAlpha',marker_face_alpha,'MarkerEdgeAlpha',marker_edge_alpha);
-% plot([-1 1], [-1 1],'k--','LineWidth',S.reference_line_width);plot([0 0], [-1 1],'k--','LineWidth',S.reference_line_width);plot( [-1 1],[0 0],'k--','LineWidth',S.reference_line_width);axis square;%set(gca,'XLim',[-1 1]);set(gca,'YLim',[-1 1]);xticks(-1:.5:1);yticks(-1:.5:1);set(gca,'xticklabels','');set(gca,'yticklabels','')
-% set(gca,'xlim',[-1 1]);set(gca,'ylim',[-1 1]);xticks(-1:1);yticks(-1:1)%!!!!
-% finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[outputfolder filesep 'modulation_state_1']);figure(f);
-% [r_state_1,p_state_1] = corrcoef(modulation_indices_context_1_significant_1{regions_to_plot_index},modulation_indices_context_2_significant_1{regions_to_plot_index},'Rows','complete')
-% 
-% b_compute_for_state = 2;
-% across_sessions_analysis_all_combinations_modulation_aux
-% [f, ax, S] = make_standard_figure(mode,'FigureNumber',703, 'HeightInHalfColumnWidths', panel_size, 'WidthInHalfColumns', panel_size);
-% scatter(modulation_indices_context_1_significant_1{regions_to_plot_index},modulation_indices_context_2_significant_1{regions_to_plot_index},marker_size,'filled','MarkerFaceColor','k','MarkerFaceAlpha',marker_face_alpha,'MarkerEdgeAlpha',marker_edge_alpha);
-% plot([-1 1], [1 -1],'k--','LineWidth',S.reference_line_width);plot([0 0], [-1 1],'k--','LineWidth',S.reference_line_width);plot( [-1 1],[0 0],'k--','LineWidth',S.reference_line_width);axis square;%set(gca,'XLim',[-1 1]);set(gca,'YLim',[-1 1]);xticks(-1:.5:1);yticks(-1:.5:1);set(gca,'xticklabels','');set(gca,'yticklabels','')
-% set(gca,'xlim',[-1 1]);set(gca,'ylim',[-1 1]);xticks(-1:1);yticks(-1:1)%!!!!
-% finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[outputfolder filesep 'modulation_state_2']);figure(f);
-% [r_state_2,p_state_2] = corrcoef(modulation_indices_context_1_significant_1{regions_to_plot_index},modulation_indices_context_2_significant_1{regions_to_plot_index},'Rows','complete')
-% 
-% b_compute_for_state = 5;
-% across_sessions_analysis_all_combinations_modulation_aux
-% [f, ax, S] = make_standard_figure(mode,'FigureNumber',704, 'HeightInHalfColumnWidths', panel_size, 'WidthInHalfColumns', panel_size);
-% scatter(modulation_indices_context_1_significant_1{regions_to_plot_index},modulation_indices_context_2_significant_1{regions_to_plot_index},marker_size,'filled','MarkerFaceColor','k','MarkerFaceAlpha',marker_face_alpha,'MarkerEdgeAlpha',marker_edge_alpha);
-% plot([-1 1], [-1 1],'k--','LineWidth',S.reference_line_width);plot([0 0], [-1 1],'k--','LineWidth',S.reference_line_width);plot( [-1 1],[0 0],'k--','LineWidth',S.reference_line_width);axis square;%set(gca,'XLim',[-1 1]);set(gca,'YLim',[-1 1]);xticks(-1:.5:1);yticks(-1:.5:1);set(gca,'xticklabels','');set(gca,'yticklabels','')
-% set(gca,'xlim',[-1 1]);set(gca,'ylim',[-1 1]);xticks(-1:1);yticks(-1:1)%!!!!
-% finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[outputfolder filesep 'modulation_slope_equalized']);figure(f);
-% 
-% [r_slope_equalized,p_slope_equalized] = corrcoef(modulation_indices_context_1_significant_1{regions_to_plot_index},modulation_indices_context_2_significant_1{regions_to_plot_index},'Rows','complete')

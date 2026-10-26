@@ -1,15 +1,15 @@
-%% run_and_save_trial_decoding_full.m
+%% step3_run_and_save_trial_decoding_full.m
 % Full-population IT single-trial decoding (Fig 2k/l): states inferred from ALL IT neurons
 % (scheme 'Fixed rate LLR IT 10 ms', si=50) and decoding measured on all neurons (no
 % held-out exclusion -- the full scheme has no selected_indices_for_state_inference).
-% Mirrors run_and_save_modulation's per-session machinery but computes ONLY trial_decoding
-% (no modulation) for the full-IT variant. One file per session; combine_trial_decoding_full
+% Mirrors step3_run_and_save_modulation's per-session machinery but computes ONLY trial_decoding
+% (no modulation) for the full-IT variant. One file per session; step4_combine_trial_decoding_full
 % assembles the per-state summaries generate_fig_2_ev_decoding loads for its single-trial panels.
 
 paths = set_paths;
-data  = switches_config_release;
+rivalry_config  = switches_config_release;
 if ~exist('session_list','var') || isempty(session_list)
-    session_list = 1:numel(data.sessions);
+    session_list = 1:numel(rivalry_config.sessions);
 end
 output_directory = fullfile(paths.results,'per_session_trialdec_full');
 if ~exist(output_directory,'dir'); mkdir(output_directory); end
@@ -18,26 +18,12 @@ variant_names = {'Fixed rate LLR IT 10 ms'};   % FULL IT (all neurons) -- Fig 2 
 state_values  = [1 2];
 
 for session_index = session_list
-    session_name = data.sessions(session_index).session_name;
-    if ~strcmp(data.sessions(session_index).group,'many_combinations'); continue; end
+    session_name = rivalry_config.sessions(session_index).session_name;
+    if ~strcmp(rivalry_config.sessions(session_index).group,'many_combinations'); continue; end
     session_file = fullfile(paths.sessions, [session_name '.mat']);
     if ~exist(session_file,'file'); fprintf('skip (missing): %s\n', session_file); continue; end
-    fprintf('Loading %s ...\n', session_file); load_timer = tic;
-    try
-        load(session_file,'session'); fprintf('  loaded %.0fs\n', toc(load_timer));
-    catch load_error
-        fprintf('  SKIP %s -- load failed: %s\n', session_name, load_error.message); continue;
-    end
-    if ~isfield(session,'simulation'); session.simulation = []; end
-    for lfp_clear_paradigm = 1:numel(session.paradigms_data)
-        if ~isempty(session.paradigms_data{lfp_clear_paradigm})
-            if isfield(session.paradigms_data{lfp_clear_paradigm},'lfp_timecourse_all_probes');   session.paradigms_data{lfp_clear_paradigm}.lfp_timecourse_all_probes   = []; end
-            if isfield(session.paradigms_data{lfp_clear_paradigm},'lfp_timecourse_all_channels'); session.paradigms_data{lfp_clear_paradigm}.lfp_timecourse_all_channels = []; end
-        end
-    end
-    fprintf('  attaching states...\n'); attach_timer = tic;
-    [session.inference_schemes, session.inference_results] = switches_infer_states(data, session);
-    fprintf('  states attached %.0fs\n', toc(attach_timer));
+    session = load_session_and_attach_states(session_file, rivalry_config);
+    if isempty(session); continue; end
     paradigm_indices = find(cellfun(@(x)~isempty(x) && contains(x,'flash_suppression') && ~contains(x,'many_stimuli'), session.paradigm_names));
     if isempty(paradigm_indices); fprintf('  no all-combinations paradigm, skipping\n'); clear session; continue; end
 
@@ -54,8 +40,8 @@ for session_index = session_list
         config.balance_states_each_trial = false;
         config.minimum_state_proportion_per_trial = [];
         config.remove_other_stimulus_from_training = true;
-        config.time_window_priming = [300 1000];
-        trial_time_window = 300:1000;
+        config.time_window_priming = rivalry_config.time_window_priming;
+        trial_time_window = rivalry_config.trial_time_window;
         nanmean_function = @(x) squeeze(nanmean(reshape(x,[],1,size(x,3)),1)); %#ok<NASGU>
 
         flash_suppression_get_variables;    % raster + trial/stimulus structure
@@ -88,4 +74,4 @@ for session_index = session_list
     fprintf('saved %s\n', output_file);
     clear session raster raster_state session_result;
 end
-fprintf('run_and_save_trial_decoding_full done. Run combine_trial_decoding_full to build the summaries.\n');
+fprintf('step3_run_and_save_trial_decoding_full done. Run step4_combine_trial_decoding_full to build the summaries.\n');
