@@ -1,4 +1,4 @@
-# Parameters file
+# Parameters file for 'llr' pipeline
 
 # Filepaths (relative to the repository root, where scripts are run)
 paths:
@@ -77,9 +77,7 @@ states_loglik:
   bin_size: 5
   win_start: 300
   win_stop: 1000
-  mix_alpha_red: 0.6  # 0.625 # 0.65
-       # 0.675 # 0.7 # 0.725 # 0.75 # 0.775 # 0.8  # 0.825 # 0.85 # 0.875,
-       # 0.9  # 0.925 # 0.95 # 0.975 # 1.0
+  mix_alpha_red: 0.5
 
 # Model marginal log-likelihood parameters
 marg_loglik:
