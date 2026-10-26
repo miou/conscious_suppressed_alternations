@@ -23,10 +23,9 @@ parser = argparse.ArgumentParser(description='Compute log-likelihood and predict
 parser.add_argument('--session', type=str, required=True)
 parser.add_argument('--paradigm', type=str, required=True)
 parser.add_argument('--probes', type=str, required=True)
-parser.add_argument('-p', '--params', type=str, default='params.yaml')
+parser.add_argument('-p', '--params', type=str, default='config/llr.yaml')
 
 # Set args manually (notebook mode)
-# %cd 'data/llr'
 # args = parser.parse_args(['--session', 's162', '--paradigm', 'fsm', '--probes', 'p12'])
 
 # Parse from command line (script mode)

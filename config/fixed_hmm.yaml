@@ -1,22 +1,22 @@
 # Parameters file
 
-# Filepaths (relative to the pipeline directory in data/, where scripts are run)
+# Filepaths (relative to the repository root, where scripts are run)
 paths:
-  script_dir: '../../python/scripts/fixed_hmm'
-  fs_script_dir: '../../python/scripts/fs_rivalry'
-  data_dir: '../preprocessed'
-  extract_data_dir: 'extract_data'
-  pred_all_units_dir: 'pred_all_units'
-  pred_random_stim_dir: 'pred_random_stim'
-  pred_unit_subset_dir: 'pred_unit_subset'
-  unit_subset_coherence_dir: 'unit_subset_coherence'
-  probe_coherence_dir: 'probe_coherence'
-  fso_decoding_dir: 'fso_decoding'
-  stats_dir: 'stats'
-  dwell_time_dir: 'dwell_time'
-  summary_stats_dir: 'summary_stats'
-  states_loglik_dir: 'states_loglik'
-  compile_data_dir: 'compile_data'
+  script_dir: 'python/scripts/fixed_hmm'
+  fs_script_dir: 'python/scripts/fs_rivalry'
+  data_dir: 'data/preprocessed'
+  extract_data_dir: 'data/fixed_hmm/extract_data'
+  pred_all_units_dir: 'data/fixed_hmm/pred_all_units'
+  pred_random_stim_dir: 'data/fixed_hmm/pred_random_stim'
+  pred_unit_subset_dir: 'data/fixed_hmm/pred_unit_subset'
+  unit_subset_coherence_dir: 'data/fixed_hmm/unit_subset_coherence'
+  probe_coherence_dir: 'data/fixed_hmm/probe_coherence'
+  fso_decoding_dir: 'data/fixed_hmm/fso_decoding'
+  stats_dir: 'data/fixed_hmm/stats'
+  dwell_time_dir: 'data/fixed_hmm/dwell_time'
+  summary_stats_dir: 'data/fixed_hmm/summary_stats'
+  states_loglik_dir: 'data/fixed_hmm/states_loglik'
+  compile_data_dir: 'data/fixed_hmm/compile_data'
 
 # Data parameters
 extract_data:

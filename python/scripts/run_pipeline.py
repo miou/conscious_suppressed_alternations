@@ -1,6 +1,6 @@
 """Utility script for running pipelines.
 
-Each pipeline runs in `data/<name>/`, with parameters from `config/<name>.yaml`. Stages run in
+Each pipeline writes its outputs to `data/<name>/`, with parameters from `config/<name>.yaml`. Stages run in
 the order listed below. A stage runs its script once per recording in a recording list from
 `config/recording_lists/fs_rivalry.yaml`, or once in total for stages that aggregate across
 recordings. A job is skipped if all of its outputs already exist, so an interrupted run can be
@@ -35,8 +35,8 @@ class Stage:
 
     `script`, `ins` and `outs` are templates filled in with the `paths` section of the pipeline's
     config file and, for per-recording stages, `{session}`, `{paradigm}`, `{probes}` and `{rec}` (the
-    recording filename stem `<session>_<paradigm>_<probes>`). Paths are relative to the pipeline
-    directory, which is where scripts are run from.
+    recording filename stem `<session>_<paradigm>_<probes>`). Paths are relative to the repository
+    root, which is where scripts are run from.
     """
 
     name: str
@@ -259,35 +259,37 @@ def make_jobs(
     else:
         items = recordings[stage.recs]
 
+    params_args = ['--params', str(params_file.relative_to(REPO_DIR))]
+
     jobs = []
     for item in items:
         if item is None:
             fields = dict(paths)
             label = stage.name
-            args = ['--params', str(params_file)]
+            args = []
         else:
             rec = f'{item["session"]}_{item["paradigm"]}_{item["probes"]}'
             fields = {**paths, **item, 'rec': rec}
             label = f'{stage.name}:{rec}'
-            args = ['--params', str(params_file), '--session', item['session']]
-            args += ['--paradigm', item['paradigm'], '--probes', item['probes']]
+            args = ['--session', item['session'], '--paradigm', item['paradigm']]
+            args += ['--probes', item['probes']]
 
         script = stage.script.format(**fields)
         jobs.append(
             Job(
                 stage=stage,
                 label=label,
-                cmd=[sys.executable, script, *args],
-                ins=[pipeline_dir / t.format(**fields) for t in stage.ins],
-                outs=[pipeline_dir / t.format(**fields) for t in stage.outs],
+                cmd=[sys.executable, script, *params_args, *args],
+                ins=[REPO_DIR / t.format(**fields) for t in stage.ins],
+                outs=[REPO_DIR / t.format(**fields) for t in stage.outs],
                 log=pipeline_dir / 'logs' / stage.name / f'{fields.get("rec", stage.name)}.log',
             )
         )
     return jobs
 
 
-def run_job(job: Job, pipeline_dir: Path) -> bool:
-    """Run a job from the pipeline directory, writing its output to a log file."""
+def run_job(job: Job) -> bool:
+    """Run a job from the repository root, writing its output to a log file."""
 
     for out in job.outs:
         out.parent.mkdir(parents=True, exist_ok=True)
@@ -295,7 +297,7 @@ def run_job(job: Job, pipeline_dir: Path) -> bool:
 
     with open(job.log, 'w') as f:
         result = subprocess.run(
-            job.cmd, cwd=pipeline_dir, stdout=f, stderr=subprocess.STDOUT, check=False
+            job.cmd, cwd=REPO_DIR, stdout=f, stderr=subprocess.STDOUT, check=False
         )
 
     if result.returncode != 0:
@@ -373,7 +375,7 @@ def main():
             continue
         print(f'\n[{stage.name}] {stage.script.format(**paths)} ({len(todo)} jobs)')
         with ThreadPoolExecutor(max_workers=args.jobs) as pool:
-            ok = list(pool.map(lambda job: run_job(job, pipeline_dir), todo))
+            ok = list(pool.map(run_job, todo))
         if not all(ok):
             print(f'\n{ok.count(False)} job(s) failed in stage {stage.name}; stopping.')
             sys.exit(1)
