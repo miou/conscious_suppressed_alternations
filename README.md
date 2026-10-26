@@ -39,16 +39,38 @@ of machines.
 
 The MATLAB code is in `matlab/`. In MATLAB, `cd matlab` then `paths = set_paths;` first (adds the
 code folders to the path, returns data locations).
-Steps are MATLAB unless noted; each `run_and_save_*` / `combine_*` loops all sessions (set the
+Steps are MATLAB unless noted; each `step3_run_and_save_*` / `step4_combine_*` loops all sessions (set the
 variable `session_list` beforehand to restrict).
 
 1. **Export** — `step1_export/step1_export_sessions.m`
    Writes one `data/h5_for_conor/session_<name>.h5` per session (spikes, stimulus indices, eye
    traces) for the state-inference pipeline.
 
-2. **State inference (Python)** — C. McGrory's LLR/HMM pipeline (in this repository; directory
-   added separately). Reads the `.h5` files and writes the per-bin conscious (state 1) /
-   suppressed (state 2) partition to `data/conor_states/` that step 3 loads.
+2. **State inference (Python)** — LLR and fixed-rate HMM pipelines in `data/llr/` and
+   `data/fixed_hmm/`, scripts in
+   `python/scripts/`. Install the environment with `uv sync`, then from the repository root run:
+
+   ```
+   uv run python python/scripts/run_pipeline.py llr
+   uv run python python/scripts/run_pipeline.py fixed_hmm
+   ```
+
+   Each pipeline runs its stages in order over the recordings listed in
+   `config/recording_lists/fs_rivalry.yaml`, with parameters from
+   `config/<pipeline>.yaml`. Outputs are written to subdirectories of
+   `data/<pipeline>/`, and the per-recording state partitions (conscious = state 1,
+   suppressed = state 2) used by step 3 are in `data/<pipeline>/compile_data/`.
+   Useful options:
+   - `--jobs N` runs recordings within a stage in parallel.
+   - `--dry-run` prints what would run and lists any missing inputs.
+   - `--stages ...` / `--sessions ...` restrict the run to the given stages or sessions.
+   - `--force` recomputes outputs that already exist (needed after changing parameters).
+
+   Jobs whose outputs already exist are skipped, so an interrupted run can be resumed. Logs for
+   each job are written to `data/<pipeline>/logs/`.
+
+   **TODO:** describe how `.h5` files from step 1 are placed at `data/preprocessed/<session>/
+   session.h5`, and how `compile_data/` outputs are copied to `data/conor_states/` for step 3.
 
 3. **Per-session state-conditioned responses** — run all three. Each loads one session and
    attaches the Python states in memory (via `switches_infer_states`), so there is no separate
@@ -93,6 +115,8 @@ data/
   sessions/            session_01.mat … session_19.mat
   h5_for_conor/        step-1 HDF5 export (input to the Python pipeline)
   conor_states/        state files from the Python pipeline (step 2)
+  llr/                 LLR pipeline per-stage outputs (step 2)
+  fixed_hmm/           fixed-rate HMM pipeline per-stage outputs (step 2)
   results/             per-session results and pooled summaries (steps 3–4)
   monkey_face_model/   face-feature model (reconstruction figures)
   stimuli/             stimulus images
@@ -135,13 +159,15 @@ matlab/                   MATLAB figure-generation code
   config/                 session list and summary configurations
   step1_export/           session → HDF5 export (step 1)
   attach_states/          state-inference machinery (switches_infer_states, state_method_hmm)
-  run_and_save_*.m        per-session state-conditioned responses (step 3; attaches states on load)
+  step3_run_and_save_*.m  per-session state-conditioned responses (step 3; attaches states on load)
   per_session/            per-session analysis (reconstruction, tuning, decoding, modulation)
-  across_sessions/        combine_*.m pool per-session results (step 4); pooling helpers
+  across_sessions/        step4_combine_*.m pool per-session results (step 4); pooling helpers
   figures/                generate_fig_*.m — one panel each (step 5)
   helpers/                plotting and utility functions
-python/, pipelines/       LLR/HMM state-inference pipeline (step 2; C. McGrory)
-data/                     recordings, states, summaries (gitignored; distributed separately)
+python/                   LLR/HMM state-inference pipeline (step 2; C. McGrory)
+config/                   Python pipeline parameters and recording lists (step 2)
+data/                     recordings, states, pipeline outputs (distributed separately;
+                          only pipeline config is tracked in git)
 figures_output/           generated panels
 ```
 

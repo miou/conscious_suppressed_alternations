@@ -1,8 +1,8 @@
 # Parameters file
 
-# Filepaths (relative to current directory)
+# Filepaths (relative to the pipeline directory in data/, where scripts are run)
 paths:
-  script_dir: '../../python/scripts/fixed_hmm_fs'
+  script_dir: '../../python/scripts/fixed_hmm'
   fs_script_dir: '../../python/scripts/fs_rivalry'
   data_dir: '../preprocessed'
   extract_data_dir: 'extract_data'

@@ -64,7 +64,7 @@ parser = argparse.ArgumentParser(description='Compute summary statistics for eac
 parser.add_argument('-p', '--params', type=str, default='params.yaml')
 
 # Set args manually (notebook mode)
-# %cd 'data/fixed_hmm_fs'
+# %cd 'data/fixed_hmm'
 # args = parser.parse_args([])
 
 # Parse from command line (script mode)

@@ -1,4 +1,4 @@
-"""Functions for handling data in DVC pipelines."""
+"""Functions for handling data in pipelines."""
 
 import numpy as np
 from tsao_lab_data.session import Session

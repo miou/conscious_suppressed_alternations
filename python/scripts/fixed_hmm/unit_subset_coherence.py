@@ -19,7 +19,7 @@ from percept_hmm.pipelines.fs_rivalry import (
     stim_priming_responses,
     frac_state_agreement,
 )
-from percept_hmm.pipelines.fixed_hmm_fs import fit_hmms, predict_states
+from percept_hmm.pipelines.fixed_hmm import fit_hmms, predict_states
 
 
 # %%
@@ -63,7 +63,7 @@ parser.add_argument('--probes', type=str, required=True)
 parser.add_argument('-p', '--params', type=str, default='params.yaml')
 
 # Set args manually (notebook mode)
-# %cd 'data/fixed_hmm_fs'
+# %cd 'data/fixed_hmm'
 # args = parser.parse_args(['--session', 's166', '--paradigm', 'fsm', '--probes', 'p12'])
 
 # Parse from command line (script mode)

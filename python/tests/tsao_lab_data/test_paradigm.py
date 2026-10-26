@@ -4,7 +4,7 @@ This test module covers:
 - Base Paradigm class validation
 - Loading paradigms from HDF5
 - Saving paradigms to HDF5
-- All paradigm subclasses (FOB, PSS, BRS, PSN, BRN, TSS, PSST, BRST, PSNT, BRNT, FAS, FSMS, FSO)
+- Paradigm subclasses (FOB, FS, FSM, FSO)
 - Trial selection and filtering
 - Unit selection
 - Edge cases and error handling
@@ -20,16 +20,6 @@ import h5py
 from tsao_lab_data.paradigm import (
     Paradigm,
     FOBParadigm,
-    PSSParadigm,
-    BRSParadigm,
-    PSNParadigm,
-    BRNParadigm,
-    TSSParadigm,
-    PSSTParadigm,
-    BRSTParadigm,
-    PSNTParadigm,
-    BRNTParadigm,
-    FASParadigm,
     FSParadigm,
     FSMParadigm,
     FSOParadigm,

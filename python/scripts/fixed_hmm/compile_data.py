@@ -13,7 +13,7 @@ import joblib
 
 from tsao_lab_data.session import Session
 from percept_hmm.pipelines.dataio import rec_fname
-from percept_hmm.pipelines.fixed_hmm_fs import get_data_timecourse
+from percept_hmm.pipelines.fixed_hmm import get_data_timecourse
 
 # %%
 # Parse arguments
@@ -26,7 +26,7 @@ parser.add_argument('--probes', type=str, required=True)
 parser.add_argument('-p', '--params', type=str, default='params.yaml')
 
 # Set args manually (notebook mode)
-#%cd 'data/fixed_hmm_fs'
+#%cd 'data/fixed_hmm'
 #args = parser.parse_args(['--session', 's166', '--paradigm', 'fsm', '--probes', 'p12'])
 
 # Parse from command line (script mode)
@@ -56,7 +56,7 @@ session = Session.from_h5(session_fpath)
 session_full_name = session.session_name
 pd = session.paradigms[args.paradigm]
 
-# Filename used for data in DVC pipeline
+# Filename used for data in pipeline
 fname = rec_fname(args.session, args.paradigm, args.probes, '.joblib')
 
 # Data from fit model
@@ -117,7 +117,7 @@ out_data = {
 }
 
 # %%
-# Save to MAT file in DVC directory
+# Save to MAT file in pipeline directory
 
 # Save to MAT file
 out_fpath = compile_data_dir / rec_fname(args.session, args.paradigm, args.probes, '.mat')

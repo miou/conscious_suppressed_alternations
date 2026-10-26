@@ -22,7 +22,7 @@ parser = argparse.ArgumentParser(description='Compute summary statistics across 
 parser.add_argument('-p', '--params', type=str, default='params.yaml')
 
 # Set args manually (notebook mode)
-# %cd 'data/llr_fs'
+# %cd 'data/llr'
 # args = parser.parse_args([])
 
 # Parse from command line (script mode)

@@ -102,7 +102,7 @@ parser.add_argument('--probes', type=str, required=True)
 parser.add_argument('-p', '--params', type=str, default='params.yaml')
 
 # Set args manually (notebook mode)
-# %cd 'data/fixed_hmm_fs'
+# %cd 'data/fixed_hmm'
 # args = parser.parse_args(['--session', 's166', '--paradigm', 'fsm', '--probes', 'p12'])
 
 # Parse from command line (script mode)
@@ -127,7 +127,7 @@ t_stop = params['stats']['t_stop']
 # %%
 # Load data
 
-# Filename used for data in DVC pipeline
+# Filename used for data in pipeline
 fname = rec_fname(args.session, args.paradigm, args.probes, '.joblib')
 
 # Extracted data

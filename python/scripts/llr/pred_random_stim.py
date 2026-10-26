@@ -14,7 +14,7 @@ import yaml
 from percept_hmm.flash_suppression import TrialData, get_stim_list_from_pairs
 from percept_hmm.pipelines.dataio import rec_fname
 from percept_hmm.pipelines.fs_rivalry import stim_priming_responses
-from percept_hmm.pipelines.llr_fs import llr_win, rivalry_states_trial, stimulus_states_trial
+from percept_hmm.pipelines.llr import llr_win, rivalry_states_trial, stimulus_states_trial
 from percept_hmm.utils import timex
 
 # %%
@@ -92,7 +92,7 @@ parser.add_argument('--probes', type=str, required=True)
 parser.add_argument('-p', '--params', type=str, default='params.yaml')
 
 # Set args manually (notebook mode)
-# %cd 'data/llr_fs'
+# %cd 'data/llr'
 # args = parser.parse_args(['--session', 's162', '--paradigm', 'fsm', '--probes', 'p12'])
 
 # Parse from command line (script mode)

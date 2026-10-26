@@ -55,7 +55,7 @@ priming_acc_t_start = params['stats']['priming_acc_t_start']
 # %%
 # Load data
 
-# Filename used for data in DVC pipeline
+# Filename used for data in pipeline
 fname = rec_fname(args.session, args.paradigm, args.probes, '.joblib')
 
 # Extracted data

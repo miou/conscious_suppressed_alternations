@@ -15,7 +15,7 @@ from hmmlearn.hmm import PoissonHMM
 from percept_hmm.flash_suppression import TrialData, get_stim_list_from_pairs
 from percept_hmm.pipelines.dataio import rec_fname
 from percept_hmm.pipelines.fs_rivalry import stim_priming_responses
-from percept_hmm.pipelines.fixed_hmm_fs import (
+from percept_hmm.pipelines.fixed_hmm import (
     fit_hmm_stim_pair,
     predict_states,
 )
@@ -79,7 +79,7 @@ parser.add_argument('--probes', type=str, required=True)
 parser.add_argument('-p', '--params', type=str, default='params.yaml')
 
 # Set args manually (notebook mode)
-#%cd 'data/fixed_hmm_fs'
+#%cd 'data/fixed_hmm'
 #args = parser.parse_args(['--session', 's166', '--paradigm', 'fsm', '--probes', 'p12'])
 
 # Parse from command line (script mode)

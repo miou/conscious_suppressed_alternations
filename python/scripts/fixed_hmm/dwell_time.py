@@ -157,7 +157,7 @@ parser.add_argument('--probes', type=str, required=True)
 parser.add_argument('-p', '--params', type=str, default='params.yaml')
 
 # Set args manually (notebook mode)
-# %cd 'data/fixed_hmm_fs'
+# %cd 'data/fixed_hmm'
 # args = parser.parse_args(['--session', 's162', '--paradigm', 'fsm', '--probes', 'p12'])
 
 # Parse from command line (script mode)
@@ -183,7 +183,7 @@ drop_edges = params['dwell_time']['drop_edges']
 # %%
 # Load data
 
-# Filename used for data in DVC pipeline
+# Filename used for data in pipeline
 fname = rec_fname(args.session, args.paradigm, args.probes, '.joblib')
 
 # Load trial data
