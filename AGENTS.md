@@ -13,9 +13,9 @@ Frank F. Lafranchi, Conor McGrory, Yuelin Shi, Tatiana A. Engel, Doris Y. Tsao,
 The experimental data is stored in MATLAB files, which can be downloaded from
 **TODO: INSERT ZENODO LINK**. Once these files are downloaded, a series of 
 Python and MATLAB scripts can be used to reproduce the main figures of the 
-paper. These pipelines are coordinated and run using 
-[Data Version Control](https://dvc.org/), and the DVC files are stored with the
-data in `pipelines/`. 
+paper. The Python pipelines are run with `python/scripts/run_pipeline.py`,
+their parameters are in
+`config/<pipeline>.yaml`, and they write their outputs to `data/<pipeline>/`. 
 
 ## Environment & commands
 
@@ -32,9 +32,11 @@ data in `pipelines/`.
 
 ## Layout
 
-- `data/`: Directory where downloaded data is placed
-- `pipelines/`: Directory where pipelines are run and intermediate steps are
-   stored
+- `data/`: Directory where downloaded data is placed, and where pipelines are
+   run and intermediate steps are stored. Gitignored apart from `.gitkeep` files
+   that preserve the pipeline directory layout (see `.gitignore`)
+- `config/`: Parameter files for the Python pipelines (`<pipeline>.yaml`) and
+   the recording lists they run over (`recording_lists/`)
 - `matlab/`: MATLAB code
 - `python/src/tsao_lab_data/`: First installed Pyton package: Classes and 
    functions for loading data from extracted HDF5 files.
@@ -43,18 +45,19 @@ data in `pipelines/`.
 - `python/scripts/`: Code for pipelines
 - `python/tests/` — pytest tests for Python code mirroring package modules
 
-## DVC pipelines
+## Pipelines
 
-- Mature analyses that we want to be able to reproduce are implemented as data
-  version control (DVC) pipelines 
-- Each pipeline is stored in a subdirectory in `pipelines/` (e.g.
-  `data/fixed_hmm_fs`), along with the `params.yaml` and `dvc.yaml` files that
-  specify it
-- The scripts for a given pipeline are typically stored in a subdirectory of
-  `scripts/` with the same name as the DVC pipeline directory (e.g. the scripts
-  for the `data/fixed_hmm_fs` pipeline are stored in `scripts/fixed_hmm_fs`). 
-  Sometimes, scripts used by multiple pipelines are stored in a separate 
-  subdirectory of `scripts/pipeline/` (e.g. `scripts/pipeline/fs_rivalry`)
+- Mature analyses that we want to be able to reproduce are implemented as
+  pipelines, defined in `python/scripts/run_pipeline.py` (stage order, scripts,
+  recording lists, and input/output files for each stage)
+- Each pipeline runs in a subdirectory of `data/` (e.g. `data/fixed_hmm`),
+  where each stage writes its outputs to its own subdirectory. Parameters are in
+  `config/<pipeline>.yaml`, and recording lists shared by pipelines are in
+  `config/recording_lists/`
+- The scripts for a given pipeline are stored in a subdirectory of
+  `python/scripts/` with the same name (e.g. `python/scripts/fixed_hmm`), and
+  pipeline-specific helper functions are in `percept_hmm.pipelines.<pipeline>`.
+  Scripts used by multiple pipelines are stored in `python/scripts/fs_rivalry`
 
 ## Conventions
 
@@ -63,6 +66,5 @@ data in `pipelines/`.
   like a notebook.
 - Formatting is `ruff`: Line length **100**, **single quotes**, 4-space indent
   (see `[tool.ruff]` in `pyproject.toml`). Match existing style.
-- **Data & tracking infra:** Data versioning and experiment tracking is done
-  with **DVC** (remote `tsao_lab_cluster`, see `.dvc/config`) — don't commit
+- **Data:** Data is distributed separately (see `.gitignore`) — don't commit
   large data files to git.

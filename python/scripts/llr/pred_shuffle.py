@@ -13,7 +13,7 @@ import yaml
 
 from percept_hmm.pipelines.dataio import rec_fname
 from percept_hmm.pipelines.fs_rivalry import stim_priming_responses
-from percept_hmm.pipelines.llr_fs import get_llr_win, shuffle_spikes
+from percept_hmm.pipelines.llr import get_llr_win, shuffle_spikes
 from percept_hmm.utils import timex
 
 # %%
@@ -27,7 +27,7 @@ parser.add_argument('--probes', type=str, required=True)
 parser.add_argument('-p', '--params', type=str, default='params.yaml')
 
 # Set args manually (notebook mode)
-# %cd 'data/llr_fs'
+# %cd 'data/llr'
 # args = parser.parse_args(['--session', 's168', '--paradigm', 'fsm', '--probes', 'p12'])
 
 # Parse from command line (script mode)

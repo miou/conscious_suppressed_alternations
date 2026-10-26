@@ -1,4 +1,4 @@
-"""Functions for `llr_fs` pipeline."""
+"""Functions for `llr` pipeline."""
 
 import numpy as np
 from tsao_lab_data.paradigm import Paradigm

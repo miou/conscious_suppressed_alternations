@@ -1,17 +1,17 @@
 """Utility script for running pipelines.
 
-Each pipeline lives in `pipelines/<name>/` alongside a `params.yaml` file. Stages run in the order
-listed below. A stage runs its script once per recording in a recording list from
-`pipelines/recording_lists/fs_rivalry.yaml`, or once in total for stages that aggregate across
+Each pipeline runs in `data/<name>/`, with parameters from `config/<name>.yaml`. Stages run in
+the order listed below. A stage runs its script once per recording in a recording list from
+`config/recording_lists/fs_rivalry.yaml`, or once in total for stages that aggregate across
 recordings. A job is skipped if all of its outputs already exist, so an interrupted run can be
-resumed. Use `--force` to recompute outputs, e.g. after changing `params.yaml`.
+resumed. Use `--force` to recompute outputs, e.g. after changing parameters.
 
 Examples (from the repository root):
 
-    uv run python python/scripts/run_pipeline.py llr_fs
-    uv run python python/scripts/run_pipeline.py llr_fs --jobs 8
-    uv run python python/scripts/run_pipeline.py fixed_hmm_fs --stages stats summary_stats --force
-    uv run python python/scripts/run_pipeline.py llr_fs --sessions s133 s137 --dry-run
+    uv run python python/scripts/run_pipeline.py llr
+    uv run python python/scripts/run_pipeline.py llr --jobs 8
+    uv run python python/scripts/run_pipeline.py fixed_hmm --stages stats summary_stats --force
+    uv run python python/scripts/run_pipeline.py llr --sessions s133 s137 --dry-run
 """
 
 import argparse
@@ -24,16 +24,17 @@ from pathlib import Path
 import yaml
 
 REPO_DIR = Path(__file__).resolve().parents[2]
-PIPELINES_DIR = REPO_DIR / 'pipelines'
-RECORDING_LISTS = PIPELINES_DIR / 'recording_lists' / 'fs_rivalry.yaml'
+DATA_DIR = REPO_DIR / 'data'
+CONFIG_DIR = REPO_DIR / 'config'
+RECORDING_LISTS = CONFIG_DIR / 'recording_lists' / 'fs_rivalry.yaml'
 
 
 @dataclass(frozen=True)
 class Stage:
     """One step of a pipeline.
 
-    `script`, `ins` and `outs` are templates filled in with the `paths` section of `params.yaml`
-    and, for per-recording stages, `{session}`, `{paradigm}`, `{probes}` and `{rec}` (the
+    `script`, `ins` and `outs` are templates filled in with the `paths` section of the pipeline's
+    config file and, for per-recording stages, `{session}`, `{paradigm}`, `{probes}` and `{rec}` (the
     recording filename stem `<session>_<paradigm>_<probes>`). Paths are relative to the pipeline
     directory, which is where scripts are run from.
     """
@@ -53,7 +54,7 @@ PRED_RANDOM_STIM = '{pred_random_stim_dir}/{rec}.joblib'
 PRED_UNIT_SUBSET = '{pred_unit_subset_dir}/{rec}.joblib'
 
 PIPELINES = {
-    'fixed_hmm_fs': [
+    'fixed_hmm': [
         Stage(
             'extract_data',
             '{fs_script_dir}/extract_data.py',
@@ -141,7 +142,7 @@ PIPELINES = {
             outs=('{compile_data_dir}/{rec}.mat',),
         ),
     ],
-    'llr_fs': [
+    'llr': [
         Stage(
             'extract_data',
             '{fs_script_dir}/extract_data.py',
@@ -248,7 +249,9 @@ class Job:
     log: Path
 
 
-def make_jobs(stage: Stage, paths: dict, recordings: dict, pipeline_dir: Path) -> list[Job]:
+def make_jobs(
+    stage: Stage, paths: dict, recordings: dict, pipeline_dir: Path, params_file: Path
+) -> list[Job]:
     """Expand a stage into one job per recording (or a single job for aggregate stages)."""
 
     if stage.recs is None:
@@ -261,13 +264,13 @@ def make_jobs(stage: Stage, paths: dict, recordings: dict, pipeline_dir: Path) -
         if item is None:
             fields = dict(paths)
             label = stage.name
-            args = []
+            args = ['--params', str(params_file)]
         else:
             rec = f'{item["session"]}_{item["paradigm"]}_{item["probes"]}'
             fields = {**paths, **item, 'rec': rec}
             label = f'{stage.name}:{rec}'
-            args = ['--session', item['session'], '--paradigm', item['paradigm']]
-            args += ['--probes', item['probes']]
+            args = ['--params', str(params_file), '--session', item['session']]
+            args += ['--paradigm', item['paradigm'], '--probes', item['probes']]
 
         script = stage.script.format(**fields)
         jobs.append(
@@ -306,7 +309,7 @@ def run_job(job: Job, pipeline_dir: Path) -> bool:
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Run an analysis pipeline without DVC')
+    parser = argparse.ArgumentParser(description='Run an analysis pipeline')
     parser.add_argument('pipeline', choices=sorted(PIPELINES))
     parser.add_argument('--stages', nargs='+', help='Only run these stages (in pipeline order)')
     parser.add_argument('--sessions', nargs='+', help='Only run recordings from these sessions')
@@ -315,8 +318,9 @@ def main():
     parser.add_argument('-n', '--dry-run', action='store_true', help='Show plan without running')
     args = parser.parse_args()
 
-    pipeline_dir = PIPELINES_DIR / args.pipeline
-    with open(pipeline_dir / 'params.yaml', 'r') as f:
+    pipeline_dir = DATA_DIR / args.pipeline
+    params_file = CONFIG_DIR / f'{args.pipeline}.yaml'
+    with open(params_file, 'r') as f:
         paths = yaml.safe_load(f)['paths']
     with open(RECORDING_LISTS, 'r') as f:
         recordings = yaml.safe_load(f)
@@ -341,7 +345,7 @@ def main():
     will_exist = set()
     missing = []
     for stage in stages:
-        jobs = make_jobs(stage, paths, recordings, pipeline_dir)
+        jobs = make_jobs(stage, paths, recordings, pipeline_dir, params_file)
         todo = [j for j in jobs if args.force or not all(p.exists() for p in j.outs)]
         for job in todo:
             missing += [(job.label, p) for p in job.ins if p not in will_exist and not p.exists()]

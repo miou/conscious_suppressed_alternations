@@ -43,29 +43,30 @@ variable `session_list` beforehand to restrict).
    Writes one `data/h5_for_conor/session_<name>.h5` per session (spikes, stimulus indices, eye
    traces) for the state-inference pipeline.
 
-2. **State inference (Python)** — LLR and fixed-rate HMM pipelines in `pipelines/`, scripts in
+2. **State inference (Python)** — LLR and fixed-rate HMM pipelines in `data/llr/` and
+   `data/fixed_hmm/`, scripts in
    `python/scripts/`. Install the environment with `uv sync`, then from the repository root run:
 
    ```
-   uv run python python/scripts/run_pipeline.py llr_fs
-   uv run python python/scripts/run_pipeline.py fixed_hmm_fs
+   uv run python python/scripts/run_pipeline.py llr
+   uv run python python/scripts/run_pipeline.py fixed_hmm
    ```
 
    Each pipeline runs its stages in order over the recordings listed in
-   `pipelines/recording_lists/fs_rivalry.yaml`, with parameters from
-   `pipelines/<pipeline>/params.yaml`. Outputs are written to subdirectories of
-   `pipelines/<pipeline>/`, and the per-recording state partitions (conscious = state 1,
-   suppressed = state 2) used by step 3 are in `pipelines/<pipeline>/compile_data/`.
+   `config/recording_lists/fs_rivalry.yaml`, with parameters from
+   `config/<pipeline>.yaml`. Outputs are written to subdirectories of
+   `data/<pipeline>/`, and the per-recording state partitions (conscious = state 1,
+   suppressed = state 2) used by step 3 are in `data/<pipeline>/compile_data/`.
    Useful options:
    - `--jobs N` runs recordings within a stage in parallel.
    - `--dry-run` prints what would run and lists any missing inputs.
    - `--stages ...` / `--sessions ...` restrict the run to the given stages or sessions.
-   - `--force` recomputes outputs that already exist (needed after changing `params.yaml`).
+   - `--force` recomputes outputs that already exist (needed after changing parameters).
 
    Jobs whose outputs already exist are skipped, so an interrupted run can be resumed. Logs for
-   each job are written to `pipelines/<pipeline>/logs/`.
+   each job are written to `data/<pipeline>/logs/`.
 
-   **TODO:** describe how `.h5` files from step 1 are placed at `pipelines/preprocessed/<session>/
+   **TODO:** describe how `.h5` files from step 1 are placed at `data/preprocessed/<session>/
    session.h5`, and how `compile_data/` outputs are copied to `data/conor_states/` for step 3.
 
 3. **Attach states** — `step3_attach_states/step3_attach_states_sessions.m`
@@ -112,6 +113,8 @@ data/
   sessions/            session_01.mat … session_19.mat
   h5_for_conor/        step-1 HDF5 export (input to the Python pipeline)
   conor_states/        state files from the Python pipeline (step 2)
+  llr/                 LLR pipeline per-stage outputs (step 2)
+  fixed_hmm/           fixed-rate HMM pipeline per-stage outputs (step 2)
   results/             per-session results and pooled summaries (steps 4–5)
   monkey_face_model/   face-feature model (reconstruction figures)
   stimuli/             stimulus images
@@ -132,8 +135,10 @@ matlab/                   MATLAB figure-generation code
   across_sessions/        combine_*.m pool per-session results (step 5); pooling helpers
   figures/                generate_fig_*.m — one panel each (step 6)
   helpers/                plotting and utility functions
-python/, pipelines/       LLR/HMM state-inference pipeline (step 2; C. McGrory)
-data/                     recordings, states, summaries (gitignored; distributed separately)
+python/                   LLR/HMM state-inference pipeline (step 2; C. McGrory)
+config/                   Python pipeline parameters and recording lists (step 2)
+data/                     recordings, states, pipeline outputs (distributed separately;
+                          only pipeline config is tracked in git)
 figures_output/           generated panels
 ```
 

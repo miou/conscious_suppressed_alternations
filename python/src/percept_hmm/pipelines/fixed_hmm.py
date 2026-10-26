@@ -1,4 +1,4 @@
-"""Functions for `fixed_hmm_fs` pipeline."""
+"""Functions for `fixed_hmm` pipeline."""
 
 from collections.abc import Iterator
 

@@ -14,7 +14,7 @@ from scipy.io import savemat
 from tsao_lab_data.session import Session
 
 from percept_hmm.pipelines.dataio import rec_fname
-from percept_hmm.pipelines.llr_fs import get_data_timecourse
+from percept_hmm.pipelines.llr import get_data_timecourse
 
 # %%
 # Parse arguments
@@ -27,7 +27,7 @@ parser.add_argument('--probes', type=str, required=True)
 parser.add_argument('-p', '--params', type=str, default='params.yaml')
 
 # Set args manually (notebook mode)
-# %cd 'data/llr_fs'
+# %cd 'data/llr'
 # args = parser.parse_args(['--session', 's166', '--paradigm', 'fsm', '--probes', 'p12'])
 
 # Parse from command line (script mode)
@@ -57,7 +57,7 @@ session = Session.from_h5(session_fpath, units=np.array([0]))
 session_full_name = session.session_name
 pd = session.paradigms[args.paradigm]
 
-# Filename used for data in DVC pipeline
+# Filename used for data in pipeline
 fname = rec_fname(args.session, args.paradigm, args.probes, '.joblib')
 
 # Data from model fit to all units
@@ -121,7 +121,7 @@ out_data = {
 }
 
 # %%
-# Save to MAT file in DVC directory
+# Save to MAT file in pipeline directory
 
 # Save to MAT file
 out_fpath = compile_data_dir / rec_fname(args.session, args.paradigm, args.probes, '.mat')

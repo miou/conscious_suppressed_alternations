@@ -56,7 +56,7 @@ parser.add_argument('--probes', type=str, required=True)
 parser.add_argument('-p', '--params', type=str, default='params.yaml')
 
 # Set args manually (notebook mode)
-# %cd 'data/fixed_hmm_fs'
+# %cd 'data/fixed_hmm'
 # args = parser.parse_args(['--session', 's168', '--paradigm', 'fsm', '--probes', 'p12'])
 
 # Parse from command line (script mode)
