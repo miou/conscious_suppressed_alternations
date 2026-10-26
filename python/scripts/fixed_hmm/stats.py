@@ -99,10 +99,9 @@ parser = argparse.ArgumentParser(description='Compute summary statistics for eac
 parser.add_argument('--session', type=str, required=True)
 parser.add_argument('--paradigm', type=str, required=True)
 parser.add_argument('--probes', type=str, required=True)
-parser.add_argument('-p', '--params', type=str, default='params.yaml')
+parser.add_argument('-p', '--params', type=str, default='config/fixed_hmm.yaml')
 
 # Set args manually (notebook mode)
-# %cd 'data/fixed_hmm'
 # args = parser.parse_args(['--session', 's166', '--paradigm', 'fsm', '--probes', 'p12'])
 
 # Parse from command line (script mode)

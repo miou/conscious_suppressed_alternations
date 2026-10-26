@@ -61,10 +61,9 @@ def clean_float_dict_json(data: dict) -> dict:
 
 # Create parser
 parser = argparse.ArgumentParser(description='Compute summary statistics for each session')
-parser.add_argument('-p', '--params', type=str, default='params.yaml')
+parser.add_argument('-p', '--params', type=str, default='config/fixed_hmm.yaml')
 
 # Set args manually (notebook mode)
-# %cd 'data/fixed_hmm'
 # args = parser.parse_args([])
 
 # Parse from command line (script mode)

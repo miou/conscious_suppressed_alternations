@@ -19,10 +19,9 @@ from percept_hmm.pipelines.dataio import parse_rec_fname
 
 # Create parser
 parser = argparse.ArgumentParser(description='Compute summary statistics across recordings')
-parser.add_argument('-p', '--params', type=str, default='params.yaml')
+parser.add_argument('-p', '--params', type=str, default='config/llr.yaml')
 
 # Set args manually (notebook mode)
-# %cd 'data/llr'
 # args = parser.parse_args([])
 
 # Parse from command line (script mode)

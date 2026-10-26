@@ -1,23 +1,23 @@
 # Parameters file
 
-# Filepaths (relative to the pipeline directory in data/, where scripts are run)
+# Filepaths (relative to the repository root, where scripts are run)
 paths:
-  script_dir: '../../python/scripts/llr'
-  fs_script_dir: '../../python/scripts/fs_rivalry'
-  data_dir: '../preprocessed'
-  extract_data_dir: 'extract_data'
-  pred_all_units_dir: 'pred_all_units'
-  pred_random_stim_dir: 'pred_random_stim'
-  pred_unit_subset_dir: 'pred_unit_subset'
-  pred_shuffle_dir: 'pred_shuffle'
-  probe_coherence_dir: 'probe_coherence'
-  fso_decoding_dir: 'fso_decoding'
-  acorr_dir: 'acorr'
-  states_loglik_dir: 'states_loglik'
-  marg_loglik_dir: 'marg_loglik'
-  stats_dir: 'stats'
-  summary_stats_dir: 'summary_stats'
-  compile_data_dir: 'compile_data'
+  script_dir: 'python/scripts/llr'
+  fs_script_dir: 'python/scripts/fs_rivalry'
+  data_dir: 'data/preprocessed'
+  extract_data_dir: 'data/llr/extract_data'
+  pred_all_units_dir: 'data/llr/pred_all_units'
+  pred_random_stim_dir: 'data/llr/pred_random_stim'
+  pred_unit_subset_dir: 'data/llr/pred_unit_subset'
+  pred_shuffle_dir: 'data/llr/pred_shuffle'
+  probe_coherence_dir: 'data/llr/probe_coherence'
+  fso_decoding_dir: 'data/llr/fso_decoding'
+  acorr_dir: 'data/llr/acorr'
+  states_loglik_dir: 'data/llr/states_loglik'
+  marg_loglik_dir: 'data/llr/marg_loglik'
+  stats_dir: 'data/llr/stats'
+  summary_stats_dir: 'data/llr/summary_stats'
+  compile_data_dir: 'data/llr/compile_data'
 
 # Data parameters
 extract_data:

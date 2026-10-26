@@ -188,11 +188,12 @@ parser = argparse.ArgumentParser(description='Fit fixed-rate HMM and predict sta
 parser.add_argument('--session', type=str, required=True)
 parser.add_argument('--paradigm', type=str, required=True)
 parser.add_argument('--probes', type=str, required=True)
-parser.add_argument('-p', '--params', type=str, default='params.yaml')
+parser.add_argument('-p', '--params', type=str, required=True)
 
 # Set args manually (notebook mode)
-#%cd 'data/fixed_hmm'
-#args = parser.parse_args(['--session', 's133', '--paradigm', 'fsor', '--probes', 'p12'])
+#args = parser.parse_args(
+#    ['--session', 's133', '--paradigm', 'fsor', '--probes', 'p12', '-p', 'config/fixed_hmm.yaml']
+#)
 
 # Parse from command line (script mode)
 args = parser.parse_args()

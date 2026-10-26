@@ -61,9 +61,13 @@ their parameters are in
 
 ## Conventions
 
-- **`# %%` and `# %cd` comments are VSCode Interactive Mode cell markers, not
-  dead code.** Do not delete or "clean them up." They let scripts run cell-by-cell
-  like a notebook.
+- **`# %%` comments are VSCode Interactive Mode cell markers, not dead code.**
+  Do not delete or "clean them up." They let scripts run cell-by-cell like a
+  notebook.
+- **All scripts run from the repository root.** Paths in `config/*.yaml` are
+  relative to the root, and pipeline scripts default `--params` to
+  `config/<pipeline>.yaml` (scripts shared between pipelines in
+  `python/scripts/fs_rivalry` require `--params`). Don't add `%cd` or `chdir`.
 - Formatting is `ruff`: Line length **100**, **single quotes**, 4-space indent
   (see `[tool.ruff]` in `pyproject.toml`). Match existing style.
 - **Data:** Data is distributed separately (see `.gitignore`) — don't commit
