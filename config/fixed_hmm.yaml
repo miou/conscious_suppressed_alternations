@@ -17,6 +17,7 @@ paths:
   summary_stats_dir: 'data/fixed_hmm/summary_stats'
   states_loglik_dir: 'data/fixed_hmm/states_loglik'
   compile_data_dir: 'data/fixed_hmm/compile_data'
+  mat_export_dir: 'data/python_states/fixed_hmm_fs/bin_10_units_all'
 
 # Data parameters
 extract_data:

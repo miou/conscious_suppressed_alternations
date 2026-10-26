@@ -45,6 +45,7 @@ pred_all_units_dir = Path(params['paths']['pred_all_units_dir'])
 pred_random_stim_dir = Path(params['paths']['pred_random_stim_dir'])
 pred_unit_subset_dir = Path(params['paths']['pred_unit_subset_dir'])
 compile_data_dir = Path(params['paths']['compile_data_dir'])
+mat_export_dir = Path(params['paths']['mat_export_dir'])
 
 # %%
 # Load data from all stages
@@ -121,3 +122,8 @@ out_data = {
 # Save to MAT file
 out_fpath = compile_data_dir / rec_fname(args.session, args.paradigm, args.probes, '.mat')
 savemat(out_fpath, out_data, do_compression=True)
+
+# Save to export directory
+out_fpath_2 = mat_export_dir / rec_fname(args.session, args.paradigm, args.probes, '.mat')
+savemat(out_fpath, out_data, do_compression=True)
+

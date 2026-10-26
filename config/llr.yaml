@@ -18,6 +18,7 @@ paths:
   stats_dir: 'data/llr/stats'
   summary_stats_dir: 'data/llr/summary_stats'
   compile_data_dir: 'data/llr/compile_data'
+  mat_export_dir: 'data/python_states/llr_fs/bin_10_units_all'
 
 # Data parameters
 extract_data:
