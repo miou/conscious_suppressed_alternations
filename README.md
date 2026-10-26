@@ -34,7 +34,8 @@ state-conditioned responses, pools across sessions, and draws the figures.
 
 ## What to run
 
-In MATLAB, `paths = set_paths;` first (adds code folders to the path, returns data locations).
+The MATLAB code is in `matlab/`. In MATLAB, `cd matlab` then `paths = set_paths;` first (adds the
+code folders to the path, returns data locations).
 Steps are MATLAB unless noted; each `run_and_save_*` / `combine_*` loops all sessions (set the
 variable `session_list` beforehand to restrict).
 
@@ -67,10 +68,22 @@ variable `session_list` beforehand to restrict).
    pools / reconstructs across sessions via `across_sessions_analysis_axes_aux`, and writes to
    `figures_output/`. Independently runnable once steps 1–5 are done.
 
+## Reproducibility
+
+The shipped summaries contain the exact single-trial decoding values used for the paper
+(Fig. 2l and Fig. 3i). Note that the single-trial decoding is **not seeded**: before decoding,
+`flash_suppression_get_variables` balances stimuli shown at different frequencies by randomly
+subsampling trials, so **regenerating the session summaries (steps 4–5) yields slightly
+different single-trial decoding values each time**. The effect sizes and significance are
+unchanged — only the exact numbers move within the range reported in the paper. To reproduce
+the paper's figures exactly, use the shipped summaries rather than regenerating them. Everything
+else (reconstruction, explained variance, modulation) is unaffected by this.
+
 ## Setup
 
-Keep this folder together (code + data + outputs in one place); `set_paths.m` finds everything
-relative to itself, so the bundle can be moved freely. Large data (`data/`) and generated
+Keep this folder together (code + data + outputs in one place); `matlab/set_paths.m` finds
+everything relative to itself (data/ and figures_output/ at the repo root), so the bundle can be
+moved freely. Large data (`data/`) and generated
 panels (`figures_output/`) are distributed separately and are gitignored. Data layout:
 
 ```
@@ -88,15 +101,18 @@ data/
 ## Layout
 
 ```
-set_paths.m               path configuration (project root auto-detected)
-config/                   session list and summary configurations
-step1_export/             session → HDF5 export (step 1)
-step3_attach_states/      load Python state files, attach to sessions (step 3)
-run_and_save_*.m          per-session state-conditioned responses (step 4)
-per_session/              per-session analysis (reconstruction, tuning, decoding, modulation)
-across_sessions/          combine_*.m pool per-session results (step 5); pooling helpers
-figures/                  generate_fig_*.m — one panel each (step 6)
-helpers/                  plotting and utility functions
+matlab/                   MATLAB figure-generation code
+  set_paths.m             path configuration (project root auto-detected)
+  config/                 session list and summary configurations
+  step1_export/           session → HDF5 export (step 1)
+  step3_attach_states/    load Python state files, attach to sessions (step 3)
+  run_and_save_*.m        per-session state-conditioned responses (step 4)
+  per_session/            per-session analysis (reconstruction, tuning, decoding, modulation)
+  across_sessions/        combine_*.m pool per-session results (step 5); pooling helpers
+  figures/                generate_fig_*.m — one panel each (step 6)
+  helpers/                plotting and utility functions
+python/, pipelines/       LLR/HMM state-inference pipeline (step 2; C. McGrory)
+data/                     recordings, states, summaries (gitignored; distributed separately)
 figures_output/           generated panels
 ```
 
