@@ -1,7 +1,7 @@
-decoding_scheme.b_hyperparameter_optimization = false;
-decoding_scheme.kfold = 8;
-decoding_scheme.stratify = true;
-decoding_scheme.learners = 'svm'; %Takes hours for 'svm'
+% Deterministic decoder: train one multi-class SVM on the priming responses and predict the
+% binocular / unambiguous trials. Train and test are different conditions, so there is no
+% cross-validation here and the result is reproducible given the trials.
+decoding_scheme.learners = 'svm';
 for probe_index=-2:session.number_of_probes
     if probe_index ==-2
         probe_string = 'PFC';

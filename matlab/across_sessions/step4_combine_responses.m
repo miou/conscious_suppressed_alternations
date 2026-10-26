@@ -1,13 +1,13 @@
-%% combine_responses.m
-% Assemble the per-session response files written by run_and_save_results into the
+%% step4_combine_responses.m
+% Assemble the per-session response files written by step3_run_and_save_results into the
 % pooled summaries the figures load. Each summary is a cell array
 % flash_suppression_results_all_sessions{session_index}; the figure-time pooling
 % (across_sessions_analysis_axes_aux) then stitches them into a cross-session
 % pseudo-population. Run once after the per-session response files exist.
 
 paths = set_paths;
-data  = switches_config_release;
-n_sessions = numel(data.sessions);
+rivalry_config  = switches_config_release;
+n_sessions = numel(rivalry_config.sessions);
 
 input_directory = fullfile(paths.results,'per_session_responses');
 response_files = dir(fullfile(input_directory,'responses_*.mat'));
@@ -45,7 +45,7 @@ for variant_index = 1:numel(variant_names)
         save_axes_summary(flash_suppression_results_all_sessions, paths, 'dominant_binocular', states_string);
     end
 end
-fprintf('combine_responses done.\n');
+fprintf('step4_combine_responses done.\n');
 
 function save_axes_summary(flash_suppression_results_all_sessions, paths, use_for_testing, states_string) %#ok<INUSD>
     output_file = release_axes_summary(paths, use_for_testing, states_string, true);

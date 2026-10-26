@@ -1,8 +1,8 @@
-function [inference_schemes, inference_results] = switches_infer_states(data,session);
+function [inference_schemes, inference_results] = switches_infer_states(rivalry_config,session);
 
 inference_schemes = struct();
 
-if strcmp(data.analysis_name,'Analysis_Rivalry')
+if strcmp(rivalry_config.analysis_name,'Analysis_Rivalry')
 
     % ---- LLR schemes (per-bin log-likelihood-ratio state inference) ----
     si_index = 50; % IT
@@ -68,7 +68,7 @@ end
 
 
 %% Do inference
-inference_results = cell(length(data.paradigms),length(inference_schemes));
+inference_results = cell(length(rivalry_config.paradigms),length(inference_schemes));
 
 for paradigm_index = 1:length(session.paradigms_data)
 
@@ -81,14 +81,6 @@ for paradigm_index = 1:length(session.paradigms_data)
                     case 'stimulus_population_similarity'
                         if contains(session.paradigm_names{paradigm_index},'flash_suppression')
                             inference_results{paradigm_index,si_index} = state_method_stimulus_population_similarity(inference_schemes(si_index),session,paradigm_index);
-                        end
-                    case 'reconstruction_similarity'
-                        if contains(session.paradigm_names{paradigm_index},'flash_suppression')
-                            inference_results{paradigm_index,si_index} = state_method_reconstruction_similarity(inference_schemes(si_index),session,paradigm_index);
-                        end
-                    case 'decoder'
-                        if contains(session.paradigm_names{paradigm_index},'flash_suppression')
-                            inference_results{paradigm_index,si_index} = state_method_decoder(inference_schemes(si_index),session,paradigm_index);
                         end
                     case 'hmm'
                         if contains(session.paradigm_names{paradigm_index},'flash_suppression')

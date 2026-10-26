@@ -1,7 +1,7 @@
 %% plot autocorrelation and proportion
 mode = 'nature';
 paths = set_paths;
-data = switches_config_release;
+rivalry_config = switches_config_release;
 
 figure_folder_name = paths.figures_out;
 
@@ -15,9 +15,9 @@ autocorr = load(fullfile(paths.conor_summaries,'flash_suppression_conor','acorr_
 
 [f, ax, S] = make_standard_figure(mode,'FigureNumber',800,'HeightInHalfColumnWidths',fig_height,'WidthInHalfColumns',fig_width);
 [p,errorarea] = plot_with_std(double(proportion_psth.t_flash)/1000,100*proportion_psth.frac_dom);
-p.Color=data.state_colors{1};errorarea.FaceColor=data.state_colors{1};
+p.Color=rivalry_config.state_colors{1};errorarea.FaceColor=rivalry_config.state_colors{1};
 [p,errorarea] = plot_with_std(double(proportion_psth.t_flash)/1000,100-100*proportion_psth.frac_dom);
-p.Color=data.state_colors{2};errorarea.FaceColor=data.state_colors{2};
+p.Color=rivalry_config.state_colors{2};errorarea.FaceColor=rivalry_config.state_colors{2};
 
 S.yline(50)
 S.xline(0)

@@ -12,7 +12,7 @@
 %
 % Cells are split by red/cyan image PREFERENCE from priming (independent of the states).
 % In cyan-dominant: red-pref == prefers the SUPPRESSED image, cyan-pref == prefers the CONSCIOUS image.
-% Cells are COLOURED by percept preference (data.state_colors): suppressed-preferring = purple,
+% Cells are COLOURED by percept preference (rivalry_config.state_colors): suppressed-preferring = purple,
 % conscious-preferring = orange -- matching the state-colour scheme used elsewhere in the figure.
 %
 % Six panels are produced (each its own paper-ready figure / EMF):
@@ -30,24 +30,15 @@ paths = set_paths;   % adds code folders to the path and returns data locations
 load(fullfile(paths.sessions,'session_251218_Alfie.mat'),'session');
 
 mode = 'nature';
-data = switches_config_release;
+rivalry_config = switches_config_release;
 
-% Attach the release inference schemes in memory (step 3) so inference_results{:,si_index}
+% Attach the release inference schemes in memory (states attached on load) so inference_results{:,si_index}
 % is the release scheme (si_index=50 is LLR), independent of any states the session carries.
-[session.inference_schemes, session.inference_results] = switches_infer_states(data, session);
+[session.inference_schemes, session.inference_results] = switches_infer_states(rivalry_config, session);
 
-% percept-state colours (state 1 = conscious, state 2 = suppressed); reuse the session's scheme
-if isfield(data,'state_colors')
-    % col_conscious  = data.state_colors{1};      % conscious (state 1)  -- orange
-    % col_suppressed = data.state_colors{2};      % suppressed (state 2) -- purple
-    col_conscious  = 'k';      % conscious (state 1)  -- black
-    col_suppressed = 'k';      % suppressed (state 2) -- black
-else
-    % col_conscious  = '#FCAE34';                 % orange fallback
-    % col_suppressed = '#543379';                 % purple fallback
-    col_conscious  = 'k';      % conscious (state 1)  -- black
-    col_suppressed = 'k';      % suppressed (state 2) -- black
-end
+% percept-state spikes are drawn in black for this example panel
+col_conscious  = 'k';   % state 1 (conscious)
+col_suppressed = 'k';   % state 2 (suppressed)
 
 paradigm_index = find(cellfun(@(x)~isempty(x) && contains(x,'flash_suppression'), session.paradigm_names));
 paradigm_data  = session.paradigms_data{paradigm_index};
@@ -224,7 +215,6 @@ for d = 1:2
 
     xline(0, 'k--', 'LineWidth', S.reference_line_width/2);
     set(gca,'ylim',[0 n_plotted+1]); set(gca,'xlim',[-win win]);      % xlim in ms (see CAVEAT)
-    % yticks(yt); yticklabels(ytl); ylabel(ylab);
     yticks(ylim);yticklabels('');ylabel([num2str(n_plotted) ' cell-transitions'])
     xticks([-win 0 win]); xticklabels({num2str(-win),'0',num2str(win)});
     finish_standard_figure(f, ax, S, 'ExportEMF', true, 'OutputBase', [outputfolder filesep sprintf('population_panel%d_%s', d, dirname)]);

@@ -190,41 +190,6 @@ for unambiguousTrialOnsetsIndex = 1:length(unambiguousTrialOnsets)
     end
 end
 
-% Plot overall probability time course
-figure(3); clf; hold on;
-plot(bins, mean(isPercept, 3), 'LineWidth', 2); % Mean probability across trials
-set(gca, 'ylim', [0 1]);
-plot([0 0], ylim, 'k--'); % Line marking trial onset
-plot([config.unambiguousDurationSeconds config.unambiguousDurationSeconds], ylim, 'k--'); % Line marking end of unambiguous period
-legend(perceptsOfInterest);
-xlabel('Time from unambiguous stimulus onset');
-ylabel('Proportion percept');
-
-% Separate plots for Red and Cyan suppressed trials
-figure(4); clf;
-
-% Red suppressed trials
-subplot(2, 1, 1); hold on;
-title('Red suppressed');
-plot(bins, mean(isPercept(:, :, contains(stimulus_name, 'priming_red')), 3), 'LineWidth', 2);
-set(gca, 'ylim', [0 1]);
-plot([0 0], ylim, 'k--'); % Trial onset
-plot([config.unambiguousDurationSeconds config.unambiguousDurationSeconds], ylim, 'k--'); % End of unambiguous period
-legend(perceptsOfInterest);
-xlabel('Time from unambiguous stimulus onset');
-ylabel('Proportion percept');
-
-% Cyan suppressed trials
-subplot(2, 1, 2); hold on;
-title('Cyan suppressed');
-plot(bins, mean(isPercept(:, :, contains(stimulus_name, 'priming_cyan')), 3), 'LineWidth', 2);
-set(gca, 'ylim', [0 1]);
-plot([0 0], ylim, 'k--'); % Trial onset
-plot([config.unambiguousDurationSeconds config.unambiguousDurationSeconds], ylim, 'k--'); % End of unambiguous period
-legend(perceptsOfInterest);
-xlabel('Time from unambiguous stimulus onset');
-ylabel('Proportion percept');
-
 meanPercept.All = mean(isPercept, 3);
 meanPercept.PrimingRed = mean(isPercept(:, :, contains(stimulus_name, 'priming_red')), 3);
 meanPercept.PrimingCyan = mean(isPercept(:, :, contains(stimulus_name, 'priming_cyan')), 3);
@@ -280,43 +245,6 @@ resultsTable = table(uniqueAugmentedPercepts', dominanceAugmentedDurations', per
     averageDurations', medianDurations', ...
     'VariableNames', {'Percept', 'TotalDominanceDuration', 'PercentageViewed', ...
     'AverageDominanceDuration', 'MedianDominanceDuration'});
-disp('Analysis Results:');
-disp(resultsTable);
-
-figure(1);clf;
-bar(uniqueAugmentedPercepts, percentageViewed);
-xlabel('Percept');
-ylabel('Percentage of Time Viewed');
-title('Dominance Percentages');
-grid on;
-
-figure(2);clf;
-numConditions = length(uniqueAugmentedPercepts); % Number of percepts
-
-for i = 1:numConditions
-    subplot(ceil(numConditions / 2), 2, i); % Create subplot grid (2 columns)
-
-    % Check if the condition has valid durations
-    if ~isempty(allAugmentedDurations{i}) && ~all(isnan(allAugmentedDurations{i}))
-        histogram(allAugmentedDurations{i}, 'BinWidth', 0.5); % Adjust bin width as needed
-    else
-        text(0.5, 0.5, 'No Data', 'HorizontalAlignment', 'center');
-        xlim([0, 1]); % Adjust limits for visual consistency
-    end
-
-    title(['Duration Distribution for ' uniqueAugmentedPercepts{i}]);
-    xlabel('Duration (s)');
-    ylabel('Frequency');
-    grid on;
-end
-
-% Add an overall title to the figure
-sgtitle('Duration Distributions for All Conditions');
-
-% Save results to a .mat file
-[~, outputName, ~] = fileparts(outputFile);
-analysisFilename = [outputName '_analysis.mat'];
-
 end
 
 function [filteredTimestamps, filteredPercepts] = filterRepeatedPercepts(allTimestamps, allPercepts)

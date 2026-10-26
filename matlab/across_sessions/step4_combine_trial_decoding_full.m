@@ -1,11 +1,11 @@
-%% combine_trial_decoding_full.m
-% Assemble the per-session full-IT trial-decoding files (run_and_save_trial_decoding_full)
+%% step4_combine_trial_decoding_full.m
+% Assemble the per-session full-IT trial-decoding files (step3_run_and_save_trial_decoding_full)
 % into the per-state summaries generate_fig_2_ev_decoding loads for its single-trial panels.
 % Format matches the modulation summaries: flash_suppression_results_all_sessions{session_index}.
 
 paths = set_paths;
-data  = switches_config_release;
-n_sessions = numel(data.sessions);
+rivalry_config  = switches_config_release;
+n_sessions = numel(rivalry_config.sessions);
 
 input_directory = fullfile(paths.results,'per_session_trialdec_full');
 files = dir(fullfile(input_directory,'trialdec_full_*.mat'));
@@ -31,4 +31,4 @@ for state_index = 1:2
     save(out, 'flash_suppression_results_all_sessions', '-v7.3');
     fprintf('saved %s\n', out);
 end
-fprintf('combine_trial_decoding_full done.\n');
+fprintf('step4_combine_trial_decoding_full done.\n');

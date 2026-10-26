@@ -1,13 +1,13 @@
-%% combine_modulation.m
-% Assemble the per-session modulation files from run_and_save_modulation into the
+%% step4_combine_modulation.m
+% Assemble the per-session modulation files from step3_run_and_save_modulation into the
 % per-(variant,state) summaries the modulation figures load. Each summary is a cell
 % array flash_suppression_results_all_sessions{session_index}; the modulation aux
 % (across_sessions_analysis_all_combinations_modulation_aux) pools them.
 % Run once after the per-session modulation files exist.
 
 paths = set_paths;
-data  = switches_config_release;
-n_sessions = numel(data.sessions);
+rivalry_config  = switches_config_release;
+n_sessions = numel(rivalry_config.sessions);
 
 input_directory = fullfile(paths.results,'per_session_modulation');
 modulation_files = dir(fullfile(input_directory,'modulation_*.mat'));
@@ -36,4 +36,4 @@ for variant_index = 1:numel(variant_names)
         fprintf('saved %s\n', output_file);
     end
 end
-fprintf('combine_modulation done.\n');
+fprintf('step4_combine_modulation done.\n');
