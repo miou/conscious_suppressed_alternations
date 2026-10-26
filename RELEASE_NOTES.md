@@ -19,7 +19,7 @@ The data archive (~31 GB, 25 files — within Zenodo's 200 GB / 100-file limits)
 - **`conor_summaries.tar.gz`**, **`human.tar.gz`** — auxiliary summaries and the human
   psychophysics (Fig. 1).
 - **`monkey_face_model`** — the face-feature model used for reconstruction.
-- **`misc`** — other small precomputed inputs.
+- **`stimuli`** — small stimulus feature maps used by the reconstruction (step 3).
 
 Unpack the `.tar.gz` archives into `data/` so the layout matches `set_paths.m`.
 
@@ -32,8 +32,9 @@ reproduce the figures:
   ~1.16 TB total; still ~0.5–0.6 TB even compressed, since LFP is broadband and compresses only
   ~2×), which exceeds Zenodo's 200 GB cap. The **per-probe LFP is included**; the channel-resolved
   LFP is available on request.
-- **Raw stimulus images.** The pipeline uses stimulus *indices* plus the included face-feature
-  model, not the raw images, so they are not shipped. Available on request.
+- **Raw stimulus images.** No step reads the stimulus image pixels — the pipeline uses stimulus
+  *filenames* plus the shipped feature maps and face-feature model — so the raw images are not
+  shipped. Available on request.
 - **HDF5 exports (`h5_for_conor/`).** These are the input to the Python state-inference pipeline
   and are **regenerable** from the sessions via step 1 (`step1_export/step1_export_sessions.m`).
 - **Non-compressed sessions.** The full uncompressed session files are available on request.
@@ -41,10 +42,11 @@ reproduce the figures:
 ## Reproducing
 
 - **Figures only:** unpack `results.tar.gz` (and `conor_states.tar.gz`, `human.tar.gz`,
-  `monkey_face_model`), then run any `figures/generate_fig_*.m`.
+  `monkey_face_model`), then run any `step5_figures/generate_fig_*.m`. The shipped summaries
+  already contain the state-conditioned responses, so steps 1–4 can be skipped entirely.
 - **Full pipeline:** sessions → step 1 (export HDF5) → step 2 (Python state inference) →
-  step 3 (attach states) → step 4 (per-session state-conditioned responses) → step 5 (combine) →
-  step 6 (figures). See the README for the step-by-step.
+  step 3 (per-session state-conditioned responses; states attached in memory on load) →
+  step 4 (pool across sessions) → step 5 (figures). See the README for the step-by-step.
 
 ## Notes on exact reproduction
 

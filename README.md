@@ -42,9 +42,16 @@ code folders to the path, returns data locations).
 Steps are MATLAB unless noted; each `step3_run_and_save_*` / `step4_combine_*` loops all sessions (set the
 variable `session_list` beforehand to restrict).
 
+> **Most users only need step 5.** The shipped `data/results/` summaries already contain the
+> state-conditioned responses, so you can **skip the preprocessing (steps 1–4) entirely** and run
+> the figure scripts directly. Steps 1–4 — HDF5 export, Python state inference, per-session
+> responses, and pooling — regenerate those summaries from the raw recordings and need substantial
+> RAM and compute (tens of GB of memory per session); step 5 runs from the summaries in a few GB.
+
 1. **Export** — `step1_export/step1_export_sessions.m`
    Writes one `data/h5_for_conor/session_<name>.h5` per session (spikes, stimulus indices, eye
-   traces) for the state-inference pipeline.
+   traces) for the state-inference pipeline. The export records stimulus *filenames* only — no
+   image pixels are read — so the stimulus image library is not required to run this step.
 
 2. **State inference (Python)** — LLR and fixed-rate HMM pipelines in `data/llr/` and
    `data/fixed_hmm/`, scripts in
@@ -72,9 +79,9 @@ variable `session_list` beforehand to restrict).
    **TODO:** describe how `.h5` files from step 1 are placed at `data/preprocessed/<session>/
    session.h5`, and how `compile_data/` outputs are copied to `data/conor_states/` for step 3.
 
-3. **Per-session state-conditioned responses** — run all three. Each loads one session and
-   attaches the Python states in memory (via `switches_infer_states`), so there is no separate
-   attach-and-save step.
+3. **Per-session state-conditioned responses** — in `step3_state_conditioned_responses/`, run all
+   three. Each loads one session and attaches the Python states in memory (via
+   `switches_infer_states`), so there is no separate attach-and-save step.
    - `step3_run_and_save_results.m` — responses averaged *within each state* over the 300–1000 ms
      binocular window (the inputs to reconstruction / explained-variance / decoding)
      → `data/results/per_session_responses/`.
@@ -84,11 +91,11 @@ variable `session_list` beforehand to restrict).
    - `step3_run_and_save_trial_decoding_full.m` — full-population IT single-trial decoding (Fig. 2l)
      → `data/results/per_session_trialdec_full/`.
 
-4. **Pool across sessions** — in `across_sessions/`:
+4. **Pool across sessions** — in `step4_across_sessions/`:
    `step4_combine_responses.m`, `step4_combine_modulation.m`, `step4_combine_trial_decoding_full.m`
    → pooled per-state summaries in `data/results/{axes,modulation,trial_decoding_full}/`.
 
-5. **Figures** — `figures/generate_fig_*.m` (one panel each). Each loads the pooled summaries,
+5. **Figures** — `step5_figures/generate_fig_*.m` (one panel each). Each loads the pooled summaries,
    pools / reconstructs across sessions via `across_sessions_analysis_axes_aux`, and writes to
    `figures_output/`. Independently runnable once steps 1–4 are done.
 
@@ -119,9 +126,8 @@ data/
   fixed_hmm/           fixed-rate HMM pipeline per-stage outputs (step 2)
   results/             per-session results and pooled summaries (steps 3–4)
   monkey_face_model/   face-feature model (reconstruction figures)
-  stimuli/             stimulus images
+  stimuli/             stimulus feature maps (small; used by the reconstruction in step 3)
   human/               human psychophysics (figure 1)
-  misc/                other precomputed inputs
 ```
 
 ## Requirements and run times
@@ -149,23 +155,25 @@ machines with fewer or slower cores.
 
 The channel-resolved LFP is not included (it exceeds the distribution size limit; the per-probe
 LFP is included, the channel-resolved LFP is available on request). The HDF5 export in step 1 is
-regenerated from the sessions, not shipped.
+regenerated from the sessions, not shipped. The raw stimulus images are not needed by any step
+(the pipeline uses stimulus filenames and the shipped feature maps, never the image pixels), so
+they are not included.
 
 ## Layout
 
 ```
 matlab/                   MATLAB figure-generation code
   set_paths.m             path configuration (project root auto-detected)
-  config/                 session list and summary configurations
   step1_export/           session → HDF5 export (step 1)
   attach_states/          state-inference machinery (switches_infer_states, state_method_hmm)
-  step3_run_and_save_*.m  per-session state-conditioned responses (step 3; attaches states on load)
   per_session/            per-session analysis (reconstruction, tuning, decoding, modulation)
-  across_sessions/        step4_combine_*.m pool per-session results (step 4); pooling helpers
-  figures/                generate_fig_*.m — one panel each (step 5)
+  step3_state_conditioned_responses/   the three step3_run_and_save_*.m drivers (step 3; attaches states on load)
+  step4_across_sessions/  step4_combine_*.m pool per-session results (step 4); pooling helpers
+  step5_figures/          generate_fig_*.m — one panel each (step 5)
   helpers/                plotting and utility functions
 python/                   LLR/HMM state-inference pipeline (step 2; C. McGrory)
-config/                   Python pipeline parameters and recording lists (step 2)
+config/                   configuration: MATLAB session list & summary configs (.m) and
+                          Python pipeline parameters / recording lists (.yaml)
 data/                     recordings, states, pipeline outputs (distributed separately;
                           only pipeline config is tracked in git)
 figures_output/           generated panels

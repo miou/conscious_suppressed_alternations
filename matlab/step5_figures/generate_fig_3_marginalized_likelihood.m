@@ -3,7 +3,7 @@
 % 2-state model over the 1-state model. Real only (no shuffle control). One value per record
 % (n = 19) = mll_2s - mll_1s, the model log-likelihood marginalized over the latent state sequence.
 % Statistical unit = record (session/probe). Signrank and t-test vs 0.
-% Source: Z:\session_summaries\flash_suppression_conor\marg_loglik_20261014.mat
+% Input: data/conor_summaries/flash_suppression_conor/marg_loglik_20261014.mat (shipped; produced by the Python pipeline).
 % Style matches generate_fig_3_likelihood.m.
 
 paths = set_paths;

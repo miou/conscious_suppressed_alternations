@@ -52,32 +52,3 @@ finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[figure_folder_na
 
 
 
-autocorr = load(fullfile(paths.misc,'acorr_projection.mat'));   % projection onto (conscious - suppressed) priming axis
-
-
-[f, ax, S] = make_standard_figure(mode,'FigureNumber',802,'HeightInHalfColumnWidths',1,'WidthInHalfColumns',1);
-
-lags             = double(autocorr.lags(:)');
-acorr_binoc_norm = autocorr.acorr_binoc_norm;
-
-[p,errorarea] = plot_with_std(lags, autocorr.acorr_binoc_shuffle_norm);
-p.Color=[.5 .5 .5]; errorarea.FaceColor=[.5 .5 .5];
-
-[p,errorarea] = plot_with_std(lags, acorr_binoc_norm);
-p.Color='k'; errorarea.FaceColor='k';
-
-% --- dwell time: R(t) = rho*exp(-2t/D), fit 10-90 ms (bin edge to zero-crossing), amplitude free ---
-acm  = double(mean(acorr_binoc_norm,1));
-sel  = lags>=10 & lags<=90;
-xfit = double(lags(sel));  yfit = double(acm(sel));
-obj  = @(pp) sum((pp(1)*exp(-2*xfit/pp(2)) - yfit).^2);   % pp = [rho, D]
-pp   = fminsearch(obj,[0.4 50]);
-rho  = pp(1);  D = pp(2);
-fprintf('projection autocorrelation: rho = %.2f, dwell time D = %.1f ms (median ~ %.0f ms)\n', rho, D, D*log(2));
-
-hold(ax,'on');
-S.xline(D)
-text(ax, D, 0.9, sprintf('  D = %.0f ms', D), 'Color','r', 'FontName',S.font_name, 'FontSize',S.font_size);
-
-set(gca,'xlim',[0 200])
-finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[figure_folder_name filesep 'projection_autocorrelation'])

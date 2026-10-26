@@ -1,4 +1,4 @@
-function session = add_standardized_vars(session, stim_root_dir)
+function session = add_standardized_vars(session)
 
 % Create struct to store all standardized variables in
 std = struct();
@@ -37,7 +37,7 @@ for i=1:n_paradigms
         pd_std = struct();
 
         % List of unambiguous stimulus files
-        pd_std.stimulus_files = get_stimulus_files(pd, stim_root_dir);
+        pd_std.stimulus_files = get_stimulus_files(pd);
 
         % Trial on times in kilosort (i.e. wall clock) time
         if iscell(pd.debug.timecourse_on_times_in_kilosort_recording_time)

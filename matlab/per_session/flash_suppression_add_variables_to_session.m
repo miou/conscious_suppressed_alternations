@@ -1,4 +1,10 @@
-%Saving for Conor
+% flash_suppression_add_variables_to_session  (SCRIPT — runs in the caller's workspace)
+% Writes the variables defined by flash_suppression_get_variables back into the session, under
+% session.paradigms_data{paradigm_index}.flash_suppression.*, so they can be saved (used by the
+% step-1 HDF5 export for the Python pipeline).
+%   Expects: session, paradigm_index, and the workspace from flash_suppression_get_variables.
+%   Produces: the flash_suppression.* fields (trial-context masks, priming-stimulus lists,
+%     priming responses, dominant/suppressed image indices) on session.paradigms_data{paradigm_index}.
 session.paradigms_data{paradigm_index}.b_in_range = b_in_range;
 session.paradigms_data{paradigm_index}.flash_suppression.trial_is_priming = trial_is_priming;
 session.paradigms_data{paradigm_index}.flash_suppression.trial_is_unambiguous = trial_is_unambiguous;

@@ -51,7 +51,7 @@ rho  = pp(1);  D = pp(2);                               % D = mean dwell time (m
 fprintf('log-likelihood autocorrelation: rho = %.2f, dwell time D = %.1f ms (median ~ %.0f ms)\n', rho, D, D*log(2));
 
 % overlay the fit and mark the dwell time
-S.xline(D)
+S.xline(D);
 
 
 set(gca,'xlim',[0 200])

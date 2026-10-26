@@ -132,13 +132,6 @@ if ~(exist('b_skip_ev_recon_decoding','var') && b_skip_ev_recon_decoding)
     ] = flash_suppression_axes_explained_variance(...
     config,features,responses_to_use_testing,responses_st,responses_ot_stimulus,predicted_features,predicted_features_cv,predicted_features_st,predicted_features_st_loto,predicted_responses,predicted_responses_cv,unique_stimuli_is_high_repeat,unique_stimuli,unique_stimulus_index_other_list,responses_priming,responses_dominant_binocular,red_cyan_pair_indices);
 
-%% Reconstruction
-xml_folder = flash_suppression_results.axes.xml_folder;
-xml_filename = flash_suppression_results.axes.xml_filename;
-stimulus_list = flash_suppression_results.axes.stimulus_list;
-priming_stimuli = flash_suppression_results.axes.priming_stimuli;
-% [debug figs removed] [ims_reconstructed] = flash_suppression_axes_compute_reconstructions(config,xml_folder,xml_filename,stimulus_list,priming_stimuli,folder_name,features,predicted_features_cv,unique_stimuli,unique_stimulus_index_other_list,unique_stimuli_is_high_repeat);
-
 %% Decoding
 num_iterations = 300;
 [percentage_correct,  percentage_correct_cv, percentage_correct_st, percentage_correct_st_loto, percentage_correct_responses_st_loto,pairwise_distances_responses_st_loto,percentage_correct_cv_other, correct_cv_per_stim, correct_cvo_per_stim, count_per_stim] ...
