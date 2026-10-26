@@ -14,16 +14,20 @@ fully polished. A later release will add the extended data figures, a cleaned-up
 code, and reduced memory and compute requirements so the analysis is accessible on a wider range
 of machines.
 
+**Data.** The recordings, Python state files, and summaries are archived on Zenodo:
+https://doi.org/10.5281/zenodo.23604909. Download them into `data/` (see `RELEASE_NOTES.md`) so the
+layout matches `set_paths.m`.
+
 ## Pipeline
 
 ```
  session_01.mat … session_19.mat
         │  step 1   export each session to HDF5
         ▼
-   data/h5_for_conor/*.h5
+   data/sessions_h5/*.h5
         │  step 2   Python LLR/HMM state inference  (in this repo; C. McGrory)
         ▼
-   data/conor_states/        per-bin conscious/suppressed state partition
+   data/python_states/       per-bin conscious/suppressed state partition
         │  step 3   per-session state-conditioned responses  (states attached in memory on load)
         ▼
    data/results/per_session_*/
@@ -49,7 +53,7 @@ variable `session_list` beforehand to restrict).
 > RAM and compute (tens of GB of memory per session); step 5 runs from the summaries in a few GB.
 
 1. **Export** — `step1_export/step1_export_sessions.m`
-   Writes one `data/h5_for_conor/session_<name>.h5` per session (spikes, stimulus indices, eye
+   Writes one `data/sessions_h5/session_<name>.h5` per session (spikes, stimulus indices, eye
    traces) for the state-inference pipeline. The export records stimulus *filenames* only — no
    image pixels are read — so the stimulus image library is not required to run this step.
 
@@ -77,7 +81,7 @@ variable `session_list` beforehand to restrict).
    each job are written to `data/<pipeline>/logs/`.
 
    **TODO:** describe how `.h5` files from step 1 are placed at `data/preprocessed/<session>/
-   session.h5`, and how `compile_data/` outputs are copied to `data/conor_states/` for step 3.
+   session.h5`, and how `compile_data/` outputs are copied to `data/python_states/` for step 3.
 
 3. **Per-session state-conditioned responses** — in `step3_state_conditioned_responses/`, run all
    three. Each loads one session and attaches the Python states in memory (via
@@ -120,8 +124,9 @@ panels (`figures_output/`) are distributed separately and are gitignored. Data l
 ```
 data/
   sessions/            session_01.mat … session_19.mat
-  h5_for_conor/        step-1 HDF5 export (input to the Python pipeline)
-  conor_states/        state files from the Python pipeline (step 2)
+  sessions_h5/         step-1 HDF5 export (input to the Python pipeline)
+  python_states/       state partitions from the Python pipeline (step 2)
+  python_summaries/    dynamics summaries from the Python pipeline (psth / acorr / log-likelihood)
   llr/                 LLR pipeline per-stage outputs (step 2)
   fixed_hmm/           fixed-rate HMM pipeline per-stage outputs (step 2)
   results/             per-session results and pooled summaries (steps 3–4)

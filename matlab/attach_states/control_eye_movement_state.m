@@ -17,7 +17,7 @@ function out = control_eye_movement_state(paths, rivalry_config)
 if nargin < 1; paths = set_paths; end
 if nargin < 2; rivalry_config  = switches_config_release; end
 bin = 10;   % ms: one sample per state bin, to avoid within-bin pseudoreplication
-state_dir = fullfile(paths.conor_states,'llr_fs','bin_10_units_all');
+state_dir = fullfile(paths.python_states,'llr_fs','bin_10_units_all');
 
 rows = struct('session',{},'monkey',{},'d_eyex',{},'d_eyey',{},'d_speed',{},'auc',{});
 for s = 1:numel(rivalry_config.sessions)
@@ -28,7 +28,7 @@ for s = 1:numel(rivalry_config.sessions)
     part = double(S.llr.dom_sup_partition(:));                       % per-sample: 1=conscious,2=suppressed,else NaN/0
     L = numel(part);
 
-    h5 = dir(fullfile(paths.h5_export, ['*' extractBefore(name,'_') '*.h5']));
+    h5 = dir(fullfile(paths.sessions_h5, ['*' extractBefore(name,'_') '*.h5']));
     if isempty(h5); continue; end
     h5f = fullfile(h5(1).folder, h5(1).name);
     info = h5info(h5f,'/paradigms'); grp = '';

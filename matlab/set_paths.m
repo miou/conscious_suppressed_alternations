@@ -20,13 +20,13 @@ paths = struct();
 paths.project_root   = PROJECT_ROOT;
 paths.data_root      = DATA_ROOT;
 paths.sessions       = fullfile(DATA_ROOT,'sessions');          % session_01.mat ... session_19.mat
-paths.conor_states   = fullfile(DATA_ROOT,'conor_states');      % LLR/HMM outputs from the Python pipeline (step 2)
+paths.python_states  = fullfile(DATA_ROOT,'python_states');     % LLR/HMM state partitions from the Python pipeline (step 2)
 paths.stimulus_model = fullfile(DATA_ROOT,'monkey_face_model'); % face-feature model used for reconstruction
 paths.stimuli        = fullfile(DATA_ROOT,'stimuli');           % stimulus feature maps (step-3 reconstruction)
 paths.human          = fullfile(DATA_ROOT,'human');             % human psychophysics
 paths.results        = fullfile(DATA_ROOT,'results');           % saved flash_suppression_results (step 3), loaded by figures
-paths.conor_summaries = fullfile(DATA_ROOT,'conor_summaries');  % Conor's dynamics data products (psth/acorr/loglik), shipped
-paths.h5_export      = fullfile(DATA_ROOT,'h5_for_conor');      % step-1 HDF5 export, input to the Python pipeline
+paths.python_summaries = fullfile(DATA_ROOT,'python_summaries'); % dynamics summaries from the Python pipeline (psth/acorr/loglik), shipped
+paths.sessions_h5    = fullfile(DATA_ROOT,'sessions_h5');       % step-1 HDF5 export, input to the Python pipeline
 paths.figures_out    = fullfile(REPO_ROOT,'figures_output');    % all generated panels go here (repo root)
 
 if ~exist(paths.figures_out,'dir'); mkdir(paths.figures_out); end

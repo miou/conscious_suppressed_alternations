@@ -11,7 +11,7 @@ if ~isfield(inference_scheme,'bin_size') || isempty(inference_scheme.bin_size)
 end
 paths_release = set_paths;
 if isempty(session.simulation)
-    hmm_file_location = [paths_release.conor_states filesep inference_scheme.hmm_type filesep 'bin_' num2str(inference_scheme.bin_size) '_units_' inference_scheme.selection_scheme];
+    hmm_file_location = [paths_release.python_states filesep inference_scheme.hmm_type filesep 'bin_' num2str(inference_scheme.bin_size) '_units_' inference_scheme.selection_scheme];
 else %Load simulation HMM (simulations are not part of the public release; kept relocatable under data_root)
     hmm_file_location = [paths_release.data_root filesep 'simulated' filesep 'SIMULATED_' session.simulation.type filesep inference_scheme.hmm_type filesep 'bin_' num2str(inference_scheme.bin_size) '_units_' inference_scheme.selection_scheme];
 end

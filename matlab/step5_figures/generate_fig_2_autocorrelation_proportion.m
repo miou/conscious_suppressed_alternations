@@ -9,9 +9,9 @@ fig_height   = 0.5;                % HeightInHalfColumnWidths
 fig_width    = 0.9;                 % WidthInHalfColumns
 
 
-proportion_psth = load(fullfile(paths.conor_summaries,'flash_suppression_conor','state_psth_20260812_all.mat'));
+proportion_psth = load(fullfile(paths.python_summaries,'state_psth_20260812_all.mat'));
 
-autocorr = load(fullfile(paths.conor_summaries,'flash_suppression_conor','acorr_20261014.mat'));
+autocorr = load(fullfile(paths.python_summaries,'acorr_20261014.mat'));
 
 [f, ax, S] = make_standard_figure(mode,'FigureNumber',800,'HeightInHalfColumnWidths',fig_height,'WidthInHalfColumns',fig_width);
 [p,errorarea] = plot_with_std(double(proportion_psth.t_flash)/1000,100*proportion_psth.frac_dom);

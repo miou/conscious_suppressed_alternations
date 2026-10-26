@@ -1,5 +1,7 @@
-mode='nature'
-%Load appropriate session first and infer_states
+mode = 'nature';
+paths = set_paths;
+rivalry_config = switches_config_release;
+load(fullfile(paths.sessions,'session_251218_Alfie.mat'),'session');   % session used for the paper Fig. 1 example raster (trial 57)
 
 paradigm_index = find(cellfun(@(x)~isempty(x) && contains(x,'flash_suppression'),session.paradigm_names));
 paradigm_data = session.paradigms_data{paradigm_index};
@@ -14,7 +16,7 @@ end
 %--------------------------LLR-----------------------------
 %Used for paper figure 1
 trial_index = 57; %251218_142027_Alfie
-si_index = 50; %LLR
+si_index = 1; %LLR IT (see switches_infer_states)
 
 session.b_use_fixed_trial_duration_for_timecourse = false;
 timecourse_raster = paradigm_data.timecourse_all_units';

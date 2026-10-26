@@ -1,7 +1,10 @@
-% Expects a loaded `session` (e.g. session_250225_Alfie) and `rivalry_config` in the workspace.
+% Draws the Fig. 1 orange (face/object selectivity) plots for one example session.
 % The orange matrix (per-unit face/object responses, baseline-subtracted and normalized across
 % stimuli) is precomputed and stored on the session. The FOB paradigm's raster is dropped from
 % the released sessions to save space, so use the stored matrix rather than recomputing it.
+paths = set_paths;
+rivalry_config = switches_config_release;
+load(fullfile(paths.sessions,'session_250225_Alfie.mat'),'session');   % example session for the Fig. 1 orange plots
 orange_matrix_minus_baseline_normalized = session.orange_matrix_minus_baseline_normalized{1};
 b_selected = true(1,size(orange_matrix_minus_baseline_normalized,1));
 

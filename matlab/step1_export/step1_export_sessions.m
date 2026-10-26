@@ -2,7 +2,7 @@
 % Step 1 of the pipeline: export each session's flash-suppression spike data to
 % an HDF5 file for the Python LLR/HMM state-inference pipeline (step 2).
 %
-% One '.h5' per session is written to paths.h5_export, named
+% One '.h5' per session is written to paths.sessions_h5, named
 % 'session_<session_name>.h5' using the session's own (original) name, so the
 % file names match what the Python pipeline expects.
 %
@@ -11,7 +11,7 @@
 paths = set_paths;
 rivalry_config  = switches_config_release;
 
-if ~exist(paths.h5_export,'dir'); mkdir(paths.h5_export); end
+if ~exist(paths.sessions_h5,'dir'); mkdir(paths.sessions_h5); end
 
 for session_index = 1:length(rivalry_config.sessions)
 
@@ -28,10 +28,10 @@ for session_index = 1:length(rivalry_config.sessions)
     end
 
     % Export to HDF5 (named by the session's own name, for the Python pipeline)
-    out_fpath = fullfile(paths.h5_export, ['session_' session.session_name '.h5']);
+    out_fpath = fullfile(paths.sessions_h5, ['session_' session.session_name '.h5']);
     extract_session_to_hdf5(session, session_index, out_fpath);
 
     clear session;
 end
 
-fprintf('Step 1 complete: %d sessions exported to %s\n', numel(rivalry_config.sessions), paths.h5_export);
+fprintf('Step 1 complete: %d sessions exported to %s\n', numel(rivalry_config.sessions), paths.sessions_h5);

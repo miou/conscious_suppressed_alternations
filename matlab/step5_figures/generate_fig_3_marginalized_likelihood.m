@@ -3,13 +3,13 @@
 % 2-state model over the 1-state model. Real only (no shuffle control). One value per record
 % (n = 19) = mll_2s - mll_1s, the model log-likelihood marginalized over the latent state sequence.
 % Statistical unit = record (session/probe). Signrank and t-test vs 0.
-% Input: data/conor_summaries/flash_suppression_conor/marg_loglik_20261014.mat (shipped; produced by the Python pipeline).
+% Input: data/python_summaries/marg_loglik_20261014.mat (shipped; produced by the Python pipeline).
 % Style matches generate_fig_3_likelihood.m.
 
 paths = set_paths;
 mode = 'nature';
 figure_folder_name = paths.figures_out;
-loglik_file        = fullfile(paths.conor_summaries,'flash_suppression_conor','marg_loglik_20261014.mat');
+loglik_file        = fullfile(paths.python_summaries,'marg_loglik_20261014.mat');
 
 %% Load Conor's per-record marginalized log-likelihoods
 R    = load(loglik_file);

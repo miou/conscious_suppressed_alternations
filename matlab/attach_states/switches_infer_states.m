@@ -3,7 +3,7 @@ function [inference_schemes, inference_results] = switches_infer_states(rivalry_
 %
 % Returns the release's state-inference schemes and, for each (paradigm, scheme),
 % the inferred state time course. States are not computed here: they were produced
-% by the Python LLR/HMM pipeline (step 2) and are loaded from paths.conor_states by
+% by the Python LLR/HMM pipeline (step 2) and are loaded from paths.python_states by
 % state_method_hmm. This function just defines which schemes to load and calls it.
 %
 % Each scheme is one row of the table below. The fields that matter downstream:

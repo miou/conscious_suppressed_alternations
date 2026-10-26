@@ -1,5 +1,5 @@
 paths = set_paths;
-hmm_loglik_dwell= load(fullfile(paths.conor_summaries,'flash_suppression_conor','hmm_loglik_dwell_20260811.mat'));
+hmm_loglik_dwell= load(fullfile(paths.python_summaries,'hmm_loglik_dwell_20260811.mat'));
 figure_folder_name = paths.figures_out;
 rivalry_config = switches_config_release;
 
@@ -36,7 +36,7 @@ finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[figure_folder_na
 
 %Dwell vs likelihood
 
-hmm_loglik_dwell_2= load(fullfile(paths.conor_summaries,'flash_suppression_conor','hmm_loglik_dwell_20260826.mat'));
+hmm_loglik_dwell_2= load(fullfile(paths.python_summaries,'hmm_loglik_dwell_20260826.mat'));
 [f, ax, S] = make_standard_figure( mode, 'FigureNumber',702, 'WidthInHalfColumns',1, 'HeightInHalfColumnWidths',1);
 
 x = hmm_loglik_dwell_2.hist_bin_centers;

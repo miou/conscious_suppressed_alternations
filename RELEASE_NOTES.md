@@ -4,6 +4,8 @@ Code for Hesse et al., "Rapid alternation of conscious and suppressed stimulus r
 in the primate brain" (2026, bioRxiv). The code lives in this repository; the data is
 distributed separately (see below) because of its size.
 
+**Zenodo:** https://doi.org/10.5281/zenodo.23604909
+
 ## What's in the data release
 
 The data archive (~31 GB, 25 files — within Zenodo's 200 GB / 100-file limits) contains:
@@ -14,9 +16,9 @@ The data archive (~31 GB, 25 files — within Zenodo's 200 GB / 100-file limits)
   files with no loss to these fields.
 - **`results.tar.gz`** — pooled per-session and across-session summaries (reconstruction axes,
   explained variance, decoding, modulation) that the figure scripts load.
-- **`conor_states.tar.gz`** — the per-bin conscious/suppressed state partitions from the
+- **`python_states.tar.gz`** — the per-bin conscious/suppressed state partitions from the
   Python LLR/HMM pipeline (step 2).
-- **`conor_summaries.tar.gz`**, **`human.tar.gz`** — auxiliary summaries and the human
+- **`python_summaries.tar.gz`**, **`human.tar.gz`** — auxiliary summaries and the human
   psychophysics (Fig. 1).
 - **`monkey_face_model`** — the face-feature model used for reconstruction.
 - **`stimuli`** — small stimulus feature maps used by the reconstruction (step 3).
@@ -35,13 +37,13 @@ reproduce the figures:
 - **Raw stimulus images.** No step reads the stimulus image pixels — the pipeline uses stimulus
   *filenames* plus the shipped feature maps and face-feature model — so the raw images are not
   shipped. Available on request.
-- **HDF5 exports (`h5_for_conor/`).** These are the input to the Python state-inference pipeline
+- **HDF5 exports (`sessions_h5/`).** These are the input to the Python state-inference pipeline
   and are **regenerable** from the sessions via step 1 (`step1_export/step1_export_sessions.m`).
 - **Non-compressed sessions.** The full uncompressed session files are available on request.
 
 ## Reproducing
 
-- **Figures only:** unpack `results.tar.gz` (and `conor_states.tar.gz`, `human.tar.gz`,
+- **Figures only:** unpack `results.tar.gz` (and `python_states.tar.gz`, `human.tar.gz`,
   `monkey_face_model`), then run any `step5_figures/generate_fig_*.m`. The shipped summaries
   already contain the state-conditioned responses, so steps 1–4 can be skipped entirely.
 - **Full pipeline:** sessions → step 1 (export HDF5) → step 2 (Python state inference) →

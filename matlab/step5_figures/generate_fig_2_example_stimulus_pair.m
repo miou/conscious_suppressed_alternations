@@ -33,7 +33,7 @@ mode = 'nature';
 rivalry_config = switches_config_release;
 
 % Attach the release inference schemes in memory (states attached on load) so inference_results{:,si_index}
-% is the release scheme (si_index=50 is LLR), independent of any states the session carries.
+% is the release scheme (si_index=1 is LLR IT; see switches_infer_states), independent of any states the session carries.
 [session.inference_schemes, session.inference_results] = switches_infer_states(rivalry_config, session);
 
 % percept-state spikes are drawn in black for this example panel
@@ -56,7 +56,7 @@ else % nature
 end
 
 %% ---------------- states + raster ----------------
-si_index = 50;   % LLR (conscious/suppressed) inference scheme in inference_results  (1=conscious, 2=suppressed)
+si_index = 1;   % LLR IT (conscious/suppressed) inference scheme in inference_results (1=conscious, 2=suppressed; see switches_infer_states)
 state_timecourse  = session.inference_results{paradigm_index, si_index}.state_timecourse;   % 1 x nT
 timecourse_raster = paradigm_data.timecourse_all_units';                                     % units x nT (spikes/ms)
 nT = size(timecourse_raster,2);
