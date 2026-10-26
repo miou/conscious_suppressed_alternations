@@ -43,9 +43,30 @@ variable `session_list` beforehand to restrict).
    Writes one `data/h5_for_conor/session_<name>.h5` per session (spikes, stimulus indices, eye
    traces) for the state-inference pipeline.
 
-2. **State inference (Python)** — C. McGrory's LLR/HMM pipeline (in this repository; directory
-   added separately). Reads the `.h5` files and writes the per-bin conscious (state 1) /
-   suppressed (state 2) partition to `data/conor_states/` that step 3 expects.
+2. **State inference (Python)** — LLR and fixed-rate HMM pipelines in `pipelines/`, scripts in
+   `python/scripts/`. Install the environment with `uv sync`, then from the repository root run:
+
+   ```
+   uv run python python/scripts/run_pipeline.py llr_fs
+   uv run python python/scripts/run_pipeline.py fixed_hmm_fs
+   ```
+
+   Each pipeline runs its stages in order over the recordings listed in
+   `pipelines/recording_lists/fs_rivalry.yaml`, with parameters from
+   `pipelines/<pipeline>/params.yaml`. Outputs are written to subdirectories of
+   `pipelines/<pipeline>/`, and the per-recording state partitions (conscious = state 1,
+   suppressed = state 2) used by step 3 are in `pipelines/<pipeline>/compile_data/`.
+   Useful options:
+   - `--jobs N` runs recordings within a stage in parallel.
+   - `--dry-run` prints what would run and lists any missing inputs.
+   - `--stages ...` / `--sessions ...` restrict the run to the given stages or sessions.
+   - `--force` recomputes outputs that already exist (needed after changing `params.yaml`).
+
+   Jobs whose outputs already exist are skipped, so an interrupted run can be resumed. Logs for
+   each job are written to `pipelines/<pipeline>/logs/`.
+
+   **TODO:** describe how `.h5` files from step 1 are placed at `pipelines/preprocessed/<session>/
+   session.h5`, and how `compile_data/` outputs are copied to `data/conor_states/` for step 3.
 
 3. **Attach states** — `step3_attach_states/step3_attach_states_sessions.m`
    Loads the state files and attaches the inferred states to each session.

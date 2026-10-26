@@ -21,3 +21,6 @@ __pycache__/
 # OS cruft
 .DS_Store
 Thumbs.db
+
+# Logs written by python/scripts/run_pipeline.py
+pipelines/*/logs/
