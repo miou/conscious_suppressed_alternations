@@ -1,3 +1,11 @@
+% flash_suppression_compute_modulation_indices  (SCRIPT — runs in the caller's workspace)
+% Computes per-neuron responses to each red/cyan high-repeat image pair, both overall and
+% conditioned on the inferred state, for one trial context (priming / binocular). These are the
+% inputs to the modulation indices in Fig. 1h and the state-conditioned modulation in Fig. 3i.
+%   Expects: raster, stimulus_properties, high_repeat_images_red / _cyan, peri_stimulus_range,
+%     trial_time_window, trial_context_name, and the attached state labels.
+%   Produces: flash_suppression_results.(trial_context_name).responses_*_dominant[_state/_first_half/
+%     _second_half] and images_red/cyan_for_modulation.
 flash_suppression_results.(trial_context_name).responses_red_dominant = [];
 flash_suppression_results.(trial_context_name).responses_cyan_dominant = [];
 MI = @(x,y) (x-y)./(x+y);

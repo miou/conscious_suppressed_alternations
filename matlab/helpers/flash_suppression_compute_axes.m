@@ -1,3 +1,10 @@
+% flash_suppression_compute_axes  (SCRIPT — runs in the caller's workspace)
+% Fits the stimulus-feature axes and computes the reconstruction / explained-variance / decoding
+% results for one session's flash-suppression paradigm. This is the heavy per-session computation
+% behind the reconstruction figures (step 3).
+%   Expects: session, config (state-conditioning options), and the state partition already attached.
+%   Produces: flash_suppression_results.axes.* (features, predicted features, explained variance,
+%     decoding), which step 4 pools across sessions and the figures read back.
 config.paradigm_index = find(cellfun(@(x)~isempty(x) && (contains(x,'flash_suppression_many_stimuli') ),session.paradigm_names,'UniformOutput',true) ); %Liang's monkey faces
 if contains(paradigm_data.xml_filename,'FlashSuppression_many_faces_Liang_2500_many_pairs_priming_reconstructed_0.00_transparent.xml')
     config.analyze_transparent = true;

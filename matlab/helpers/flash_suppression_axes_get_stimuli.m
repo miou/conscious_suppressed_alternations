@@ -56,123 +56,20 @@ folder_name = '';  % diagnostic-plot folder disabled for the release (original w
 
 xml_filename = paradigm_data.xml_filename;
 
-if strcmp(paradigm_data.paradigm_name,'FOB') || ~exist(xml_filename,'file')
-    disp('xml file not found. Cannot extract features.')
-    directory.folder = [];
+% Resolve the stimulus feature map. The maps are small and shipped under data/stimuli; pick the
+% one for this stimulus set by name. This replaces the original lookup on the acquisition share
+% and the on-the-fly feature-map generation (removed for the release); no stimulus images are read.
+p_rel = set_paths;
+if contains(xml_filename,'FlashSuppression_many_faces_Liang_2000_many_pairs')
+    stimulus_set_dir = fullfile(p_rel.stimuli,'liang_2000_many_pairs');
 else
-    directory = dir(xml_filename);
+    stimulus_set_dir = fullfile(p_rel.stimuli,'liang_2500_many_pairs');
 end
-xml_folder = directory.folder;
+xml_folder = stimulus_set_dir;   % string only; the release reads features from the map, never the stimulus images
 if config.analyze_transparent
-    b_turn_stimulus_image_gray = 1;
-    feat_map_file = [xml_folder filesep 'feat_map_priming_reconstructed_0.00_gray.mat']; %Use priming reconstructed 0 contrast balance for everything.
+    feat_map_file = fullfile(stimulus_set_dir,'feat_map_priming_reconstructed_0.00_gray.mat');
 else
-    b_turn_stimulus_image_gray = 0;
-    feat_map_file = [xml_folder filesep 'feat_map_priming_reconstructed_0.00.mat']; %Use priming reconstructed 0 contrast balance for everything.
-end
-if b_turn_stimulus_image_gray==1
-    feat_map_file = [xml_folder filesep 'feat_map_priming_gray.mat']; %Feature map of reconstructed priming stimuli
-elseif b_turn_stimulus_image_gray==2
-    feat_map_file = [xml_folder filesep 'feat_original_gray.mat']; %Feature map of original stimuli turned gray
-end
-if ~exist(feat_map_file,'file')
-    if contains(xml_filename, 'FlashSuppression_many_faces_Liang_2500_many_pairs')
-        feat_map_file = [xml_folder filesep 'feat_map_SA_color_monkey.mat'];
-        %Make the correct flash suppression feat_map with only 1500 train monkey faces:
-        fm = load(feat_map_file);
-        fm_train.feat_map = containers.Map;
-        feat_map_keys = fm.feat_map.keys;
-        for keys_index = 1:length(feat_map_keys)
-            feat_map_key = feat_map_keys{keys_index};
-            if contains(feat_map_key,'monkey_face_train\')
-                key_parts = strsplit(feat_map_key,'monkey_face_train\');
-                key_parts_2 = strsplit(key_parts{end},'.tif');
-                feat_map_train_key = key_parts_2{1};
-                fm_train.feat_map(feat_map_train_key) = fm.feat_map(feat_map_key); %Checkpoint: save feature maps for training faces
-            end
-        end
-        save([xml_folder filesep 'feat_map_train.mat'],'-struct','fm_train');
-        feat_map_file = [xml_folder filesep 'feat_map_train.mat'];
-
-        keys_train = fm_train.feat_map.keys;
-        stimulus_features = nan(length(keys_train),length(fm_train.feat_map(feat_map_train_key)));
-        %Get features of original faces
-        for key_index = 1:length(keys_train)
-            stimulus_features(key_index,:) = fm_train.feat_map(keys_train{key_index});
-        end
-        p_rel = set_paths; addpath(genpath(p_rel.stimulus_model))
-        model_data = fullfile(p_rel.stimulus_model,'Monkey_Face_Model_Data.mat');output_res = [300 300];
-        model = AAM_Model(model_data);
-
-        [ims,landmarks] = model.gen_image_param(stimulus_features, output_res);
-
-        %Get stimuli that were actually presented
-        stimulus_image = cell(length(keys_train),1);
-        for key_index = 1:length(keys_train)
-            stimulus_index = find(strcmp(priming_stimuli,keys_train{key_index}));
-            stimulus_file_name = paradigm_data.stimulus_list{stimulus_index};
-            stimulus_image{key_index} = imread([xml_folder filesep stimulus_file_name]);
-            if b_turn_stimulus_image_gray
-                if ismember(keys_train{key_index},priming_stimuli_cyan_list)
-                    stimulus_image{key_index}(:,:,1) = stimulus_image{key_index}(:,:,2);
-                elseif ismember(keys_train{key_index},priming_stimuli_red_list)
-                    stimulus_image{key_index}(:,:,2) = stimulus_image{key_index}(:,:,1);
-                    stimulus_image{key_index}(:,:,3) = stimulus_image{key_index}(:,:,1);
-                end
-            end
-        end
-
-        if b_turn_stimulus_image_gray==2 %Use the original faces, but turned grey (no contrast equalization and eye balancing)
-            stimulus_image = cell(length(keys_train),1);
-            for key_index = 1:length(keys_train)
-                stimulus_image{key_index} = repmat(rgb2gray(uint8(ims(:,:,:,key_index))),[1 1 3]);
-            end
-        end
-        feature_values_face_priming_recomputed = compute_param(model,stimulus_image,landmarks);
-        [ims_priming_recomputed,landmarks2] = model.gen_image_param(feature_values_face_priming_recomputed, output_res);
-
-        stimulus_index_to_check = 2;
-        figure(100);clf;
-        subplot(4,1,1);imshow(uint8(ims(:,:,:,stimulus_index_to_check)));
-        subplot(4,1,2);imshow(stimulus_image{stimulus_index_to_check});
-        subplot(4,1,3);imshow(uint8(ims_priming_recomputed(:,:,:,stimulus_index_to_check)));
-
-        feature_values_face_priming_recomputed_cut = feature_values_face_priming_recomputed;
-        feature_values_face_priming_recomputed_cut(:,65:end) = repmat(model.data.id_texture.score_mean(45:end),[size(feature_values_face_priming_recomputed_cut,1) 1]);
-        [ims_priming_recomputed_cut,landmarks] = model.gen_image_param(feature_values_face_priming_recomputed_cut, output_res);
-        subplot(4,1,4);imshow(uint8(ims_priming_recomputed_cut(:,:,:,stimulus_index_to_check)))
-
-        fm_priming = fm_train;
-        fm_priming_cut = fm_train;
-        folder_name_reconstructed_priming = fullfile(p_rel.misc,'reconstructed_priming_stimuli_1500_0.00');
-        mkdir(folder_name_reconstructed_priming);
-        folder_name_reconstructed_priming_cut = fullfile(p_rel.misc,'reconstructed_priming_stimuli_1500_50D_0.00');
-        mkdir(folder_name_reconstructed_priming_cut);
-        for key_index = 1:length(keys_train)
-            fm_priming.feat_map(keys_train{key_index}) = feature_values_face_priming_recomputed(key_index,:);
-            imwrite(uint8(ims_priming_recomputed(:,:,:,key_index)),[folder_name_reconstructed_priming filesep keys_train{key_index} '.tif'])
-            fm_priming_cut.feat_map(keys_train{key_index}) = feature_values_face_priming_recomputed_cut(key_index,:);
-            imwrite(uint8(ims_priming_recomputed_cut(:,:,:,key_index)),[folder_name_reconstructed_priming_cut filesep keys_train{key_index} '.tif'])
-        end
-        save([folder_name_reconstructed_priming filesep 'feat_map.mat'],'-struct','fm_priming');
-        save([folder_name_reconstructed_priming_cut filesep 'feat_map.mat'],'-struct','fm_priming_cut');
-        if b_turn_stimulus_image_gray==1
-            save([xml_folder filesep 'feat_map_priming_gray.mat'],'-struct','fm_priming');
-            feat_map_file = [xml_folder filesep 'feat_map_priming_gray.mat'];
-        elseif b_turn_stimulus_image_gray==2
-            save([xml_folder filesep 'feat_original_gray.mat'],'-struct','fm_priming');
-            feat_map_file = [xml_folder filesep 'feat_original_gray.mat'];
-        else
-            save([xml_folder filesep 'feat_map.mat'],'-struct','fm_priming');
-            feat_map_file = [xml_folder filesep 'feat_map.mat'];
-        end
-    end
-end
-if ~exist(feat_map_file,'file')
-    feat_map_file = [xml_folder filesep 'feature_map_liang_monkey_faces.mat'];
-end
-if ~exist(feat_map_file,'file')
-    feat_map_file = [xml_folder filesep 'feature_map_dehaene_liang_monkey_faces.mat'];
+    feat_map_file = fullfile(stimulus_set_dir,'feat_map_priming_reconstructed_0.00.mat');
 end
 
 

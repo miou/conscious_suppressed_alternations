@@ -1,3 +1,12 @@
+% flash_suppression_get_variables  (SCRIPT — runs in the caller's workspace)
+% Unpacks one flash-suppression paradigm into the per-trial / per-stimulus variables the
+% rest of the pipeline uses. Run it after setting `paradigm_data`.
+%   Expects (in the workspace): paradigm_data (one entry of session.paradigms_data).
+%   Produces (in the workspace): stimulus_properties; the raster and its peri_stimulus_range
+%     / b_in_range window; stimulus_index_in_range; the priming-stimulus lists; and the
+%     trial-context masks trial_is_priming / _unambiguous / _binocular / _transparent / _gray
+%     and dominant_image / suppressed_image. Called by step-1 export, get_stimuli,
+%     compute_axes, compute_modulation_indices and the example-raster figures.
 b_balance_high_repeats_for_all_analyses = true; %Throw away trials to balance same number of retreats per stimulus (used for e.g.. trial_is_priming_selected, does not apply to trial_is_priming for compute_axes
 require_previous_trial_valid = true; %Require priming trial prior to binocular/transparent/unambiguous to be valid in order for the binocular/transparent/unambiguous to be valid.
 

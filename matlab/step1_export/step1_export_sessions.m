@@ -11,7 +11,6 @@
 paths = set_paths;
 rivalry_config  = switches_config_release;
 
-stim_dir = paths.stimuli;
 if ~exist(paths.h5_export,'dir'); mkdir(paths.h5_export); end
 
 for session_index = 1:length(rivalry_config.sessions)
@@ -30,7 +29,7 @@ for session_index = 1:length(rivalry_config.sessions)
 
     % Export to HDF5 (named by the session's own name, for the Python pipeline)
     out_fpath = fullfile(paths.h5_export, ['session_' session.session_name '.h5']);
-    extract_session_to_hdf5(session, session_index, stim_dir, out_fpath);
+    extract_session_to_hdf5(session, session_index, out_fpath);
 
     clear session;
 end

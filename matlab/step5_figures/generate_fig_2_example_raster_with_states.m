@@ -3,7 +3,7 @@ paths = set_paths;                       % add code folders to the path + data l
 rivalry_config  = switches_config_release;
 load(fullfile(paths.sessions,'session_251218_Alfie.mat'),'session');
 % Attach the release inference schemes in memory (states attached on load) so inference_results{:,si_index}
-% is the release scheme (si_index=50 is LLR), independent of any states the session carries.
+% is the release scheme (si_index=1 is LLR IT; see switches_infer_states), independent of any states the session carries.
 [session.inference_schemes, session.inference_results] = switches_infer_states(rivalry_config, session);
 
 paradigm_index = find(cellfun(@(x)~isempty(x) && contains(x,'flash_suppression'), session.paradigm_names));
@@ -17,7 +17,7 @@ end
 
 %Used for paper:
 trial_index = 3738; %251218_142027_Alfie
-si_index = 50; %LLR
+si_index = 1; %LLR IT (see switches_infer_states)
 
 
 
