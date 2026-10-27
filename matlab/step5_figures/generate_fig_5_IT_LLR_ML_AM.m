@@ -83,38 +83,6 @@ qpair = 0.5*(q(pm(pk(:,1))) + q(pm(pk(:,2))));                          % one sc
 [~,p,~,st] = ttest(qpair);
 fprintf('Euclidean dissociation: t(%d)=%.1f, p=%.2e (n=%d pairs)\n', st.df, st.tstat, p, numel(qpair));
 
-%% Decoding bars
-figure(1);clf;
-bar_with_std(1:4,[summaries.state_1.percentage_correct_cv(10,:)',summaries.state_2.percentage_correct_cv(10,:)',summaries.state_1.percentage_correct_cv_other(10,:)',summaries.state_2.percentage_correct_cv_other(10,:)']) ;set(gca,'ylim',[0 1]);box off;set(gca,'xlim',[0 5]);h = gca;h.XAxis.Visible = 'off';
-
-
-%% Decoding curve panel
-[f, ax, S] = make_standard_figure(mode,'FigureNumber',201, 'HeightInHalfColumnWidths', figure2_panel_height);
-[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.priming.percentage_correct_cv(:,:,end)');p.LineStyle='-';p.Color = data.state_colors{3};errorarea.FaceColor=data.state_colors{3};
-[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.state_1.percentage_correct_cv(:,:,end)');p.LineStyle='-';p.Color = data.state_colors{1};errorarea.FaceColor=data.state_colors{1};
-[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.state_1.percentage_correct_cv_other(:,:,end)');p.LineStyle='--';p.Color = data.state_colors{1};errorarea.FaceColor=data.state_colors{1};
-[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.state_2.percentage_correct_cv(:,:,end)');p.LineStyle='-';p.Color = data.state_colors{2};errorarea.FaceColor=data.state_colors{2};
-[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.state_2.percentage_correct_cv_other(:,:,end)');p.LineStyle='--';p.Color = data.state_colors{2};errorarea.FaceColor=data.state_colors{2};
-% xlabel('Number of distractors')
-% ylabel('Decoding accuracy')
-ylim([0 100])
-finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[figure_folder_name filesep 'euclidean_decoding'])
-
-
-%% Statistical test: 
-number_of_identities = 10;
-[~,p,~,st] = ttest(summaries.state_1.percentage_correct_cv(number_of_identities,:),summaries.state_1.percentage_correct_cv_other(number_of_identities,:));
-fprintf('Euclidean decoding test state 1: t(%d)=%.1f, p=%.2e (n=%d pairs)\n', st.df, st.tstat, p, numel(qpair));
-[~,p,~,st] = ttest(summaries.state_2.percentage_correct_cv(number_of_identities,:),summaries.state_2.percentage_correct_cv_other(number_of_identities,:));
-fprintf('Euclidean decoding test: t(%d)=%.1f, p=%.2e (n=%d pairs)\n', st.df, st.tstat, p, numel(qpair));
-
-
-%% Reconstructions
-[f, ax, S] = make_standard_figure(mode,'FigureNumber',300,  'WidthInHalfColumns', reconstructions_width,'GridSize', [5 4]);
-ax = plot_reconstruction_examples_grid( f, S,...
-    config, xml_folder, xml_filename, stimulus_list, priming_stimuli, folder_name, features, summaries.state_1.predicted_features_cv, summaries.state_2.predicted_features_cv, ...
-    unique_stimuli, unique_stimulus_index_other_list, unique_stimuli_is_high_repeat, red_cyan_pair_indices);
-finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[figure_folder_name filesep 'reconstructions'])
 
 
 %% AM->ML
@@ -188,35 +156,3 @@ qpair = 0.5*(q(pm(pk(:,1))) + q(pm(pk(:,2))));                          % one sc
 [~,p,~,st] = ttest(qpair);
 fprintf('Euclidean dissociation: t(%d)=%.1f, p=%.2e (n=%d pairs)\n', st.df, st.tstat, p, numel(qpair));
 
-%% Decoding bars
-figure(1);clf;
-bar_with_std(1:4,[summaries.state_1.percentage_correct_cv(10,:)',summaries.state_2.percentage_correct_cv(10,:)',summaries.state_1.percentage_correct_cv_other(10,:)',summaries.state_2.percentage_correct_cv_other(10,:)']) ;set(gca,'ylim',[0 1]);box off;set(gca,'xlim',[0 5]);h = gca;h.XAxis.Visible = 'off';
-
-
-%% Decoding curve panel
-[f, ax, S] = make_standard_figure(mode,'FigureNumber',201, 'HeightInHalfColumnWidths', figure2_panel_height);
-[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.priming.percentage_correct_cv(:,:,end)');p.LineStyle='-';p.Color = data.state_colors{3};errorarea.FaceColor=data.state_colors{3};
-[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.state_1.percentage_correct_cv(:,:,end)');p.LineStyle='-';p.Color = data.state_colors{1};errorarea.FaceColor=data.state_colors{1};
-[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.state_1.percentage_correct_cv_other(:,:,end)');p.LineStyle='--';p.Color = data.state_colors{1};errorarea.FaceColor=data.state_colors{1};
-[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.state_2.percentage_correct_cv(:,:,end)');p.LineStyle='-';p.Color = data.state_colors{2};errorarea.FaceColor=data.state_colors{2};
-[p,errorarea]=plot_with_std(number_of_stimuli_for_decoding_list,100*summaries.state_2.percentage_correct_cv_other(:,:,end)');p.LineStyle='--';p.Color = data.state_colors{2};errorarea.FaceColor=data.state_colors{2};
-% xlabel('Number of distractors')
-% ylabel('Decoding accuracy')
-ylim([0 100])
-finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[figure_folder_name filesep 'euclidean_decoding'])
-
-
-%% Statistical test: 
-number_of_identities = 10;
-[~,p,~,st] = ttest(summaries.state_1.percentage_correct_cv(number_of_identities,:),summaries.state_1.percentage_correct_cv_other(number_of_identities,:));
-fprintf('Euclidean decoding test state 1: t(%d)=%.1f, p=%.2e (n=%d pairs)\n', st.df, st.tstat, p, numel(qpair));
-[~,p,~,st] = ttest(summaries.state_2.percentage_correct_cv(number_of_identities,:),summaries.state_2.percentage_correct_cv_other(number_of_identities,:));
-fprintf('Euclidean decoding test: t(%d)=%.1f, p=%.2e (n=%d pairs)\n', st.df, st.tstat, p, numel(qpair));
-
-
-%% Reconstructions
-[f, ax, S] = make_standard_figure(mode,'FigureNumber',300,  'WidthInHalfColumns', reconstructions_width,'GridSize', [5 4]);
-ax = plot_reconstruction_examples_grid( f, S,...
-    config, xml_folder, xml_filename, stimulus_list, priming_stimuli, folder_name, features, summaries.state_1.predicted_features_cv, summaries.state_2.predicted_features_cv, ...
-    unique_stimuli, unique_stimulus_index_other_list, unique_stimuli_is_high_repeat, red_cyan_pair_indices);
-finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[figure_folder_name filesep 'reconstructions'])

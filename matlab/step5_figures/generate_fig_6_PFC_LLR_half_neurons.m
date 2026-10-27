@@ -138,8 +138,6 @@ context_combinations = {{'unambiguous','binocular'}};
 
 marker_size = 3;
 
-% Modulation indices slope fso, currently HMM
-across_sessions_many_combinations_slopes
 if strcmp(mode,'poster')
     panel_size = 0.6;
     marker_face_alpha=0.25;marker_edge_alpha=0.3; %Thinnest
@@ -150,14 +148,7 @@ elseif strcmp(mode,'nature')
 
 end
 
-slope_method='TLS';
-if strcmp(slope_method,'OLS')
-    compute_slope = @(x,y)polyfit(x,y,1);
-elseif strcmp(slope_method,'RMA')
-    compute_slope = @(x,y)rma_slope(x,y);
-elseif strcmp(slope_method,'TLS')
-    compute_slope = @(x,y)tls_slope(x,y);
-end
+compute_slope = @(x,y)tls_slope(x,y);
 
 b_compute_for_state = 0;
 across_sessions_analysis_all_combinations_modulation_aux

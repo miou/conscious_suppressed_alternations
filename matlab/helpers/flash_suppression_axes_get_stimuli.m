@@ -85,34 +85,11 @@ end
 
 
 
-if ~exist(feat_map_file,'file')
-    disp(['Feature map not found at ' feat_map_file])
-    feat_map = [];
-    feat_map_stim_condition_stimulus = [];
-    feat_map_stim_names = [];
-    number_of_features = 0;
-else
-    fm = load(feat_map_file);
-    stimulus_list_to_match = paradigm_data.condition_stimulus_list;
-    if isfield(fm,'feat_map_SA')
-        feat_map = fm.feat_map_SA;
-    elseif isfield(fm,'feat_map')
-        feat_map = fm.feat_map;
-    elseif isfield(fm,'b0')
-        assert(isequal(paradigm_data.stimulus_list', fm.stimulus_names))
-        feat_map = containers.Map(fm.stimulus_names,num2cell(fm.b0,2));
-        stimulus_list_to_match = paradigm_data.stimulus_list;
-    else
-        disp('Could not find feat map in file.')
-    end
-    if contains(paradigm_data.paradigm_name,'flash_suppression')
-        stimulus_list_to_match = priming_stimuli;
-    end
-
-    feat_map_stim_names = keys(feat_map);
-    feat_map_stim_condition_stimulus = strrep(feat_map_stim_names,'\','_');
-    number_of_features = length(feat_map(feat_map_stim_names{1}));
-end
+fm = load(feat_map_file);
+feat_map = fm.feat_map;
+feat_map_stim_names = keys(feat_map);
+feat_map_stim_condition_stimulus = strrep(feat_map_stim_names,'\','_');
+number_of_features = length(feat_map(feat_map_stim_names{1}));
 
 %% Pick trial proportion
 b_trial_is_proportion = true(size(paradigm_data.stimulus_index_valid));

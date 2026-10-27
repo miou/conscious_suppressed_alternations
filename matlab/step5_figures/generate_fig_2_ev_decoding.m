@@ -85,7 +85,6 @@ qpair = 0.5*(q(pm(pk(:,1))) + q(pm(pk(:,2))));                          % one sc
 [~,p,~,st] = ttest(qpair);   % paired t-test against zero over the n=30 pairs = the statistic reported in the paper
 fprintf('Reconstruction dissociation: t(%d)=%.1f, p=%.2e (n=%d pairs)\n', st.df, st.tstat, p, numel(qpair));
 
-%% Decoding bars
 
 
 %% Decoding curve panel

@@ -9,7 +9,7 @@ fig_height   = 0.5;                % HeightInHalfColumnWidths
 fig_width    = 0.9;                 % WidthInHalfColumns
 
 
-proportion_psth = load(fullfile(paths.python_summaries,'state_psth_20260812_all.mat'));
+proportion_psth = load(fullfile(paths.python_summaries,'state_psth_all.mat'));
 
 autocorr = load(fullfile(paths.python_summaries,'acorr.mat'));
 

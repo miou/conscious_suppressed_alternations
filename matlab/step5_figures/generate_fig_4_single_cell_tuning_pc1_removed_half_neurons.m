@@ -17,7 +17,7 @@ define_summary_config_ML_AM_fig_3_all_cells
 across_sessions_analysis_axes_aux
 responses_state_2 = responses_to_use_testing;
 
-responses_priming_saved = responses_priming; %Don't let it be overwritten later by modulation indices
+responses_priming_saved = responses_priming; 
 
 
 %% Remove PC1 (largely red/cyan colour) from the features, recompute the tuning axis
@@ -91,8 +91,6 @@ b_state_1_dominant_unsorted = lscov_columns_nonan(x_for_regression,responses_sta
 b_state_2_suppressed_unsorted = lscov_columns_nonan(x_for_regression,responses_other_state_2_sorted_temp);
 
 
-% (correlations of state tuning slopes against the priming slopes were computed here but
-% are not reported in the paper -- priming is used only to sort cells -- so they are removed.)
 
 
 % Single cell example
