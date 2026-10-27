@@ -4,7 +4,7 @@ if ~isfield(decoding_scheme,'lambda')
     decoding_scheme.lambda = 'auto';
 end
 coding = 'onevsall'; %for multi-class fitcecoc without hyperparameter optimization. default: onevsone, onevsall is twice as fast and slightly better
-if ~isfield(decoding_scheme,'learners') %legacy reasons, default learner 'svm' is much slower but good for multi-class with many neurons
+if ~isfield(decoding_scheme,'learners') %default learner 'svm': slower but good for multi-class with many neurons
     learners = 'linear'; % learner for fitcecoc without hyperparameter optimization. default: svm, linear is 25% faster and better for single degraded condition
 else
     learners = decoding_scheme.learners; % learner for fitcecoc without hyperparameter optimization.
@@ -13,7 +13,7 @@ number_of_classes = unique(length(unique(training_label_vector)));
 if isempty(testing_label_vector) && all(size(testing_label_vector)==0)
     
     if ~isfield(decoding_scheme,'stratify')
-        decoding_scheme.stratify = false; %for legacy reasons, stratify is probably better.
+        decoding_scheme.stratify = false; %default: no stratification
     end
     %% Training and testing on same data set
     if isfield(decoding_scheme,'cvpartition')

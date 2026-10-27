@@ -19,7 +19,7 @@ else
     zero_x_trial_indices = find(ismember(paradigm_data.stimulus_index_valid, zero_x_stimulus_indices));
     fixation_offset_x = nan(size(paradigm_data.eyex_valid,1),length((start_index+fixation_lag):end_index));
     fixation_offset_x(zero_x_trial_indices,:) = paradigm_data.eyex_valid(zero_x_trial_indices,(start_index+fixation_lag):end_index);
-    fixation_offset_x(abs(fixation_offset_x)>2*fixation_square_radius) = nan; %Monkey was probably not looking
+    fixation_offset_x(abs(fixation_offset_x)>2*fixation_square_radius) = nan; %fixation outside the allowed range
     fixation_offset_x_trial = nanmedian(fixation_offset_x,2);
     fixation_offset_x_trial_smoothed = fillmissing(smooth(fixation_offset_x_trial,correction_time_window,'moving'),'nearest');
     eye_x_valid_corrected = paradigm_data.eyex_valid - repmat(fixation_offset_x_trial_smoothed,[1 size(paradigm_data.eyex_valid,2)]);
@@ -33,7 +33,7 @@ else
     zero_y_trial_indices = find(ismember(paradigm_data.stimulus_index_valid, zero_y_stimulus_indices));
     fixation_offset_y = nan(size(paradigm_data.eyey_valid,1),length((start_index+fixation_lag):end_index));
     fixation_offset_y(zero_y_trial_indices,:) = paradigm_data.eyey_valid(zero_y_trial_indices,(start_index+fixation_lag):end_index);
-    fixation_offset_y(abs(fixation_offset_y)>2*fixation_square_radius) = nan; %Monkey was probably not looking
+    fixation_offset_y(abs(fixation_offset_y)>2*fixation_square_radius) = nan; %fixation outside the allowed range
     fixation_offset_y_trial = nanmedian(fixation_offset_y,2);
     fixation_offset_y_trial_smoothed = fillmissing(smooth(fixation_offset_y_trial,correction_time_window,'moving'),'nearest');
     eye_y_valid_corrected = paradigm_data.eyey_valid - repmat(fixation_offset_y_trial_smoothed,[1 size(paradigm_data.eyey_valid,2)]);

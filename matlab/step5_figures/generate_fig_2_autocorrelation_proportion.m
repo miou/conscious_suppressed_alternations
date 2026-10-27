@@ -3,7 +3,7 @@ mode = 'nature';
 paths = set_paths;
 rivalry_config = switches_config_release;
 
-figure_folder_name = paths.figures_out;
+figure_folder_name = fullfile(paths.figures_out,'fig2'); if ~exist(figure_folder_name,'dir'); mkdir(figure_folder_name); end
 
 fig_height   = 0.5;                % HeightInHalfColumnWidths 
 fig_width    = 0.9;                 % WidthInHalfColumns
@@ -11,7 +11,7 @@ fig_width    = 0.9;                 % WidthInHalfColumns
 
 proportion_psth = load(fullfile(paths.python_summaries,'state_psth_20260812_all.mat'));
 
-autocorr = load(fullfile(paths.python_summaries,'acorr_20261014.mat'));
+autocorr = load(fullfile(paths.python_summaries,'acorr.mat'));
 
 [f, ax, S] = make_standard_figure(mode,'FigureNumber',800,'HeightInHalfColumnWidths',fig_height,'WidthInHalfColumns',fig_width);
 [p,errorarea] = plot_with_std(double(proportion_psth.t_flash)/1000,100*proportion_psth.frac_dom);

@@ -9,10 +9,9 @@ C. McGrory). The MATLAB code exports what that pipeline needs, attaches its outp
 state-conditioned responses, pools across sessions, and draws the figures.
 
 **Scope of this release.** To make the data and code available promptly alongside the bioRxiv
-preprint, this is an initial release covering the **main figures** only, and the code is not yet
-fully polished. A later release will add the extended data figures, a cleaned-up version of the
-code, and reduced memory and compute requirements so the analysis is accessible on a wider range
-of machines.
+preprint, this is an initial release covering the **main figures**, with the code organized around
+reproducing them. A later release will add the extended data figures, further streamline the code,
+and reduce the memory and compute requirements so the analysis runs on a wider range of machines.
 
 **Data.** The recordings, Python state files, and summaries are archived on Zenodo:
 https://doi.org/10.5281/zenodo.23604909. Download them into `data/` (see `RELEASE_NOTES.md`) so the
@@ -83,9 +82,6 @@ variable `session_list` beforehand to restrict).
 
    Jobs whose outputs already exist are skipped, so an interrupted run can be resumed. Logs for
    each job are written to `data/<pipeline>/logs/`.
-
-   **TODO:** describe how `.h5` files from step 1 are placed at `data/preprocessed/<session>/
-   session.h5`, and how `compile_data/` outputs are copied to `data/python_states/` for step 3.
 
 3. **Per-session state-conditioned responses** — in `step3_state_conditioned_responses/`, run all
    three. Each loads one session and attaches the Python states in memory (via

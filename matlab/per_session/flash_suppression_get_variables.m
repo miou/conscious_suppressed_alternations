@@ -32,8 +32,6 @@ else
     [raster, b_in_range] = computeRaster(paradigm_data.timecourse_on_times,paradigm_data.timecourse_all_units',-peri_stimulus_range(1), peri_stimulus_range(end));
 end
 
-%TODO: Use paradigm_data.b_previous_trial_valid
-
 
 stimulus_index_in_range = paradigm_data.stimulus_index_valid(b_in_range);
 

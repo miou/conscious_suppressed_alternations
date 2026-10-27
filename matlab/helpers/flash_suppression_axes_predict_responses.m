@@ -2,9 +2,6 @@ function [weights_predicting_features,weights_predicting_responses,predicted_fea
 
 %% Compute weights predicting features and responses
 lin_regress  = @(x,y)lscov(x,y);
-% lin_regress  = @(x,y)regress(y,x); %Not working, only for vectors y
-% lin_regress  = @(x,y)mldivide(x,y); % Same results as lscov?
-% lin_regress  = @(x,y)(x'*x + 1*eye(size(x,2))) \ (x'*y); %lambda = 1? This one is different and does not break for larger number of neurons than stimuli - though reconstruction accuracy is worse.
 
 % Callers that only need the response-predicting axes (weights_predicting_responses /
 % predicted_responses_cv) -- e.g. the single-cell tuning figure -- can set

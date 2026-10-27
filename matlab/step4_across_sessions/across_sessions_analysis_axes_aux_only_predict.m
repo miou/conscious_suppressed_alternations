@@ -16,7 +16,7 @@ for session_index_across_sessions = 1:length(flash_suppression_results_all_sessi
         flash_suppression_results = flash_suppression_results_all_sessions{session_index_across_sessions};
         config = flash_suppression_results.axes.config;
         if length(session_names_not_empty)>1
-            assert(isequal(flash_suppression_results.axes.features(summary_config.stimuli_to_include,1:64),features(:,1:64))) %Somehow the features after 64 diverge?
+            assert(isequal(flash_suppression_results.axes.features(summary_config.stimuli_to_include,1:64),features(:,1:64)))
             assert(isequal(flash_suppression_results.axes.unique_stimuli(summary_config.stimuli_to_include),unique_stimuli))
         end
 
@@ -68,7 +68,7 @@ for session_index_across_sessions = 1:length(flash_suppression_results_all_sessi
     end
 end
 
-%Set defaults for old session summaries
+%Set defaults for fields the summary may not specify
 if ~isfield(config,'balance_states_each_trial')
     config.balance_states_each_trial = false;
 end
@@ -76,7 +76,7 @@ if ~isfield(config,'minimum_state_proportion_per_trial')
     config.minimum_state_proportion_per_trial = [];
 end
 if ~isfield(config,'avg_first_dimension')
-    config.avg_first_dimension = 1; %Old default
+    config.avg_first_dimension = 1; %default
 end
 
 if ~isempty(summary_config.b_use_control_1_stimuli)

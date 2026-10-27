@@ -36,7 +36,6 @@ if isfield(decoding_scheme,'number_of_dims') && ~isempty(decoding_scheme.number_
     for probe_index = probe_indices
 
         [coeff, ~, ~, ~, explained] = pca(training_timecourse_processed(:,decoding_scheme.unit_probes_index==probe_index));
-        %Todo: pre-allocate
         training_timecourse_processed_pca= [training_timecourse_processed_pca, training_timecourse_processed(:,decoding_scheme.unit_probes_index==probe_index) * coeff(:,1:decoding_scheme.number_of_dims)];
         if testing_timecourse_processed
             testing_timecourse_processed_pca= [testing_timecourse_processed_pca, testing_timecourse_processed(:,decoding_scheme.unit_probes_index==probe_index) * coeff(:,1:decoding_scheme.number_of_dims)];
