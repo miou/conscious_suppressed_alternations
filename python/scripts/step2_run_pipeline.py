@@ -11,7 +11,7 @@ Examples (from the repository root):
     uv run python python/scripts/step2_run_pipeline.py llr
     uv run python python/scripts/step2_run_pipeline.py llr --jobs 8
     uv run python python/scripts/step2_run_pipeline.py fixed_hmm --stages dwell_time states_loglik --force
-    uv run python python/scripts/step2_run_pipeline.py llr --sessions s133 s137 --dry-run
+    uv run python python/scripts/step2_run_pipeline.py llr --sessions session_250225_Alfie session_250312_Alfie --dry-run
 """
 
 import argparse
@@ -47,7 +47,7 @@ class Stage:
 
 
 # Inputs and outputs shared by most stages
-H5 = '{data_dir}/{session}/session.h5'
+H5 = '{data_dir}/{session}.h5'
 EXTRACT = '{extract_data_dir}/{rec}.joblib'
 PRED_ALL = '{pred_all_units_dir}/{rec}.joblib'
 PRED_RANDOM_STIM = '{pred_random_stim_dir}/{rec}.joblib'
