@@ -3,8 +3,10 @@
 % an HDF5 file for the Python LLR/HMM state-inference pipeline (step 2).
 %
 % One '.h5' per session is written to paths.sessions_h5, named
-% 'session_<session_name>.h5' using the session's own (original) name, so the
-% file names match what the Python pipeline expects.
+% 'session_<date>_<monkey>.h5' (the release session name, e.g. session_250225_Alfie.h5),
+% matching config/recording_list.yaml so the Python pipeline (step 2) finds each file.
+% The session's full original name (with time) is kept inside the file as the
+% 'session_name' attribute, which the Python side parses for the recording datetime.
 %
 % Run step 2 (Python) on these files; the response step (step 3) then attaches the states on load.
 
@@ -27,8 +29,8 @@ for session_index = 1:length(rivalry_config.sessions)
         flash_suppression_add_variables_to_session;   % writes session.paradigms_data{paradigm_index}.flash_suppression
     end
 
-    % Export to HDF5 (named by the session's own name, for the Python pipeline)
-    out_fpath = fullfile(paths.sessions_h5, ['session_' session.session_name '.h5']);
+    % Export to HDF5 (named by the date-only release name so step 2 finds it)
+    out_fpath = fullfile(paths.sessions_h5, [rivalry_config.sessions(session_index).session_name '.h5']);
     extract_session_to_hdf5(session, session_index, out_fpath);
 
     clear session;
