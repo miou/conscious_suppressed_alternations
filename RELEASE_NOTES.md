@@ -4,26 +4,26 @@ Code for Hesse et al., "Rapid alternation of conscious and suppressed stimulus r
 in the primate brain" (2026, bioRxiv). The code lives in this repository; the data is
 distributed separately (see below) because of its size.
 
-**Zenodo:** https://doi.org/10.5281/zenodo.23604909
+**Zenodo:** https://doi.org/10.5281/zenodo.23604908 (concept DOI — always resolves to the latest
+version)
 
 ## What's in the data release
 
-The data archive (~31 GB, 25 files — within Zenodo's 200 GB / 100-file limits) contains:
+The data is in two parts on Zenodo, both within its size limits:
 
-- **`sessions/`** — 19 recording sessions (`session_<date>_<monkey>.mat`), gzip-compressed
-  (v7.3). Each holds the per-trial spike raster, the concatenated spike timecourse, per-probe
-  LFP, eye traces, stimulus indices, and inferred-state fields. ~50–80× smaller than the raw
-  files with no loss to these fields.
-- **`results.tar.gz`** — pooled per-session and across-session summaries (reconstruction axes,
-  explained variance, decoding, modulation) that the figure scripts load.
-- **`python_states.tar.gz`** — the per-bin conscious/suppressed state partitions from the
-  Python LLR/HMM pipeline (step 2).
-- **`python_summaries.tar.gz`**, **`human.tar.gz`** — auxiliary summaries and the human
-  psychophysics (Fig. 1).
-- **`monkey_face_model`** — the face-feature model used for reconstruction.
-- **`stimuli`** — small stimulus feature maps used by the reconstruction (step 3).
+- **The 19 recording sessions** — individual `session_<date>_<monkey>.mat` files
+  (e.g. `session_250225_Alfie.mat`), roughly 0.2–2.7 GB each, gzip-compressed (v7.3). Each holds
+  the per-trial spike raster, the concatenated spike timecourse, per-probe LFP, eye traces,
+  stimulus indices, and inferred-state fields. Download them into `data/sessions/`.
+- **The data bundle** — `data.zip` (~2.1 GB). Unzip it at the repository root; it fills in the
+  pooled summaries the figures load (`data/results/`) plus the inputs that cannot be regenerated:
+  `data/python_summaries/` (dynamics summaries), `data/stimuli/` (stimulus feature maps),
+  `data/monkey_face_model/` (the face-feature model, which also regenerates the stimulus face
+  images from the feature maps), and `data/human/` (the human psychophysics, Fig. 1).
 
-Unpack the `.tar.gz` archives into `data/` so the layout matches `set_paths.m`.
+The derivable intermediates — `sessions_h5/` (step 1), `python_states/` (step 2), and
+`data/results/per_session_*/` (step 3) — are not in the bundle; the pipeline regenerates them
+from the session `.mat` files.
 
 ## Not included (available on request)
 
@@ -34,18 +34,15 @@ reproduce the figures:
   ~1.16 TB total; still ~0.5–0.6 TB even compressed, since LFP is broadband and compresses only
   ~2×), which exceeds Zenodo's 200 GB cap. The **per-probe LFP is included**; the channel-resolved
   LFP is available on request.
-- **Raw stimulus images.** No step reads the stimulus image pixels — the pipeline uses stimulus
-  *filenames* plus the shipped feature maps and face-feature model — so the raw images are not
-  shipped. Available on request.
 - **HDF5 exports (`sessions_h5/`).** These are the input to the Python state-inference pipeline
   and are **regenerable** from the sessions via step 1 (`step1_export/step1_export_sessions.m`).
 - **Non-compressed sessions.** The full uncompressed session files are available on request.
 
 ## Reproducing
 
-- **Figures only:** unpack `results.tar.gz` (and `python_states.tar.gz`, `human.tar.gz`,
-  `monkey_face_model`), then run any `step5_figures/generate_fig_*.m`. The shipped summaries
-  already contain the state-conditioned responses, so steps 1–4 can be skipped entirely.
+- **Figures only:** unzip `data.zip` at the repository root, then run any
+  `step5_figures/generate_fig_*.m`. The shipped summaries already contain the state-conditioned
+  responses, so steps 1–4 can be skipped entirely.
 - **Full pipeline:** sessions → step 1 (export HDF5) → step 2 (Python state inference) →
   step 3 (per-session state-conditioned responses; states attached in memory on load) →
   step 4 (pool across sessions) → step 5 (figures). See the README for the step-by-step.

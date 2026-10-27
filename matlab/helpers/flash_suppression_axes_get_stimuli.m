@@ -58,14 +58,14 @@ xml_filename = paradigm_data.xml_filename;
 
 % Resolve the stimulus feature map. The maps are small and shipped under data/stimuli; pick the
 % one for this stimulus set by name. This replaces the original lookup on the acquisition share
-% and the on-the-fly feature-map generation (removed for the release); no stimulus images are read.
+% and the on-the-fly feature-map generation (removed for the release).
 p_rel = set_paths;
 if contains(xml_filename,'FlashSuppression_many_faces_Liang_2000_many_pairs')
     stimulus_set_dir = fullfile(p_rel.stimuli,'liang_2000_many_pairs');
 else
     stimulus_set_dir = fullfile(p_rel.stimuli,'liang_2500_many_pairs');
 end
-xml_folder = stimulus_set_dir;   % string only; the release reads features from the map, never the stimulus images
+xml_folder = stimulus_set_dir;   % string only; the release reads features from the shipped feature map
 if config.analyze_transparent
     feat_map_file = fullfile(stimulus_set_dir,'feat_map_priming_reconstructed_0.00_gray.mat');
 else

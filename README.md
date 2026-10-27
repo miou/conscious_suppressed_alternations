@@ -48,9 +48,8 @@ variable `session_list` beforehand to restrict).
 > RAM and compute (tens of GB of memory per session); step 5 runs from the summaries in a few GB.
 
 1. **Export** — `step1_export/step1_export_sessions.m`
-   Writes one `data/sessions_h5/session_<name>.h5` per session (spikes, stimulus indices, eye
-   traces) for the state-inference pipeline. The export records stimulus *filenames* only — no
-   image pixels are read — so the stimulus image library is not required to run this step.
+   Writes one `data/sessions_h5/session_<name>.h5` per session (spikes, stimulus filenames, eye
+   traces) for the state-inference pipeline.
 
 2. **State inference (Python)** — pipelines in `python/scripts/`, run with
    `python/scripts/step2_run_pipeline.py`. Install the environment with `uv sync`, then from the
@@ -123,9 +122,9 @@ resolves to the latest version), in two parts:
 
 - **The 19 recording sessions** — individual `session_<date>_<monkey>.mat` files
   (e.g. `session_250225_Alfie.mat`), roughly 0.2–2.7 GB each.
-- **The data bundle** — `data.zip` (~2.1 GB): the pooled summaries the figures load (stored in
-  single precision), plus the inputs that cannot be regenerated (stimulus feature maps, the
-  face-feature model, and the human psychophysics).
+- **The data bundle** — `data.zip` (~2.1 GB): the pooled summaries the figures load, plus the
+  inputs that cannot be regenerated (stimulus feature maps, the face-feature model, and the
+  human psychophysics).
 
 To set up:
 
@@ -187,9 +186,9 @@ machines with fewer or slower cores.
 
 The channel-resolved LFP is not included (it exceeds the distribution size limit; the per-probe
 LFP is included, the channel-resolved LFP is available on request). The HDF5 export in step 1 is
-regenerated from the sessions, not shipped. The raw stimulus images are not needed by any step
-(the pipeline uses stimulus filenames and the shipped feature maps, never the image pixels), so
-they are not included.
+regenerated from the sessions, not shipped. The stimulus feature maps are shipped in
+`data/stimuli/`, and the face-feature model in `data/monkey_face_model/` regenerates the stimulus
+face images from them.
 
 ## Layout
 
