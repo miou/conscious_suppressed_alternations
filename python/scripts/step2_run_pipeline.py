@@ -201,7 +201,7 @@ PIPELINES = {
         Stage(
             'results',
             '{script_dir}/results.py',
-            outs=('{results_dir}/dwell_time_loglik.mat',),
+            outs=('{results_dir}/hmm_loglik_dwell.mat',),
         ),
     ],
     # Summaries across recordings of outputs from the `llr` pipeline, which must be run first

@@ -98,24 +98,31 @@ variable `session_list` beforehand to restrict).
    traces) for the state-inference pipeline. The export records stimulus *filenames* only — no
    image pixels are read — so the stimulus image library is not required to run this step.
 
-2. **State inference (Python)** — LLR and fixed-rate HMM pipelines in `data/llr/` and
-   `data/fixed_hmm/`, scripts in
-   `python/scripts/`. Install the environment with `uv sync`, then from the repository root run:
+2. **State inference (Python)** — pipelines in `python/scripts/`, run with
+   `python/scripts/step2_run_pipeline.py`. Install the environment with `uv sync`, then from the
+   repository root run:
 
    ```
    uv run python python/scripts/step2_run_pipeline.py llr
    uv run python python/scripts/step2_run_pipeline.py fixed_hmm
+   uv run python python/scripts/step2_run_pipeline.py dwell_time_loglik
    uv run python python/scripts/step2_run_pipeline.py python_summaries  # requires llr outputs
    ```
 
-   `python_summaries` combines `llr` outputs across recordings into
-   `data/python_summaries/acorr.mat` and `data/python_summaries/marg_loglik.mat`.
+   - `llr` and `fixed_hmm` infer per-bin conscious (state 1) / suppressed (state 2) partitions
+     with the log-likelihood-ratio and fixed-rate HMM models, and export them to
+     `data/python_states/{llr_fs,fixed_hmm_fs}/bin_10_units_all/` as
+     `hmm_data_<session>_<probes>.mat`, which the MATLAB steps load.
+   - `dwell_time_loglik` computes median state dwell times and held-out log-likelihood across
+     HMM bin sizes, and writes `data/python_summaries/hmm_loglik_dwell.mat` (Fig. 5).
+   - `python_summaries` combines `llr` outputs across recordings into
+     `data/python_summaries/acorr.mat`, `state_psth_all.mat` (Fig. 2) and `marg_loglik.mat`
+     (Fig. 3).
 
    Each pipeline runs its stages in order over the recordings listed in
    `config/recording_list.yaml`, with parameters from
-   `config/<pipeline>.yaml`. Outputs are written to subdirectories of
-   `data/<pipeline>/`, and the per-recording state partitions (conscious = state 1,
-   suppressed = state 2) used by step 3 are in `data/<pipeline>/compile_data/`.
+   `config/<pipeline>.yaml`. Intermediate outputs are written to subdirectories of
+   `data/<pipeline>/`.
    Useful options:
    - `--jobs N` runs recordings within a stage in parallel.
    - `--dry-run` prints what would run and lists any missing inputs.

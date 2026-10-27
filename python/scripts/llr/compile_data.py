@@ -52,7 +52,7 @@ mat_export_dir = Path(params['paths']['mat_export_dir'])
 # Load data from all stages
 
 # Load session and paradigm
-session_fpath = data_dir / f'{args.session}/session.h5'
+session_fpath = data_dir / f'{args.session}.h5'
 session = Session.from_h5(session_fpath, units=np.array([0]))
 session_full_name = session.session_name
 pd = session.paradigms[args.paradigm]
@@ -127,7 +127,8 @@ out_data = {
 out_fpath = compile_data_dir / rec_fname(args.session, args.paradigm, args.probes, '.mat')
 savemat(out_fpath, out_data, do_compression=True)
 
-# Save to export directory
-out_fpath_2 = mat_export_dir / rec_fname(args.session, args.paradigm, args.probes, '.mat')
-savemat(out_fpath, out_data, do_compression=True)
+# Save to export directory, using the filename MATLAB loads states from (see
+# matlab/attach_states/state_method_hmm.m): 'hmm_data_<session name>_<probes>.mat'
+out_fpath_2 = mat_export_dir / f'hmm_data_{session_full_name}_{args.probes}.mat'
+savemat(out_fpath_2, out_data, do_compression=True)
 
