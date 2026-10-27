@@ -118,7 +118,8 @@ else (reconstruction, explained variance, modulation) is unaffected by this.
 ## Getting the data
 
 The code is on GitHub; the data is on Zenodo
-(DOI [10.5281/zenodo.23604909](https://doi.org/10.5281/zenodo.23604909)), in two parts:
+(concept DOI [10.5281/zenodo.23604908](https://doi.org/10.5281/zenodo.23604908) — always
+resolves to the latest version), in two parts:
 
 - **The 19 recording sessions** — individual `session_<date>_<monkey>.mat` files
   (e.g. `session_250225_Alfie.mat`), roughly 0.2–2.7 GB each.
