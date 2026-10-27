@@ -74,15 +74,6 @@ for stimuli_to_include_index= 1:length(stimuli_to_include_list)
                         flash_suppression_results.axes.stim_index_abcd = session.inference_results{config.paradigm_index,inference_schemes_index}.stim_index_abcd;
                     end
                 end
-                %% Responses-only: per-session reconstruction / EV / decoding are NOT computed here.
-                % The figure-time pooling (across_sessions_analysis_axes_aux) concatenates the
-                % per-session response matrices into a cross-session pseudo-population and runs
-                % PCA / OLS / explained-variance / reconstruction / decoding ONCE on the pool,
-                % so doing it per session is redundant. We only save the response matrices and
-                % stimulus/cell metadata above.
-
-                %% Plotting (diagnostic plots disabled for the release -- not a main figure output)
-                % flash_suppression_axes_plotting(...)
 
             end
         end

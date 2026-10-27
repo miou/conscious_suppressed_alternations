@@ -113,10 +113,9 @@ for context_combinations_index = 1:length(context_combinations)
                             b_selected = b_selected_region & (fs_1.(context_significance).responses_p_value(:,R_1,C_1)<0.05) & at_least_one_spike; %Try priming instead!!
                             % The held-out-half restriction avoids circularity for the STATE-conditioned
                             % modulation panels (states inferred from, and modulation measured on, the same
-                            % cells). Fig 1h is a CONDITION comparison (unambiguous vs binocular), not
-                            % state-conditioned, so it uses the full population (paper: n=5550 cell-stimulus
-                            % pairs). The Fig 1h script sets b_use_full_population=1 to skip the filter.
-                            if isfield(fs_1,'b_neuron_is_not_for_state_inference') && ~(exist('b_use_full_population','var') && b_use_full_population)
+                            % cells): the half-neuron summaries carry b_neuron_is_not_for_state_inference.
+                            % Fig 1h uses the full-population summary (no such field), so no mask is applied.
+                            if isfield(fs_1,'b_neuron_is_not_for_state_inference')
                                 b_selected = b_selected & fs_1.b_neuron_is_not_for_state_inference';
                             end
 

@@ -1,5 +1,5 @@
 paths = set_paths;
-hmm_loglik_dwell= load(fullfile(paths.python_summaries,'hmm_loglik_dwell_20260811.mat'));
+hmm_loglik_dwell= load(fullfile(paths.python_summaries,'hmm_loglik_dwell.mat'));
 figure_folder_name = fullfile(paths.figures_out,'fig5'); if ~exist(figure_folder_name,'dir'); mkdir(figure_folder_name); end
 rivalry_config = switches_config_release;
 
@@ -36,16 +36,15 @@ finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[figure_folder_na
 
 %Dwell vs likelihood
 
-hmm_loglik_dwell_2= load(fullfile(paths.python_summaries,'hmm_loglik_dwell_20260826.mat'));
 [f, ax, S] = make_standard_figure( mode, 'FigureNumber',702, 'WidthInHalfColumns',1, 'HeightInHalfColumnWidths',1);
 
-x = hmm_loglik_dwell_2.hist_bin_centers;
-[p,errorarea]=boundedline(x,hmm_loglik_dwell_2.hist_loglik_mean_1,...
-    hmm_loglik_dwell_2.hist_loglik_sem_1,'alpha');
+x = hmm_loglik_dwell.hist_bin_centers;
+[p,errorarea]=boundedline(x,hmm_loglik_dwell.hist_loglik_mean_1,...
+    hmm_loglik_dwell.hist_loglik_sem_1,'alpha');
 p.Color = rivalry_config.state_colors{1};errorarea.FaceColor=rivalry_config.state_colors{1};p.LineStyle='-';p.LineWidth=S.line_width;p.Marker='o';p.MarkerSize=2;
-x = hmm_loglik_dwell_2.hist_bin_centers;
-[p,errorarea]=boundedline(x,hmm_loglik_dwell_2.hist_loglik_mean_2,...
-    hmm_loglik_dwell_2.hist_loglik_sem_2,'alpha');
+x = hmm_loglik_dwell.hist_bin_centers;
+[p,errorarea]=boundedline(x,hmm_loglik_dwell.hist_loglik_mean_2,...
+    hmm_loglik_dwell.hist_loglik_sem_2,'alpha');
 p.Color = rivalry_config.state_colors{2};errorarea.FaceColor=rivalry_config.state_colors{2};p.LineStyle='-';p.LineWidth=S.line_width;p.Marker='o';p.MarkerSize=2;
 xlim([0 250])
 finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[figure_folder_name filesep 'loglikelihood_dwell_time'])

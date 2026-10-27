@@ -19,35 +19,8 @@ end
 
 
 %% Select cells
-%Compute modulation index correlations
-
-switch config.cell_selection_scheme
-    case 'all'
-        % All cells
-        b_selected = true(1,session.number_of_units);
-
-    case 'face_cells';
-        %Only face cells
-        b_face_cells= and(session.face_vs_object(paradigm_data.paradigm_index_for_selectivity).fsi>0, session.face_vs_object(paradigm_data.paradigm_index_for_selectivity).p_value_face_vs_object<0.05);
-        b_selected = b_face_cells;
-    case 'non_face_cells';
-        %Only non-face cells (same number as face cells)
-        b_face_cells= and(session.face_vs_object(paradigm_data.paradigm_index_for_selectivity).fsi>0, session.face_vs_object(paradigm_data.paradigm_index_for_selectivity).p_value_face_vs_object<0.05);
-        non_face_cell_indices = shuffle_array(find(~b_face_cells));
-        selected_non_face_indices = non_face_cell_indices(1:sum(b_face_cells));
-        b_selected = false(size(b_face_cells));
-        b_selected(selected_non_face_indices) = true;
-    case 'explained_response_variance'
-        % %Select cells based on explained variance
-        folder_name_all = [session.analysis_path filesep 'axes' proportion_string filesep paradigm_data.paradigm_name '_trained_' config.use_for_training '_tested_' config.use_for_testing concatenate_string filesep 'all' filesep config.stimuli_to_include];
-
-        load([folder_name_all filesep 'explained_variance_responses_cv'])
-        assert(session.number_of_units == length(explained_variance_responses_cv))
-        b_selected = explained_variance_responses_cv>0;
-
-    case 'MI_correlation';
-        b_selected = correlation_priming_binocular_p_value<0.05;
-end
+% config.cell_selection_scheme = 'all'.
+b_selected = true(1,session.number_of_units);
 
 if  config.probe_index
     b_selected = b_selected & (session.unit_probes_index == config.probe_index);

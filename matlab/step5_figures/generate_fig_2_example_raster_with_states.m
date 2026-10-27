@@ -40,7 +40,7 @@ if isfield(session,'inference_schemes') && length(session.inference_schemes)>=si
     on_time = on_times_in_range(trial_index);
 
     paradigm_data.stimulus_list(stimulus_index_in_range(trial_index))
-    snippet_start_times = on_time-time_before% 14020
+    snippet_start_times = on_time-time_before
     time_course_snippet_time = on_durations_in_range(trial_index)+1000;
     snippet_index = 1 ;
     b_only_significant = true;
