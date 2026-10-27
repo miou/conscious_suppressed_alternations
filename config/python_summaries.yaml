@@ -5,6 +5,14 @@ paths:
   script_dir: 'python/scripts/python_summaries'
   acorr_dir: 'data/llr/acorr'
   marg_loglik_dir: 'data/llr/marg_loglik'
+  extract_data_dir: 'data/llr/extract_data'
+  pred_all_units_dir: 'data/llr/pred_all_units'
   python_summaries_dir: 'data/python_summaries'
-  rec_list_fpath: 'config/recording_lists/fs_rivalry.yaml'
+  rec_list_fpath: 'config/recording_list.yaml'
 
+# State PSTH parameters
+state_psth:
+  # Number of time points before and after flash to include
+  t_flash_max: 900
+  # Whether to only use repeatedly presented stimuli (stimulus indices below 60)
+  select_repeat_stimuli: false

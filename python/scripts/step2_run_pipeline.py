@@ -2,7 +2,7 @@
 
 Each pipeline writes its outputs to `data/<name>/`, with parameters from `config/<name>.yaml`.
 Stages run in the order listed below. A stage runs its script once per recording in a recording list from
-`config/recording_lists/fs_rivalry.yaml`, or once in total for stages that aggregate across
+`config/recording_list.yaml`, or once in total for stages that aggregate across
 recordings. A job is skipped if all of its outputs already exist, so an interrupted run can be
 resumed. Use `--force` to recompute outputs, e.g. after changing parameters.
 
@@ -10,7 +10,7 @@ Examples (from the repository root):
 
     uv run python python/scripts/step2_run_pipeline.py llr
     uv run python python/scripts/step2_run_pipeline.py llr --jobs 8
-    uv run python python/scripts/step2_run_pipeline.py fixed_hmm --stages stats summary_stats --force
+    uv run python python/scripts/step2_run_pipeline.py fixed_hmm --stages dwell_time states_loglik --force
     uv run python python/scripts/step2_run_pipeline.py llr --sessions s133 s137 --dry-run
 """
 
@@ -26,7 +26,7 @@ import yaml
 REPO_DIR = Path(__file__).resolve().parents[2]
 DATA_DIR = REPO_DIR / 'data'
 CONFIG_DIR = REPO_DIR / 'config'
-RECORDING_LISTS = CONFIG_DIR / 'recording_lists' / 'fs_rivalry.yaml'
+RECORDING_LISTS = CONFIG_DIR / 'recording_list.yaml'
 
 
 @dataclass(frozen=True)
@@ -58,35 +58,35 @@ PIPELINES = {
         Stage(
             'extract_data',
             '{fs_script_dir}/extract_data.py',
-            'rec_plot_it',
+            'rec_all',
             ins=(H5,),
             outs=(EXTRACT,),
         ),
         Stage(
             'pred_all_units',
             '{script_dir}/pred_all_units.py',
-            'rec_plot_it',
+            'rec_all',
             ins=(EXTRACT,),
             outs=(PRED_ALL,),
         ),
         Stage(
             'pred_random_stim',
             '{script_dir}/pred_random_stim.py',
-            'rec_it',
+            'rec_all',
             ins=(EXTRACT,),
             outs=(PRED_RANDOM_STIM,),
         ),
         Stage(
             'pred_unit_subset',
             '{script_dir}/pred_unit_subset.py',
-            'rec_it',
+            'rec_all',
             ins=(EXTRACT,),
             outs=(PRED_UNIT_SUBSET,),
         ),
         Stage(
             'unit_subset_coherence',
             '{script_dir}/unit_subset_coherence.py',
-            'rec_it',
+            'rec_all',
             ins=(EXTRACT,),
             outs=(
                 '{unit_subset_coherence_dir}/{rec}.json',
@@ -95,49 +95,23 @@ PIPELINES = {
         ),
         # Also reads the single-probe files for each probe in the pair
         Stage(
-            'probe_coherence',
-            '{fs_script_dir}/probe_coherence.py',
-            'rec_ml_am',
-            ins=(EXTRACT, PRED_ALL),
-            outs=('{probe_coherence_dir}/{rec}.json',),
-        ),
-        Stage(
-            'fso_decoding',
-            '{fs_script_dir}/fso_decoding.py',
-            'rec_fso',
-            ins=(EXTRACT, PRED_ALL),
-            outs=('{fso_decoding_dir}/{rec}.json',),
-        ),
-        Stage(
-            'stats',
-            '{script_dir}/stats.py',
-            'rec_it',
-            ins=(EXTRACT, PRED_ALL),
-            outs=('{stats_dir}/{rec}.json',),
-        ),
-        Stage(
             'dwell_time',
             '{script_dir}/dwell_time.py',
-            'rec_it',
+            'rec_all',
             ins=(EXTRACT, PRED_ALL),
             outs=('{dwell_time_dir}/{rec}.json',),
         ),
         Stage(
             'states_loglik',
             '{script_dir}/states_loglik.py',
-            'rec_it',
+            'rec_all',
             ins=(EXTRACT,),
             outs=('{states_loglik_dir}/{rec}.json',),
         ),
         Stage(
-            'summary_stats',
-            '{script_dir}/summary_stats.py',
-            outs=('{summary_stats_dir}/summary_stats.json',),
-        ),
-        Stage(
             'compile_data',
             '{script_dir}/compile_data.py',
-            'rec_it',
+            'rec_all',
             ins=(H5, PRED_ALL, PRED_RANDOM_STIM, PRED_UNIT_SUBSET),
             outs=('{compile_data_dir}/{rec}.mat',),
         ),
@@ -180,20 +154,6 @@ PIPELINES = {
         ),
         # Also reads the single-probe files for each probe in the pair
         Stage(
-            'probe_coherence',
-            '{fs_script_dir}/probe_coherence.py',
-            'rec_ml_am',
-            ins=(EXTRACT, PRED_ALL),
-            outs=('{probe_coherence_dir}/{rec}.json',),
-        ),
-        Stage(
-            'fso_decoding',
-            '{fs_script_dir}/fso_decoding.py',
-            'rec_fso',
-            ins=(EXTRACT, PRED_ALL),
-            outs=('{fso_decoding_dir}/{rec}.json',),
-        ),
-        Stage(
             'acorr',
             '{script_dir}/acorr.py',
             'rec_all',
@@ -203,28 +163,16 @@ PIPELINES = {
         Stage(
             'states_loglik',
             '{script_dir}/states_loglik.py',
-            'rec_plot_it',
+            'rec_all',
             ins=(EXTRACT,),
             outs=('{states_loglik_dir}/{rec}.json',),
         ),
         Stage(
             'marg_loglik',
             '{script_dir}/marg_loglik.py',
-            'rec_plot_it',
+            'rec_all',
             ins=(EXTRACT,),
             outs=('{marg_loglik_dir}/{rec}.json',),
-        ),
-        Stage(
-            'stats',
-            '{script_dir}/stats.py',
-            'rec_all',
-            ins=(EXTRACT, PRED_ALL),
-            outs=('{stats_dir}/{rec}.json',),
-        ),
-        Stage(
-            'summary_stats',
-            '{script_dir}/summary_stats.py',
-            outs=('{summary_stats_dir}/summary_stats.json',),
         ),
         Stage(
             'compile_data',
@@ -239,14 +187,14 @@ PIPELINES = {
         Stage(
             'extract_data',
             '{fs_script_dir}/extract_data.py',
-            'rec_plot_it',
+            'rec_it',
             ins=(H5,),
             outs=(EXTRACT,),
         ),
         Stage(
             'dt_loglik',
             '{script_dir}/dt_loglik.py',
-            'rec_plot_it',
+            'rec_it',
             ins=(EXTRACT,),
             outs=('{dt_loglik_dir}/{rec}.joblib',),
         ),
@@ -267,6 +215,11 @@ PIPELINES = {
             'marg_loglik',
             '{script_dir}/marg_loglik.py',
             outs=('{python_summaries_dir}/marg_loglik.mat',),
+        ),
+        Stage(
+            'state_psth',
+            '{script_dir}/state_psth.py',
+            outs=('{python_summaries_dir}/state_psth_all.mat',),
         ),
     ],
 }

@@ -56,7 +56,7 @@ mat_export_dir = Path(params['paths']['mat_export_dir'])
 
 # Load recordings from list
 with open(rec_list_fpath) as f:
-    rec_list = yaml.safe_load(f)['rec_plot_it']
+    rec_list = yaml.safe_load(f)['rec_it']
 
 # Load results for each recording
 rows = []

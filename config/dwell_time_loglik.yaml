@@ -4,7 +4,7 @@
 paths:
   script_dir: 'python/scripts/dwell_time_loglik'
   fs_script_dir: 'python/scripts/fs_rivalry'
-  rec_list_fpath: 'config/recording_lists/fs_rivalry.yaml'
+  rec_list_fpath: 'config/recording_list.yaml'
   data_dir: 'data/sessions_h5'
   extract_data_dir: 'data/dwell_time_loglik/extract_data'
   dt_loglik_dir: 'data/dwell_time_loglik/dt_loglik'

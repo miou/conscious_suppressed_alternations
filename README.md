@@ -70,7 +70,7 @@ variable `session_list` beforehand to restrict).
    `data/python_summaries/acorr.mat` and `data/python_summaries/marg_loglik.mat`.
 
    Each pipeline runs its stages in order over the recordings listed in
-   `config/recording_lists/fs_rivalry.yaml`, with parameters from
+   `config/recording_list.yaml`, with parameters from
    `config/<pipeline>.yaml`. Outputs are written to subdirectories of
    `data/<pipeline>/`, and the per-recording state partitions (conscious = state 1,
    suppressed = state 2) used by step 3 are in `data/<pipeline>/compile_data/`.

@@ -1,0 +1,393 @@
+# Recording lists for flash suppression sessions
+
+# List of all sessions with flash-suppression paradigm
+ses_all:
+  - session_250225_Alfie
+  - session_250312_Alfie
+  - session_250317_Alfie
+  - session_250321_Alfie
+  - session_250504_Mowgli
+  - session_250513_Alfie
+  - session_250518_Mowgli
+  - session_250604_Alfie
+  - session_250615_Alfie
+  - session_251212_Alfie
+  - session_251218_Alfie
+  - session_260108_Mowgli
+  - session_260119_Alfie
+  - session_260205_Mowgli
+  - session_260210_Mowgli
+  - session_260218_Mowgli
+  - session_260225_Mowgli
+  - session_260309_Alfie
+  - session_260322_Alfie
+  
+# Recordings (session + paradigm)
+rec_all:
+  - session: session_250225_Alfie
+    paradigm: fsor
+    probes: p1
+  - session: session_250225_Alfie
+    paradigm: fsor
+    probes: p2
+  - session: session_250225_Alfie
+    paradigm: fsor
+    probes: p12
+  - session: session_250312_Alfie
+    paradigm: fsor
+    probes: p1
+  - session: session_250312_Alfie
+    paradigm: fsor
+    probes: p2
+  - session: session_250312_Alfie
+    paradigm: fsor
+    probes: p12    
+  - session: session_250317_Alfie
+    paradigm: fsor
+    probes: p1
+  - session: session_250317_Alfie
+    paradigm: fsor
+    probes: p2
+  - session: session_250317_Alfie
+    paradigm: fsor
+    probes: p12    
+  - session: session_250321_Alfie
+    paradigm: fsor
+    probes: p1
+  - session: session_250321_Alfie
+    paradigm: fsor
+    probes: p2
+  - session: session_250321_Alfie
+    paradigm: fsor
+    probes: p12    
+  - session: session_250504_Mowgli
+    paradigm: fso
+    probes: p1
+  - session: session_250504_Mowgli
+    paradigm: fso
+    probes: p2
+  - session: session_250504_Mowgli
+    paradigm: fso
+    probes: p12    
+  - session: session_250513_Alfie
+    paradigm: fso
+    probes: p1
+  - session: session_250513_Alfie
+    paradigm: fso
+    probes: p2
+  - session: session_250513_Alfie
+    paradigm: fso
+    probes: p12    
+  - session: session_250518_Mowgli
+    paradigm: fso
+    probes: p1
+  - session: session_250518_Mowgli
+    paradigm: fso
+    probes: p2
+  - session: session_250518_Mowgli
+    paradigm: fso
+    probes: p12 
+  - session: session_250604_Alfie
+    paradigm: fso
+    probes: p1
+  - session: session_250604_Alfie
+    paradigm: fso
+    probes: p2
+  - session: session_250604_Alfie
+    paradigm: fso
+    probes: p12    
+  - session: session_250615_Alfie
+    paradigm: fso
+    probes: p1
+  - session: session_250615_Alfie
+    paradigm: fso
+    probes: p2
+  - session: session_250615_Alfie
+    paradigm: fso
+    probes: p12 
+  - session: session_251212_Alfie
+    paradigm: fsm
+    probes: p1
+  - session: session_251212_Alfie
+    paradigm: fsm
+    probes: p2
+  - session: session_251212_Alfie
+    paradigm: fsm
+    probes: p12
+  - session: session_251218_Alfie
+    paradigm: fsm
+    probes: p1
+  - session: session_251218_Alfie
+    paradigm: fsm
+    probes: p2
+  - session: session_251218_Alfie
+    paradigm: fsm
+    probes: p12
+  - session: session_260108_Mowgli
+    paradigm: fsm
+    probes: p1
+  - session: session_260108_Mowgli
+    paradigm: fsm
+    probes: p2
+  - session: session_260108_Mowgli
+    paradigm: fsm
+    probes: p12
+  - session: session_260119_Alfie
+    paradigm: fsm
+    probes: p1
+  - session: session_260119_Alfie
+    paradigm: fsm
+    probes: p2
+  - session: session_260119_Alfie
+    paradigm: fsm
+    probes: p12
+  - session: session_260205_Mowgli
+    paradigm: fsm
+    probes: p1
+  - session: session_260205_Mowgli
+    paradigm: fsm
+    probes: p2
+  - session: session_260205_Mowgli # PFC
+    paradigm: fsm
+    probes: p3
+  - session: session_260205_Mowgli
+    paradigm: fsm
+    probes: p123
+  - session: session_260205_Mowgli # IT
+    paradigm: fsm
+    probes: p12
+  - session: session_260210_Mowgli
+    paradigm: fso
+    probes: p1
+  - session: session_260210_Mowgli
+    paradigm: fso
+    probes: p2
+  - session: session_260210_Mowgli
+    paradigm: fso
+    probes: p12    
+  - session: session_260218_Mowgli
+    paradigm: fsm
+    probes: p1
+  - session: session_260218_Mowgli
+    paradigm: fsm
+    probes: p2
+  - session: session_260218_Mowgli # PFC
+    paradigm: fsm
+    probes: p3
+  - session: session_260218_Mowgli
+    paradigm: fsm
+    probes: p123
+  - session: session_260218_Mowgli # IT
+    paradigm: fsm
+    probes: p12
+  - session: session_260225_Mowgli
+    paradigm: fsm
+    probes: p1
+  - session: session_260225_Mowgli
+    paradigm: fsm
+    probes: p2
+  - session: session_260225_Mowgli # PFC
+    paradigm: fsm
+    probes: p3
+  - session: session_260225_Mowgli
+    paradigm: fsm
+    probes: p123
+  - session: session_260225_Mowgli # IT
+    paradigm: fsm
+    probes: p12
+  - session: session_260309_Alfie # IT
+    paradigm: fsm
+    probes: p1
+  - session: session_260309_Alfie
+    paradigm: fsm
+    probes: p2
+  - session: session_260309_Alfie 
+    paradigm: fsm
+    probes: p3
+  - session: session_260309_Alfie
+    paradigm: fsm
+    probes: p123
+  - session: session_260309_Alfie # PFC
+    paradigm: fsm
+    probes: p23
+  - session: session_260225_Mowgli # PFC
+    paradigm: fsm
+    probes: p23
+  - session: session_260322_Alfie # IT patch (ML)
+    paradigm: fsm
+    probes: p1
+  - session: session_260322_Alfie
+    paradigm: fsm
+    probes: p2
+  - session: session_260322_Alfie
+    paradigm: fsm
+    probes: p3
+
+# List of recordings from locations in IT (no PFC or pulvinar, etc.)
+rec_it:
+  - session: session_250225_Alfie
+    paradigm: fsor
+    probes: p12
+  - session: session_250312_Alfie
+    paradigm: fsor
+    probes: p12    
+  - session: session_250317_Alfie
+    paradigm: fsor
+    probes: p12    
+  - session: session_250321_Alfie
+    paradigm: fsor
+    probes: p12    
+  - session: session_250504_Mowgli
+    paradigm: fso
+    probes: p12    
+  - session: session_250513_Alfie
+    paradigm: fso
+    probes: p1
+  - session: session_250518_Mowgli
+    paradigm: fso
+    probes: p12 
+  - session: session_250604_Alfie
+    paradigm: fso
+    probes: p1
+  - session: session_250615_Alfie
+    paradigm: fso
+    probes: p1
+  - session: session_251212_Alfie
+    paradigm: fsm
+    probes: p12
+  - session: session_251218_Alfie
+    paradigm: fsm
+    probes: p12
+  - session: session_260108_Mowgli
+    paradigm: fsm
+    probes: p12
+  - session: session_260119_Alfie
+    paradigm: fsm
+    probes: p12
+  - session: session_260205_Mowgli
+    paradigm: fsm
+    probes: p12
+  - session: session_260210_Mowgli
+    paradigm: fso
+    probes: p1
+  - session: session_260218_Mowgli
+    paradigm: fsm
+    probes: p12
+  - session: session_260225_Mowgli
+    paradigm: fsm
+    probes: p12
+  - session: session_260309_Alfie
+    paradigm: fsm
+    probes: p1
+  - session: session_260322_Alfie
+    paradigm: fsm
+    probes: p1
+ 
+# List of recordings where first probe is ML and second probe is AM
+rec_ml_am:
+  - session: session_250225_Alfie
+    paradigm: fsor
+    probes: p12
+  - session: session_250312_Alfie
+    paradigm: fsor
+    probes: p12    
+  - session: session_250317_Alfie
+    paradigm: fsor
+    probes: p12    
+  - session: session_250321_Alfie
+    paradigm: fsor
+    probes: p12    
+  - session: session_250504_Mowgli
+    paradigm: fso
+    probes: p12    
+  - session: session_250518_Mowgli
+    paradigm: fso
+    probes: p12 
+  - session: session_251212_Alfie
+    paradigm: fsm
+    probes: p12
+  - session: session_251218_Alfie
+    paradigm: fsm
+    probes: p12
+  - session: session_260108_Mowgli
+    paradigm: fsm
+    probes: p12
+  - session: session_260205_Mowgli 
+    paradigm: fsm
+    probes: p12
+  - session: session_260218_Mowgli 
+    paradigm: fsm
+    probes: p12
+  - session: session_260225_Mowgli
+    paradigm: fsm
+    probes: p12
+
+# FSO Recordings
+rec_fso:
+  - session: session_250225_Alfie
+    paradigm: fsor
+    probes: p1
+  - session: session_250225_Alfie
+    paradigm: fsor
+    probes: p2
+  - session: session_250225_Alfie
+    paradigm: fsor
+    probes: p12
+  - session: session_250312_Alfie
+    paradigm: fsor
+    probes: p1
+  - session: session_250312_Alfie
+    paradigm: fsor
+    probes: p2
+  - session: session_250312_Alfie
+    paradigm: fsor
+    probes: p12    
+  - session: session_250317_Alfie
+    paradigm: fsor
+    probes: p1
+  - session: session_250317_Alfie
+    paradigm: fsor
+    probes: p2
+  - session: session_250317_Alfie
+    paradigm: fsor
+    probes: p12    
+  - session: session_250321_Alfie
+    paradigm: fsor
+    probes: p1
+  - session: session_250321_Alfie
+    paradigm: fsor
+    probes: p2
+  - session: session_250321_Alfie
+    paradigm: fsor
+    probes: p12    
+  - session: session_250504_Mowgli
+    paradigm: fso
+    probes: p1
+  - session: session_250504_Mowgli
+    paradigm: fso
+    probes: p2
+  - session: session_250504_Mowgli
+    paradigm: fso
+    probes: p12    
+  - session: session_250513_Alfie
+    paradigm: fso
+    probes: p1
+  - session: session_250518_Mowgli
+    paradigm: fso
+    probes: p1
+  - session: session_250518_Mowgli
+    paradigm: fso
+    probes: p2
+  - session: session_250518_Mowgli
+    paradigm: fso
+    probes: p12 
+  - session: session_250604_Alfie
+    paradigm: fso
+    probes: p1
+  - session: session_250615_Alfie
+    paradigm: fso
+    probes: p1
+  - session: session_260210_Mowgli
+    paradigm: fso
+    probes: p1
+

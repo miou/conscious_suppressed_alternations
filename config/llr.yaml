@@ -10,13 +10,9 @@ paths:
   pred_random_stim_dir: 'data/llr/pred_random_stim'
   pred_unit_subset_dir: 'data/llr/pred_unit_subset'
   pred_shuffle_dir: 'data/llr/pred_shuffle'
-  probe_coherence_dir: 'data/llr/probe_coherence'
-  fso_decoding_dir: 'data/llr/fso_decoding'
   acorr_dir: 'data/llr/acorr'
   states_loglik_dir: 'data/llr/states_loglik'
   marg_loglik_dir: 'data/llr/marg_loglik'
-  stats_dir: 'data/llr/stats'
-  summary_stats_dir: 'data/llr/summary_stats'
   compile_data_dir: 'data/llr/compile_data'
   mat_export_dir: 'data/python_states/llr_fs/bin_10_units_all'
 
@@ -46,30 +42,11 @@ pred_shuffle:
   win_start: 290
   win_stop: 1010
 
-# Probe coherence parameters
-probe_coherence:
-  t_start: 300
-  t_stop: 1000
-  lag: 40
-
-# FSO decoding parameters
-fso_decoding:
-  win_start: 300
-  win_stop: 1000
-  max_iter: 10000
-  n_folds_cv: 4
-  rng_seed_cv: 999
-  min_win_frac: 0.25
-
 # Autocorrelation parameters
 acorr:
   t_start: 300
   t_stop: 1000
   max_lag: 500
-
-# Summary statistics calculation parameters
-stats:
-  priming_acc_t_start: 100
 
 # State sequence log-likelihood parameters
 states_loglik:

@@ -10,11 +10,7 @@ paths:
   pred_random_stim_dir: 'data/fixed_hmm/pred_random_stim'
   pred_unit_subset_dir: 'data/fixed_hmm/pred_unit_subset'
   unit_subset_coherence_dir: 'data/fixed_hmm/unit_subset_coherence'
-  probe_coherence_dir: 'data/fixed_hmm/probe_coherence'
-  fso_decoding_dir: 'data/fixed_hmm/fso_decoding'
-  stats_dir: 'data/fixed_hmm/stats'
   dwell_time_dir: 'data/fixed_hmm/dwell_time'
-  summary_stats_dir: 'data/fixed_hmm/summary_stats'
   states_loglik_dir: 'data/fixed_hmm/states_loglik'
   compile_data_dir: 'data/fixed_hmm/compile_data'
   mat_export_dir: 'data/python_states/fixed_hmm_fs/bin_10_units_all'
@@ -45,26 +41,6 @@ unit_subset_coherence:
   rng_seed: 1997
   frac_units_hmm: 0.5
   n_samples: 5
-
-# Probe coherence parameters
-probe_coherence:
-  t_start: 300
-  t_stop: 1000
-  lag: 40
-
-# FSO decoding parameters
-fso_decoding:
-  win_start: 300
-  win_stop: 1000
-  max_iter: 10000
-  n_folds_cv: 4
-  rng_seed_cv: 999
-  min_win_frac: 0.25
-
-# Basic statistics parameters
-stats:
-  t_start: 300
-  t_stop: 1000
 
 # Dwell time statistics parameters
 dwell_time:

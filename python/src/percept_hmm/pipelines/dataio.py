@@ -18,8 +18,9 @@ def rec_fname(session: str, paradigm: str, probes: str, ext: str) -> str:
 def parse_rec_fname(fname: str) -> dict:
     """Get filename used for subset of data throughout pipeline."""
 
-    # Split by underscore to get session and paradigm segments of filename
-    us_split = fname.split('_')
+    # Split by underscore to get session and paradigm segments of filename (splitting from the
+    # right, since session names like 'session_250225_Alfie' contain underscores)
+    us_split = fname.rsplit('_', 2)
     session = us_split[0]
     paradigm = us_split[1]
 

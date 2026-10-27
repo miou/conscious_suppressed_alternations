@@ -54,7 +54,7 @@ select_repeat_stimuli = params['extract_data']['select_repeat_stimuli']
 
 # Load session information
 print('Loading session info...')
-session_fpath = data_dir / f'{args.session}/session.h5'
+session_fpath = data_dir / f'{args.session}.h5'
 session_info = Session.from_h5(session_fpath, load_paradigms=False)
 print('Done.')
 
