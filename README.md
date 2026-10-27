@@ -13,52 +13,6 @@ preprint, this is an initial release covering the **main figures**, with the cod
 reproducing them. A later release will add the extended data figures, further streamline the code,
 and reduce the memory and compute requirements so the analysis runs on a wider range of machines.
 
-**Data.** The recordings and summaries are archived on Zenodo:
-https://doi.org/10.5281/zenodo.23604909. See **Getting the data** below for what to download and
-where to put it so the layout matches `set_paths.m`.
-
-## Getting the data
-
-The code is on GitHub; the data is on Zenodo
-(DOI [10.5281/zenodo.23604909](https://doi.org/10.5281/zenodo.23604909)), in two parts:
-
-- **The 19 recording sessions** — individual `session_<date>_<monkey>.mat` files
-  (e.g. `session_250225_Alfie.mat`), roughly 0.2–0.9 GB each.
-- **The data bundle** — `conscious_suppressed_alternations_data.zip` (~3.8 GB): the pooled
-  summaries the figures load, plus the inputs that cannot be regenerated (stimulus feature maps,
-  the face-feature model, and the human psychophysics).
-
-Setup:
-
-1. Clone this repository. The empty `data/` subfolders are created on clone (via `.gitkeep`).
-2. Download the 19 `session_*.mat` files into `data/sessions/`. Keep their file names — the code
-   locates each session by the name listed in `config/switches_config_release.m`.
-3. Download `conscious_suppressed_alternations_data.zip` and unzip it **at the repository root**.
-   The archive stores `data/...` paths, so it fills in `data/results/`, `data/python_summaries/`,
-   `data/stimuli/`, `data/monkey_face_model/`, and `data/human/`.
-
-After this, `data/` contains:
-
-```
-data/
-  sessions/                  session_<date>_<monkey>.mat  × 19   (Zenodo, individual files)
-  results/
-    axes/                    pooled reconstruction / EV / decoding summaries   (bundle)
-    modulation/              modulation + single-trial decoding summaries       (bundle)
-    trial_decoding_full/     full-population single-trial decoding, Fig. 2l     (bundle)
-  python_summaries/          acorr / dwell-time / psth summaries                (bundle)
-  stimuli/                   stimulus feature maps                              (bundle)
-  monkey_face_model/         face-feature model (reconstruction)               (bundle)
-  human/                     human psychophysics (Fig. 1)                       (bundle)
-```
-
-The derivable intermediates — `sessions_h5/` (step 1), `python_states/` (step 2), and
-`data/results/per_session_*/` (step 3) — are **not** in the bundle; the pipeline regenerates them
-from the session `.mat` files. **To reproduce the figures directly you only need the bundle
-summaries and can skip steps 1–4** (see *What to run*). To rebuild everything from scratch you need
-the 19 sessions plus the bundle's `stimuli/` and `monkey_face_model/` (which are not regenerable),
-then run steps 1–5.
-
 ## Pipeline
 
 ```
@@ -152,16 +106,39 @@ variable `session_list` beforehand to restrict).
    pools / reconstructs across sessions via `across_sessions_analysis_axes_aux`, and writes to
    `figures_output/`. Independently runnable once steps 1–4 are done.
 
-## Reproducibility
-
-The shipped summaries contain the exact single-trial decoding values used for the paper
-(Fig. 2l and Fig. 3i). Note that the single-trial decoding is **not seeded**: before decoding,
-`flash_suppression_get_variables` balances stimuli shown at different frequencies by randomly
-subsampling trials, so **regenerating the session summaries (steps 3–4) yields slightly
+**Reproducibility.** The shipped summaries contain the exact single-trial decoding values used for
+the paper (Fig. 2l and Fig. 3i). Note that the single-trial decoding is **not seeded**: before
+decoding, `flash_suppression_get_variables` balances stimuli shown at different frequencies by
+randomly subsampling trials, so **regenerating the session summaries (steps 3–4) yields slightly
 different single-trial decoding values each time**. The effect sizes and significance are
 unchanged — only the exact numbers move within the range reported in the paper. To reproduce
 the paper's figures exactly, use the shipped summaries rather than regenerating them. Everything
 else (reconstruction, explained variance, modulation) is unaffected by this.
+
+## Getting the data
+
+The code is on GitHub; the data is on Zenodo
+(DOI [10.5281/zenodo.23604909](https://doi.org/10.5281/zenodo.23604909)), in two parts:
+
+- **The 19 recording sessions** — individual `session_<date>_<monkey>.mat` files
+  (e.g. `session_250225_Alfie.mat`), roughly 0.2–0.9 GB each.
+- **The data bundle** — `conscious_suppressed_alternations_data.zip` (~3.8 GB): the pooled
+  summaries the figures load, plus the inputs that cannot be regenerated (stimulus feature maps,
+  the face-feature model, and the human psychophysics).
+
+To set up:
+
+1. Clone this repository. The empty `data/` subfolders are created on clone (via `.gitkeep`).
+2. Download the 19 `session_*.mat` files into `data/sessions/`. Keep their file names — the code
+   locates each session by the name listed in `config/switches_config_release.m`.
+3. Download `conscious_suppressed_alternations_data.zip` and unzip it **at the repository root**.
+   The archive stores `data/...` paths, so it fills in `data/results/`, `data/python_summaries/`,
+   `data/stimuli/`, `data/monkey_face_model/`, and `data/human/` (the layout below).
+
+The derivable intermediates — `sessions_h5/` (step 1), `python_states/` (step 2), and
+`data/results/per_session_*/` (step 3) — are **not** in the bundle; the pipeline regenerates them
+from the session `.mat` files. To reproduce the figures directly you only need the bundle summaries
+and can skip steps 1–4 (see *What to run*).
 
 ## Setup
 
