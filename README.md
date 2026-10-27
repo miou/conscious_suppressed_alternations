@@ -121,17 +121,17 @@ The code is on GitHub; the data is on Zenodo
 (DOI [10.5281/zenodo.23604909](https://doi.org/10.5281/zenodo.23604909)), in two parts:
 
 - **The 19 recording sessions** — individual `session_<date>_<monkey>.mat` files
-  (e.g. `session_250225_Alfie.mat`), roughly 0.2–0.9 GB each.
-- **The data bundle** — `conscious_suppressed_alternations_data.zip` (~3.8 GB): the pooled
-  summaries the figures load, plus the inputs that cannot be regenerated (stimulus feature maps,
-  the face-feature model, and the human psychophysics).
+  (e.g. `session_250225_Alfie.mat`), roughly 0.2–2.7 GB each.
+- **The data bundle** — `data.zip` (~2.1 GB): the pooled summaries the figures load (stored in
+  single precision), plus the inputs that cannot be regenerated (stimulus feature maps, the
+  face-feature model, and the human psychophysics).
 
 To set up:
 
 1. Clone this repository. The empty `data/` subfolders are created on clone (via `.gitkeep`).
 2. Download the 19 `session_*.mat` files into `data/sessions/`. Keep their file names — the code
    locates each session by the name listed in `config/switches_config_release.m`.
-3. Download `conscious_suppressed_alternations_data.zip` and unzip it **at the repository root**.
+3. Download `data.zip` and unzip it **at the repository root**.
    The archive stores `data/...` paths, so it fills in `data/results/`, `data/python_summaries/`,
    `data/stimuli/`, `data/monkey_face_model/`, and `data/human/` (the layout below).
 
