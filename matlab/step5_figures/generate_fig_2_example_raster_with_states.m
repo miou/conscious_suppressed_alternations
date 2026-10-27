@@ -114,8 +114,6 @@ if isfield(session,'inference_schemes') && length(session.inference_schemes)>=si
     snippet_states_flipped((snippet_start_times:(snippet_start_times+time_course_snippet_time)<on_time_next) & snippet_states==1) = 2;
     snippet_states_flipped((snippet_start_times:(snippet_start_times+time_course_snippet_time)<on_time_next) & snippet_states==2) = 1;
 
-    %Old color scheme
-    %New color scheme
     snippet_states_to_use = snippet_states_flipped;
 
     new_states_times = find([1 diff(snippet_states_to_use)~=0]);

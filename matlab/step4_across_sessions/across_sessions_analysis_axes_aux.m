@@ -16,7 +16,7 @@ for session_index_across_sessions = 1:length(flash_suppression_results_all_sessi
         flash_suppression_results = flash_suppression_results_all_sessions{session_index_across_sessions};
         config = flash_suppression_results.axes.config;
         if length(session_names_not_empty)>1
-            assert(isequal(flash_suppression_results.axes.features(summary_config.stimuli_to_include,1:64),features(:,1:64))) %Somehow the features after 64 diverge?
+            assert(isequal(flash_suppression_results.axes.features(summary_config.stimuli_to_include,1:64),features(:,1:64)))
             assert(isequal(flash_suppression_results.axes.unique_stimuli(summary_config.stimuli_to_include),unique_stimuli))
         end
 
@@ -68,7 +68,7 @@ for session_index_across_sessions = 1:length(flash_suppression_results_all_sessi
     end
 end
 
-%Set defaults for old session summaries
+%Set defaults for fields the summary may not specify
 if ~isfield(config,'balance_states_each_trial')
     config.balance_states_each_trial = false;
 end
@@ -76,7 +76,7 @@ if ~isfield(config,'minimum_state_proportion_per_trial')
     config.minimum_state_proportion_per_trial = [];
 end
 if ~isfield(config,'avg_first_dimension')
-    config.avg_first_dimension = 1; %Old default
+    config.avg_first_dimension = 1; %default
 end
 
 if ~isempty(summary_config.b_use_control_1_stimuli)
@@ -131,6 +131,12 @@ if ~(exist('b_skip_ev_recon_decoding','var') && b_skip_ev_recon_decoding)
 [explained_variance_features,explained_variance_features_cv,explained_variance_features_cv_high_repeat,explained_variance_features_cv_high_repeat_other,explained_variance_features_st,explained_variance_features_st_loto,explained_variance_features_cv_alpha,explained_variance_responses,explained_variance_responses_cv,explained_variance_responses_cv_high_repeat,explained_variance_responses_st,explained_variance_responses_ot_stimulus,explained_variance_responses_cv_weighted_average,explained_variance_responses_cv_high_repeat_weighted_average,explained_variance_responses_cv_high_repeat_weighted_average_across_halves,alpha_strct,predicted_responses_weighted_average...
     ] = flash_suppression_axes_explained_variance(...
     config,features,responses_to_use_testing,responses_st,responses_ot_stimulus,predicted_features,predicted_features_cv,predicted_features_st,predicted_features_st_loto,predicted_responses,predicted_responses_cv,unique_stimuli_is_high_repeat,unique_stimuli,unique_stimulus_index_other_list,responses_priming,responses_dominant_binocular,red_cyan_pair_indices);
+
+%% Reconstruction inputs (passed to plot_reconstruction_examples_grid by the figures)
+xml_folder      = flash_suppression_results.axes.xml_folder;
+xml_filename    = flash_suppression_results.axes.xml_filename;
+stimulus_list   = flash_suppression_results.axes.stimulus_list;
+priming_stimuli = flash_suppression_results.axes.priming_stimuli;
 
 %% Decoding
 num_iterations = 300;

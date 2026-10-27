@@ -3,7 +3,7 @@ config = flash_suppression_results_all_sessions{find(~cellfun(@isempty,flash_sup
 
 summary_config.stimuli_to_include = 1:1500; %To ignore stimuli for 2000 face experiment
 
-%Set defaults for old session summaries
+%Set defaults for fields the summary may not specify
 if ~isfield(config,'balance_states_each_trial')
     config.balance_states_each_trial = false;
 end
@@ -11,7 +11,7 @@ if ~isfield(config,'minimum_state_proportion_per_trial')
     config.minimum_state_proportion_per_trial = [];
 end
 if ~isfield(config,'avg_first_dimension')
-    config.avg_first_dimension = 1; %Old default
+    config.avg_first_dimension = 1; %default
 end
 
 monkeys_to_include = {};

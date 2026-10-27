@@ -1,6 +1,6 @@
 function [spikeRaster,b_TriggerTimes_valid] = computeRaster(TriggerTimes,spikeTimecourses,RasterTimeBeforeMS,RasterTimeAfterMS,pad_out_of_range)
 % spikeTimecourses needs to be n_cells x n_time_points
-% pad_out_of_range (optional, default false): false (legacy) EXCLUDES trials whose window runs
+% pad_out_of_range (optional, default false): false (default) EXCLUDES trials whose window runs
 %   past the recording. true keeps ALL trials and zero-pads out-of-range samples -- this
 %   reproduces a precomputed raster_all_units (built over all trials), so raster_all_units can
 %   be dropped and rebuilt from timecourse_all_units without losing the first/last trial.
@@ -17,7 +17,7 @@ if pad_out_of_range
 else
     b_TriggerTimes_valid = and(TriggerTimes-RasterTimeBeforeMS>0,TriggerTimes+RasterTimeAfterMS<=L);
 end
-TriggerTimes = TriggerTimes(b_TriggerTimes_valid); %Exclude out-of-range (legacy) or keep all (padded).
+TriggerTimes = TriggerTimes(b_TriggerTimes_valid); %Exclude out-of-range (default) or keep all (padded).
 
 if all(cellfun(@islogical,spikeTimecourses))
     spikeRaster = false(length(TriggerTimes),length(-RasterTimeBeforeMS:RasterTimeAfterMS),length(spikeTimecourses));

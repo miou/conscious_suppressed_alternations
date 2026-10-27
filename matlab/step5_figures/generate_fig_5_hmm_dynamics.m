@@ -1,6 +1,6 @@
 paths = set_paths;
 hmm_loglik_dwell= load(fullfile(paths.python_summaries,'hmm_loglik_dwell_20260811.mat'));
-figure_folder_name = paths.figures_out;
+figure_folder_name = fullfile(paths.figures_out,'fig5'); if ~exist(figure_folder_name,'dir'); mkdir(figure_folder_name); end
 rivalry_config = switches_config_release;
 
 mode = 'nature';

@@ -3,13 +3,13 @@
 % 2-state model over the 1-state model. Real only (no shuffle control). One value per record
 % (n = 19) = mll_2s - mll_1s, the model log-likelihood marginalized over the latent state sequence.
 % Statistical unit = record (session/probe). Signrank and t-test vs 0.
-% Input: data/python_summaries/marg_loglik_20261014.mat (shipped; produced by the Python pipeline).
+% Input: data/python_summaries/marg_loglik.mat (shipped; produced by the Python pipeline).
 % Style matches generate_fig_3_likelihood.m.
 
 paths = set_paths;
 mode = 'nature';
-figure_folder_name = paths.figures_out;
-loglik_file        = fullfile(paths.python_summaries,'marg_loglik_20261014.mat');
+figure_folder_name = fullfile(paths.figures_out,'fig_3_half_neurons'); if ~exist(figure_folder_name,'dir'); mkdir(figure_folder_name); end
+loglik_file        = fullfile(paths.python_summaries,'marg_loglik.mat');
 
 %% Load Conor's per-record marginalized log-likelihoods
 R    = load(loglik_file);

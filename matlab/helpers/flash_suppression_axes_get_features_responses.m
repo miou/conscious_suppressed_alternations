@@ -228,7 +228,6 @@ for stimulus_index = 1:size(responses_to_use_training,1)
         end
     end
     if length(stimulus_trial_indices)>1
-        %??? Not sure if we can just use the raster for responses_st, because it will be the testing raster.
         responses_ot_stimulus(stimulus_index,:) = nanmean_function(raster_state(stimulus_trial_indices(2:end),start_index_training:end_index_training,b_selected))'; %All other trials (template vector)
     end
     if any(isnan(responses_ot_stimulus(stimulus_index,:)))

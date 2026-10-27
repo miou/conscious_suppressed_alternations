@@ -120,7 +120,7 @@ if ~isempty(config.proportion_of_trials) & config.proportion_of_trials~=1
     b_trial_is_proportion(round(length(b_trial_is_proportion)*config.proportion_of_trials):end) = false;
 end
 b_trial_in_range_is_proportion = b_trial_is_proportion(b_in_range);
-b_trial_is_proportion_priming = b_trial_is_proportion & stimulus_properties.is_priming(paradigm_data.stimulus_index_valid);%Maybe make only priming stimuli valid for training in flash suppresion?
+b_trial_is_proportion_priming = b_trial_is_proportion & stimulus_properties.is_priming(paradigm_data.stimulus_index_valid);
 b_trial_in_range_is_proportion_priming = b_trial_is_proportion_priming(b_in_range);
 
 
