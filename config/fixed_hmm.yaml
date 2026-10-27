@@ -4,7 +4,7 @@
 paths:
   script_dir: 'python/scripts/fixed_hmm'
   fs_script_dir: 'python/scripts/fs_rivalry'
-  data_dir: 'data/preprocessed'
+  data_dir: 'data/sessions_h5'
   extract_data_dir: 'data/fixed_hmm/extract_data'
   pred_all_units_dir: 'data/fixed_hmm/pred_all_units'
   pred_random_stim_dir: 'data/fixed_hmm/pred_random_stim'
@@ -21,10 +21,6 @@ paths:
 
 # Data parameters
 extract_data:
-  select_valid_units: false
-  select_face_units: false 
-  select_high_pass_units: false 
-  select_visual_units: false
   select_repeat_stimuli: true
 
 # Model parameters
