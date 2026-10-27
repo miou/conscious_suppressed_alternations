@@ -9,6 +9,7 @@ paths:
   extract_data_dir: 'data/dwell_time_loglik/extract_data'
   dt_loglik_dir: 'data/dwell_time_loglik/dt_loglik'
   results_dir: 'data/dwell_time_loglik/results'
+  mat_export_dir: 'data/python_summaries'
 
 # Data parameters
 extract_data:

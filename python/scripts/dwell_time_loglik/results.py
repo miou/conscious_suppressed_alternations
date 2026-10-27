@@ -42,11 +42,14 @@ rec_list_fpath = params['paths']['rec_list_fpath']
 # Directory where dwell time log-likelihood results are stored
 dt_loglik_dir = Path(params['paths']['dt_loglik_dir'])
 
+# Edges of median dwell time bins for log-likelihood curves
+bin_edges = np.array(params['results']['bin_edges'])
+
 # Output directory
 results_dir = Path(params['paths']['results_dir'])
 
-# Edges of median dwell time bins for log-likelihood curves
-bin_edges = np.array(params['results']['bin_edges'])
+# MATLAB export directory
+mat_export_dir = Path(params['paths']['mat_export_dir'])
 
 # %%
 # Load data into DataFrame
@@ -171,3 +174,7 @@ out_data = {
     'sessions': sessions,
 }
 savemat(out_fpath, out_data, do_compression=True)
+
+# Save to MATLAB export directory as well
+out_fpath_2 = mat_export_dir / 'hmm_loglik_dwell.mat'
+savemat(out_fpath_2, out_data, do_compression=True)
