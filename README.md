@@ -62,9 +62,13 @@ variable `session_list` beforehand to restrict).
    `python/scripts/`. Install the environment with `uv sync`, then from the repository root run:
 
    ```
-   uv run python python/scripts/run_pipeline.py llr
-   uv run python python/scripts/run_pipeline.py fixed_hmm
+   uv run python python/scripts/step2_run_pipeline.py llr
+   uv run python python/scripts/step2_run_pipeline.py fixed_hmm
+   uv run python python/scripts/step2_run_pipeline.py python_summaries  # requires llr outputs
    ```
+
+   `python_summaries` combines `llr` outputs across recordings into
+   `data/python_summaries/acorr.mat` and `data/python_summaries/marg_loglik.mat`.
 
    Each pipeline runs its stages in order over the recordings listed in
    `config/recording_lists/fs_rivalry.yaml`, with parameters from

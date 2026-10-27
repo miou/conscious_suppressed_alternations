@@ -1,17 +1,17 @@
 """Utility script for running pipelines.
 
-Each pipeline writes its outputs to `data/<name>/`, with parameters from `config/<name>.yaml`. Stages run in
-the order listed below. A stage runs its script once per recording in a recording list from
+Each pipeline writes its outputs to `data/<name>/`, with parameters from `config/<name>.yaml`.
+Stages run in the order listed below. A stage runs its script once per recording in a recording list from
 `config/recording_lists/fs_rivalry.yaml`, or once in total for stages that aggregate across
 recordings. A job is skipped if all of its outputs already exist, so an interrupted run can be
 resumed. Use `--force` to recompute outputs, e.g. after changing parameters.
 
 Examples (from the repository root):
 
-    uv run python python/scripts/run_pipeline.py llr
-    uv run python python/scripts/run_pipeline.py llr --jobs 8
-    uv run python python/scripts/run_pipeline.py fixed_hmm --stages stats summary_stats --force
-    uv run python python/scripts/run_pipeline.py llr --sessions s133 s137 --dry-run
+    uv run python python/scripts/step2_run_pipeline.py llr
+    uv run python python/scripts/step2_run_pipeline.py llr --jobs 8
+    uv run python python/scripts/step2_run_pipeline.py fixed_hmm --stages stats summary_stats --force
+    uv run python python/scripts/step2_run_pipeline.py llr --sessions s133 s137 --dry-run
 """
 
 import argparse
@@ -232,6 +232,19 @@ PIPELINES = {
             'rec_all',
             ins=(H5, PRED_ALL, PRED_RANDOM_STIM, PRED_UNIT_SUBSET),
             outs=('{compile_data_dir}/{rec}.mat',),
+        ),
+    ],
+    # Summaries across recordings of outputs from the `llr` pipeline, which must be run first
+    'python_summaries': [
+        Stage(
+            'acorr',
+            '{script_dir}/acorr.py',
+            outs=('{python_summaries_dir}/acorr.mat',),
+        ),
+        Stage(
+            'marg_loglik',
+            '{script_dir}/marg_loglik.py',
+            outs=('{python_summaries_dir}/marg_loglik.mat',),
         ),
     ],
 }

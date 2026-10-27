@@ -1,0 +1,10 @@
+# Parameters file for 'python_summaries' pipeline
+
+# Filepaths (relative to the repository root, where scripts are run)
+paths:
+  script_dir: 'python/scripts/python_summaries'
+  acorr_dir: 'data/llr/acorr'
+  marg_loglik_dir: 'data/llr/marg_loglik'
+  python_summaries_dir: 'data/python_summaries'
+  rec_list_fpath: 'config/recording_lists/fs_rivalry.yaml'
+

@@ -13,7 +13,7 @@ Frank F. Lafranchi, Conor McGrory, Yuelin Shi, Tatiana A. Engel, Doris Y. Tsao,
 The experimental data is stored in MATLAB files, which can be downloaded from
 **TODO: INSERT ZENODO LINK**. Once these files are downloaded, a series of 
 Python and MATLAB scripts can be used to reproduce the main figures of the 
-paper. The Python pipelines are run with `python/scripts/run_pipeline.py`,
+paper. The Python pipelines are run with `python/scripts/step2_run_pipeline.py`,
 their parameters are in
 `config/<pipeline>.yaml`, and they write their outputs to `data/<pipeline>/`. 
 
@@ -48,7 +48,7 @@ their parameters are in
 ## Pipelines
 
 - Mature analyses that we want to be able to reproduce are implemented as
-  pipelines, defined in `python/scripts/run_pipeline.py` (stage order, scripts,
+  pipelines, defined in `python/scripts/step2_run_pipeline.py` (stage order, scripts,
   recording lists, and input/output files for each stage)
 - Each pipeline runs in a subdirectory of `data/` (e.g. `data/fixed_hmm`),
   where each stage writes its outputs to its own subdirectory. Parameters are in
