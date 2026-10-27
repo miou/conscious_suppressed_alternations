@@ -234,6 +234,28 @@ PIPELINES = {
             outs=('{compile_data_dir}/{rec}.mat',),
         ),
     ],
+    # Median dwell times and HMM vs. static model log-likelihood across a range of HMM bin sizes
+    'dwell_time_loglik': [
+        Stage(
+            'extract_data',
+            '{fs_script_dir}/extract_data.py',
+            'rec_plot_it',
+            ins=(H5,),
+            outs=(EXTRACT,),
+        ),
+        Stage(
+            'dt_loglik',
+            '{script_dir}/dt_loglik.py',
+            'rec_plot_it',
+            ins=(EXTRACT,),
+            outs=('{dt_loglik_dir}/{rec}.joblib',),
+        ),
+        Stage(
+            'results',
+            '{script_dir}/results.py',
+            outs=('{results_dir}/dwell_time_loglik.mat',),
+        ),
+    ],
     # Summaries across recordings of outputs from the `llr` pipeline, which must be run first
     'python_summaries': [
         Stage(

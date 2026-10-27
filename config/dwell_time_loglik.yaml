@@ -1,0 +1,41 @@
+# Parameters file for 'dwell_time_loglik' pipeline
+
+# Filepaths (relative to the repository root, where scripts are run)
+paths:
+  script_dir: 'python/scripts/dwell_time_loglik'
+  fs_script_dir: 'python/scripts/fs_rivalry'
+  rec_list_fpath: 'config/recording_lists/fs_rivalry.yaml'
+  data_dir: 'data/sessions_h5'
+  extract_data_dir: 'data/dwell_time_loglik/extract_data'
+  dt_loglik_dir: 'data/dwell_time_loglik/dt_loglik'
+  results_dir: 'data/dwell_time_loglik/results'
+  mat_export_dir: 'data/python_summaries'
+
+# Data parameters
+extract_data:
+  select_repeat_stimuli: true
+
+# Model parameters
+model:
+  r_floor: 0.00000001
+  r_start: 100
+  r_stop: 1000
+  rng_seed: 20240408
+
+# State sequence log-likelihood parameters
+loglik:
+  bin_size: 5
+  frac_units_hmm: 0.5
+  mix_alpha_red: 0.5
+  rng_seed: 20120519
+
+# Overall experiment parameters
+dt_loglik:
+  t_start: 300
+  t_stop: 1000
+  bin_size_vals: [2, 3, 5, 10, 20, 50, 75, 100]
+
+# Results aggregation parameters
+results:
+  # Edges of median dwell time bins (ms) for log-likelihood curves
+  bin_edges: [2, 3, 5, 10, 20, 50, 70, 100, 200, 300]

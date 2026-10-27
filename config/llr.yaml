@@ -4,7 +4,7 @@
 paths:
   script_dir: 'python/scripts/llr'
   fs_script_dir: 'python/scripts/fs_rivalry'
-  data_dir: 'data/preprocessed'
+  data_dir: 'data/sessions_h5'
   extract_data_dir: 'data/llr/extract_data'
   pred_all_units_dir: 'data/llr/pred_all_units'
   pred_random_stim_dir: 'data/llr/pred_random_stim'
