@@ -222,6 +222,10 @@ rec_all:
   - session: session_260322_Alfie
     paradigm: fsm
     probes: p3
+  - session: session_260322_Alfie
+    paradigm: fsm
+    probes: p23
+
 
 # List of recordings from locations in IT (no PFC or pulvinar, etc.)
 rec_it:
