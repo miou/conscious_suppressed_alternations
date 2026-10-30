@@ -17,7 +17,7 @@ paths:
 
 # Data parameters
 extract_data:
-  select_repeat_stimuli: true
+  select_repeat_stimuli: false
 
 # Model parameters
 model:
