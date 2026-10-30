@@ -13,6 +13,18 @@ preprint, this is an initial release covering the **main figures**, with the cod
 reproducing them. A later release will add the extended data figures, further streamline the code,
 and reduce the memory and compute requirements so the analysis runs on a wider range of machines.
 
+## Installation
+
+The MATLAB code in the pipeline can be run as long as there is a version of MATLAB installed on
+your computer. The Python code needs to be run inside a specific Python environment installed
+using the Python tool [uv](https://docs.astral.sh/uv/), which can be installed using the 
+instructions found [here](https://docs.astral.sh/uv/getting-started/installation/). Once `uv` is
+installed, the environment can be installed by running the command
+```
+uv sync
+```
+which will create a Python virtual environment in the local directory `.venv/`.
+
 ## Pipeline
 
 ```
