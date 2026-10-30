@@ -60,7 +60,6 @@ states_loglik:
 # Model marginal log-likelihood parameters
 marg_loglik:
   cval_seed: 20120519
-  shuffle_seed: 19961002
   bin_size: 5
   win_start: 300
   win_stop: 1000

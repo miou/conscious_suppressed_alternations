@@ -1,5 +1,5 @@
 # %%
-# Summary of difference between one-state and two-state model likelihood, for real and shuffled data
+# Summary of difference between one-state and two-state model likelihood
 
 # %%
 # Imports
@@ -12,7 +12,7 @@ import pandas as pd
 import yaml
 from percept_hmm.pipelines.dataio import rec_fname
 from scipy.io import savemat
-from scipy.stats import ttest_1samp, wilcoxon
+from scipy.stats import ttest_1samp
 
 # %%
 # Parse arguments
@@ -61,17 +61,13 @@ df = pd.DataFrame(rows)
 
 # Difference in marginal log-likelihood per unit (two-state - one-state)
 df['diff_real'] = df['mll_2s'] - df['mll_1s']
-df['diff_shuffle'] = df['mll_2s_shuffle'] - df['mll_1s_shuffle']
-print(df[['rec', 'diff_real', 'diff_shuffle']])
+print(df[['rec', 'diff_real']])
 
 # %%
-# Paired comparison of real and shuffled differences
+# Test whether two-state model outperforms one-state model
 
-stat, pval = wilcoxon(df['diff_real'], df['diff_shuffle'])
 print(f'n = {len(df)} recordings')
 print(f'Median diff (real): {df["diff_real"].median():.4f}')
-print(f'Median diff (shuffle): {df["diff_shuffle"].median():.4f}')
-print(f'Wilcoxon signed-rank (real vs. shuffle): W = {stat:.1f}, p = {pval:.3g}')
 
 # One-sided one-sample t-test: is mean of real difference greater than zero?
 t_real, p_real = ttest_1samp(df['diff_real'], 0, alternative='greater')
@@ -87,20 +83,14 @@ out_fpath = out_dir / 'marg_loglik.mat'
 rec = df['rec'].tolist()
 mll_1s = df['mll_1s'].to_numpy()
 mll_2s = df['mll_2s'].to_numpy()
-mll_1s_shuffle = df['mll_1s_shuffle'].to_numpy()
-mll_2s_shuffle = df['mll_2s_shuffle'].to_numpy()
 diff_real = df['diff_real'].to_numpy()
-diff_shuffle = df['diff_shuffle'].to_numpy()
 
 # Package fields into dict and save to MAT file
 out_data = {
     'rec': rec,
     'mll_1s': mll_1s,
     'mll_2s': mll_2s,
-    'mll_1s_shuffle': mll_1s_shuffle,
-    'mll_2s_shuffle': mll_2s_shuffle,
     'diff_real': diff_real,
-    'diff_shuffle': diff_shuffle,
 }
 savemat(out_fpath, out_data, do_compression=True)
 

@@ -12,13 +12,11 @@ import joblib
 import numpy as np
 import pandas as pd
 import yaml
-
 from percept_hmm.fixed_hmm import bin_trial
 from percept_hmm.flash_suppression import TrialData
 from percept_hmm.models.pmm import loglik_pois
 from percept_hmm.pipelines.dataio import rec_fname
 from percept_hmm.pipelines.fs_rivalry import stim_priming_responses
-from percept_hmm.pipelines.llr import shuffle_spikes
 from percept_hmm.utils import timex
 
 # %%
@@ -196,7 +194,6 @@ r_floor = params['model']['r_floor']
 
 # Parameters for control analysis
 cval_seed = params['marg_loglik']['cval_seed']
-shuffle_seed = params['marg_loglik']['shuffle_seed']
 bin_size = params['marg_loglik']['bin_size']
 win_start = params['marg_loglik']['win_start']
 win_stop = params['marg_loglik']['win_stop']
@@ -217,30 +214,14 @@ if args.paradigm in ['fsm', 'fsmt']:
     print('Done.')
 
 # %%
-# Calculate marginal log-likelihood of one- and two-state models on real data
+# Calculate marginal log-likelihood of one- and two-state models
 
 # Average priming responses for all stimuli
 r_prime = stim_priming_responses(fs_data, r_start, r_stop, r_floor)
 
 # Marginal log-likelihoods of both models
-with timex('Computing marginal log-likelihoods on real data...'):
+with timex('Computing marginal log-likelihoods...'):
     mll_real = mll_session(fs_data, r_prime, bin_size, win_start, win_stop, r_floor, cval_seed)
-
-# %%
-# Shuffle spikes and recompute marginal log-likelihoods
-
-# Random number generator for shuffling
-rng_shuffle = np.random.default_rng(shuffle_seed)
-
-# Shuffle spikes in time independently for each unit within the analysis window
-with timex('Shuffling spikes...'):
-    fs_data_shuffle = shuffle_spikes(fs_data, win_start, win_stop, rng_shuffle)
-
-# Marginal log-likelihoods of both models
-with timex('Computing marginal log-likelihoods on shuffled data...'):
-    mll_shuffle = mll_session(
-        fs_data_shuffle, r_prime, bin_size, win_start, win_stop, r_floor, cval_seed
-    )
 
 # %%
 # Compute average log-likelihood across trials
@@ -260,7 +241,7 @@ for (r, c), trials in fs_data.items():
         )
 df_trial = pd.DataFrame(rows_trial)
 
-# DataFrame for marginal log-likelihood values computed on real data
+# DataFrame for marginal log-likelihood values
 rows_mll_real = []
 for trials in mll_real.values():
     for x in trials:
@@ -273,27 +254,12 @@ for trials in mll_real.values():
         )
 df_mll_real = pd.DataFrame(rows_mll_real)
 
-# DataFrame for marginal log-likelihood values computed on shuffled data
-rows_mll_shuffle = []
-for trials in mll_shuffle.values():
-    for x in trials:
-        rows_mll_shuffle.append(
-            {
-                'trial_index': x['trial_index'],
-                'mll_1s_shuffle': x['mll_one_state'],
-                'mll_2s_shuffle': x['mll_two_state'],
-            }
-        )
-df_mll_shuffle = pd.DataFrame(rows_mll_shuffle)
-
 # Merge dataframes
-df = df_trial.merge(df_mll_real, on='trial_index').merge(df_mll_shuffle, on='trial_index')
+df = df_trial.merge(df_mll_real, on='trial_index')
 
-# Compute average marginal log-likelihood across trials on real and shuffled data
+# Compute average marginal log-likelihood across trials
 mll_1s = df['mll_1s'].mean()
 mll_2s = df['mll_2s'].mean()
-mll_1s_shuffle = df['mll_1s_shuffle'].mean()
-mll_2s_shuffle = df['mll_2s_shuffle'].mean()
 
 # %%
 # Save data to JSON file
@@ -303,8 +269,6 @@ out_fpath = marg_loglik_dir / rec_fname(args.session, args.paradigm, args.probes
 out_data = {
     'mll_1s': mll_1s,
     'mll_2s': mll_2s,
-    'mll_1s_shuffle': mll_1s_shuffle,
-    'mll_2s_shuffle': mll_2s_shuffle,
 }
 with open(out_fpath, 'w') as f:
     json.dump(out_data, f)
