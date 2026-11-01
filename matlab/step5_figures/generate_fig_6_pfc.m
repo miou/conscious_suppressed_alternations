@@ -98,7 +98,7 @@ finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[figure_folder_na
 
 %% Statistical test for decoding: 
 % Stimulus-level tests (each high-repeat identity is the unit). Primary = double dissociation (interaction),
-% paired by stimulus across states; one-sided since the direction is predicted a priori.
+% paired by stimulus across states.
 min_samples_per_stim = 20;
 s1 = summaries.state_1; s2 = summaries.state_2;
 a1 = s1.correct_cv_per_stim ./ s1.count_per_stim;  b1 = s1.correct_cvo_per_stim ./ s1.count_per_stim;

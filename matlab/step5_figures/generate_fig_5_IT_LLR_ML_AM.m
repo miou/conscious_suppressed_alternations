@@ -18,24 +18,18 @@ end
 load(release_axes_summary(paths,'priming',''))
 define_summary_config_ML_AM_fig_2
 regions_to_include = {'AM'};
-% load("Z:\session_summaries\flash_suppression_axes\trained_priming_tested_priming\_avgdim_0\summary_trained_priming_tested_priming__avgdim_0.mat")
-% define_summary_config_PFC_fig_5;
-% summary_config.cell_proportion = 0.5; %To match half neurons
 across_sessions_analysis_axes_aux
 summaries.priming.explained_variance_features_cv_high_repeat = explained_variance_features_cv_high_repeat;
 summaries.priming.explained_variance_features_cv_high_repeat_other = explained_variance_features_cv_high_repeat_other;
 summaries.priming.percentage_correct_cv = percentage_correct_cv;
 summaries.priming.percentage_correct_cv_other = percentage_correct_cv_other;
 summaries.priming.predicted_features_cv = predicted_features_cv;
-% summary_config = rmfield(summary_config,'cell_proportion');
 
-%Use LLR
+%Use the fixed-rate HMM states
 %State 1
 load(release_axes_summary(paths,'dominant_binocular','states_Fixed rate HMM ML_1_1'))
 define_summary_config_ML_AM_fig_2
 regions_to_include = {'AM'};
-% load('Z:\session_summaries\flash_suppression_axes\trained_priming_tested_dominant_binocular\states_Fixed rate LLR PFC 10 ms_1_1_avgdim_0\summary_trained_priming_tested_dominant_binocular_states_Fixed rate LLR PFC 10 ms_1_1_avgdim_0.mat')
-% define_summary_config_PFC_fig_5;
 
 across_sessions_analysis_axes_aux
 summaries.state_1.explained_variance_features_cv_high_repeat = explained_variance_features_cv_high_repeat;
@@ -48,8 +42,6 @@ summaries.state_1.predicted_features_cv = predicted_features_cv;
 load(release_axes_summary(paths,'dominant_binocular','states_Fixed rate HMM ML_2_1'))
 define_summary_config_ML_AM_fig_2
 regions_to_include = {'AM'};
-% load('Z:\session_summaries\flash_suppression_axes\trained_priming_tested_dominant_binocular\states_Fixed rate LLR PFC 10 ms_2_1_avgdim_0\summary_trained_priming_tested_dominant_binocular_states_Fixed rate LLR PFC 10 ms_2_1_avgdim_0.mat')
-% define_summary_config_PFC_fig_5;
 across_sessions_analysis_axes_aux
 summaries.state_2.explained_variance_features_cv_high_repeat = explained_variance_features_cv_high_repeat;
 summaries.state_2.explained_variance_features_cv_high_repeat_other = explained_variance_features_cv_high_repeat_other;
@@ -91,24 +83,18 @@ fprintf('Euclidean dissociation: t(%d)=%.1f, p=%.2e (n=%d pairs)\n', st.df, st.t
 load(release_axes_summary(paths,'priming',''))
 define_summary_config_ML_AM_fig_2
 regions_to_include = {'ML'};
-% load("Z:\session_summaries\flash_suppression_axes\trained_priming_tested_priming\_avgdim_0\summary_trained_priming_tested_priming__avgdim_0.mat")
-% define_summary_config_PFC_fig_5;
-% summary_config.cell_proportion = 0.5; %To match half neurons
 across_sessions_analysis_axes_aux
 summaries.priming.explained_variance_features_cv_high_repeat = explained_variance_features_cv_high_repeat;
 summaries.priming.explained_variance_features_cv_high_repeat_other = explained_variance_features_cv_high_repeat_other;
 summaries.priming.percentage_correct_cv = percentage_correct_cv;
 summaries.priming.percentage_correct_cv_other = percentage_correct_cv_other;
 summaries.priming.predicted_features_cv = predicted_features_cv;
-% summary_config = rmfield(summary_config,'cell_proportion');
 
-%Use LLR
+%Use the fixed-rate HMM states
 %State 1
 load(release_axes_summary(paths,'dominant_binocular','states_Fixed rate HMM AM_1_1'))
 define_summary_config_ML_AM_fig_2
 regions_to_include = {'ML'};
-% load('Z:\session_summaries\flash_suppression_axes\trained_priming_tested_dominant_binocular\states_Fixed rate LLR PFC 10 ms_1_1_avgdim_0\summary_trained_priming_tested_dominant_binocular_states_Fixed rate LLR PFC 10 ms_1_1_avgdim_0.mat')
-% define_summary_config_PFC_fig_5;
 
 across_sessions_analysis_axes_aux
 summaries.state_1.explained_variance_features_cv_high_repeat = explained_variance_features_cv_high_repeat;
@@ -121,8 +107,6 @@ summaries.state_1.predicted_features_cv = predicted_features_cv;
 load(release_axes_summary(paths,'dominant_binocular','states_Fixed rate HMM AM_2_1'))
 define_summary_config_ML_AM_fig_2
 regions_to_include = {'ML'};
-% load('Z:\session_summaries\flash_suppression_axes\trained_priming_tested_dominant_binocular\states_Fixed rate LLR PFC 10 ms_2_1_avgdim_0\summary_trained_priming_tested_dominant_binocular_states_Fixed rate LLR PFC 10 ms_2_1_avgdim_0.mat')
-% define_summary_config_PFC_fig_5;
 across_sessions_analysis_axes_aux
 summaries.state_2.explained_variance_features_cv_high_repeat = explained_variance_features_cv_high_repeat;
 summaries.state_2.explained_variance_features_cv_high_repeat_other = explained_variance_features_cv_high_repeat_other;

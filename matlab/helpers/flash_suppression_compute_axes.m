@@ -32,14 +32,35 @@ for stimuli_to_include_index= 1:length(stimuli_to_include_list)
             for paradigm_list_index = 1:length(config)
                 paradigm_data = session.paradigms_data{config(paradigm_list_index).paradigm_index};
 
+                % Variables from flash_suppression_get_variables, which the caller ran once for
+                % this session; passed on so the helpers below do not rebuild the raster.
+                session_variables = struct();
+                session_variables.raster = raster;
+                session_variables.peri_stimulus_range = peri_stimulus_range;
+                session_variables.b_in_range = b_in_range;
+                session_variables.stimulus_properties = stimulus_properties;
+                session_variables.stimulus_index_in_range = stimulus_index_in_range;
+                session_variables.priming_stimuli = priming_stimuli;
+                session_variables.priming_stimuli_list = priming_stimuli_list;
+                session_variables.dominant_image = dominant_image;
+                session_variables.suppressed_image = suppressed_image;
+                session_variables.stimulus_is_binocular = stimulus_is_binocular;
+                session_variables.trial_is_binocular = trial_is_binocular;
+                session_variables.trial_is_transparent = trial_is_transparent;
+                session_variables.trial_is_gray = trial_is_gray;
+                session_variables.on_durations_in_range = on_durations_in_range;
+                session_variables.high_repeat_images_red = high_repeat_images_red;
+                session_variables.high_repeat_images_cyan = high_repeat_images_cyan;
+
                 %% Get stimuli
                 [config,folder_name,peri_stimulus_range,unique_stimuli,unique_stimulus_index_other_list,unique_stimuli_is_high_repeat,unique_stimuli_is_red,unique_stimuli_is_cyan,red_cyan_pair_indices,number_of_features,xml_folder,xml_filename,feat_map,feat_map_stim_condition_stimulus,feat_map_stim_names,stimulus_index_in_range,priming_stimuli,dominant_image,suppressed_image,b_trial_in_range_is_proportion_priming,trial_is_binocular,b_trial_in_range_is_proportion,number_of_stimuli_total_list,number_of_stimuli_for_decoding_list]...
                     =flash_suppression_axes_get_stimuli(...
-                    config,session,paradigm_data,flash_suppression_results);
+                    config,session,paradigm_data,flash_suppression_results,session_variables);
                 %% Compute features and responses
                 [b_selected,features,responses_to_use_training,responses_to_use_testing,responses_st,responses_ot_stimulus,responses_priming,responses_dominant_binocular,responses_suppressed_binocular]...
                     = flash_suppression_axes_get_features_responses...
-                    (config,session,paradigm_data,raster_state,unique_stimuli,unique_stimulus_index_other_list,number_of_features,feat_map,feat_map_stim_condition_stimulus,feat_map_stim_names,stimulus_index_in_range,priming_stimuli,dominant_image,suppressed_image,b_trial_in_range_is_proportion_priming,trial_is_binocular,b_trial_in_range_is_proportion);
+                    (config,session,paradigm_data,raster_state,unique_stimuli,unique_stimulus_index_other_list,number_of_features,feat_map,feat_map_stim_condition_stimulus,feat_map_stim_names,stimulus_index_in_range,priming_stimuli,dominant_image,suppressed_image,b_trial_in_range_is_proportion_priming,trial_is_binocular,b_trial_in_range_is_proportion,session_variables);
+                clear session_variables
                 
 
 

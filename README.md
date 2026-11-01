@@ -15,9 +15,9 @@ and reduce the memory and compute requirements so the analysis runs on a wider r
 
 ## Installation
 
-The MATLAB code in the pipeline can be run as long as there is a version of MATLAB installed on
-your computer. The Python code needs to be run inside a specific Python environment installed
-using the Python tool [uv](https://docs.astral.sh/uv/), which can be installed using the 
+The MATLAB code was tested with MATLAB R2023b on Windows 11. The Python code needs to be run
+inside a specific Python environment installed using the Python tool
+[uv](https://docs.astral.sh/uv/), which can be installed using the
 instructions found [here](https://docs.astral.sh/uv/getting-started/installation/). Once `uv` is
 installed, the environment can be installed by running the command
 ```
@@ -105,7 +105,8 @@ variable `session_list` beforehand to restrict).
      → `data/results/per_session_responses/`.
    - `step3_run_and_save_modulation.m` — state-conditioned modulation indices and single-trial
      decoding, using the half-neuron (cross-neuron) control (states inferred from one neuron
-     half, measured on the other) → `data/results/per_session_modulation/`.
+     half, measured on the other), and the full-population IT modulation indices for Fig. 1h
+     → `data/results/per_session_modulation/`.
    - `step3_run_and_save_trial_decoding_full.m` — full-population IT single-trial decoding (Fig. 2l)
      → `data/results/per_session_trialdec_full/`.
 
@@ -115,16 +116,17 @@ variable `session_list` beforehand to restrict).
 
 5. **Figures** — `step5_figures/generate_fig_*.m` (one panel each). Each loads the pooled summaries,
    pools / reconstructs across sessions via `across_sessions_analysis_axes_aux`, and writes to
-   `figures_output/`. Independently runnable once steps 1–4 are done.
+   `figures_output/`. Independently runnable once steps 1–4 are done. Panels are written as EMF on
+   Windows and as PDF on other platforms. The two Fig. 2 example-raster scripts use the example
+   session's state file in `data/python_states/` if it exists; otherwise they use the states of the
+   example trials stored in `matlab/step5_figures/example_states_251218_Alfie.mat` (with a warning).
 
-**Reproducibility.** The shipped summaries contain the exact single-trial decoding values used for
-the paper (Fig. 2l and Fig. 3i). Note that the single-trial decoding is **not seeded**: before
-decoding, `flash_suppression_get_variables` balances stimuli shown at different frequencies by
-randomly subsampling trials, so **regenerating the session summaries (steps 3–4) yields slightly
-different single-trial decoding values each time**. The effect sizes and significance are
-unchanged — only the exact numbers move within the range reported in the paper. To reproduce
-the paper's figures exactly, use the shipped summaries rather than regenerating them. Everything
-else (reconstruction, explained variance, modulation) is unaffected by this.
+**Single-trial decoding.** The single-trial decoders (Fig. 2l, 3i) are trained on a random subset
+of priming trials that equalizes the number of repeats per stimulus, and this subsampling is not
+seeded. The `trial_decoding` values in the shipped summaries are those of the analysis run
+reported in the paper; all other fields are produced by the code in this repository. Regenerating
+the summaries draws a different subset, so these statistics vary slightly between runs but do not
+change qualitatively.
 
 ## Getting the data
 

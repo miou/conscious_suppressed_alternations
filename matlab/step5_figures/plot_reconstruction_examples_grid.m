@@ -81,8 +81,8 @@ is_liang = contains(xml_filename,'FlashSuppression_many_faces_Liang_2500_many_pa
 is_steven = contains(xml_filename,'FlashSuppression_many_faces_Steven_2000_many_pairs');
 
 if is_liang
-    % Face-generation code (AAM_Model) is shipped in helpers/; the model DATA and any Liang
-    % deps live under the release data folder (paths.stimulus_model) -- ship them there.
+    % Face-generation code (AAM_Model) is in helpers/; the model data is in
+    % data/monkey_face_model (paths.stimulus_model).
     p_rel = set_paths; addpath(genpath(p_rel.stimulus_model));
     model_data = fullfile(p_rel.stimulus_model,'Monkey_Face_Model_Data.mat');
     model = AAM_Model(model_data);
@@ -105,7 +105,7 @@ if is_liang
     reconstruction_state2 = image_array_to_cell(reconstruction_state2);
 
 elseif is_steven
-    p_rel = set_paths; addpath(genpath(p_rel.stimulus_model));   % ship Steven's face_generator_50d under paths.stimulus_model
+    p_rel = set_paths; addpath(genpath(p_rel.stimulus_model));
 
     ground_truth_conscious = face_generator_50d( ...
         features(ground_truth_conscious_indices,:), 0);

@@ -48,54 +48,6 @@ for i=1:n_paradigms
             pd_std.timecourse_on_times_ks = pd.debug.timecourse_on_times_in_kilosort_recording_time;
         end
 
-        % Fixation points and inferred percepts for no-report rivalry paradigms
-        brn_paradigms = {
-            'no_report_v3_binocular_rivalry';
-            'no_report_v3_binocular_rivalry_triplets'
-            };
-        if ismember(pd.paradigm_name, brn_paradigms)
-            % Get fixation points
-            [fix_positions, face_fix_positions_index, object_fix_positions_index,~,~] = define_no_report_paradigm(pd.paradigm_name);
-            % Add to paradigm data
-            pd_std.fix_positions = fix_positions;
-            pd_std.face_fix_positions_index = face_fix_positions_index;
-            pd_std.object_fix_positions_index = object_fix_positions_index;
-            % Infer percepts
-            session = infer_percept_mod(session, pd); % Function writes output to session object
-            percepts = session.inferred_percepts(i); % Copy function output
-            session = rmfield(session, 'inferred_percepts'); % Remove output to make sure we don't accidentally copy it later
-            [b_good_face_trial, b_good_object_trial] = make_inferred_percepts_stringent(percepts, 1, 1);
-            % Add fields to paradigm data
-            pd_std.trials_fixated = percepts.b_trials_fixated;
-            pd_std.trials_fixated_face = percepts.b_trials_fixated_face;
-            pd_std.trials_fixated_object = percepts.b_trials_fixated_object;
-            pd_std.good_face_trial = b_good_face_trial;
-            pd_std.good_object_trial = b_good_object_trial;
-        end
-
-        % Fixation points for physical switches no-report paradigms
-        psn_paradigms = {
-            'no_report_v3_physical_switches';
-            'no_report_v3_physical_switches_triplets';
-            };
-        if ismember(pd.paradigm_name, psn_paradigms)
-            % Get fixation points
-            [fix_positions, face_fix_positions_index, object_fix_positions_index,~,~] = define_no_report_paradigm(pd.paradigm_name);
-            % Combine into single array (choose whatever value isn't NaN)
-            n_vals = size(face_fix_positions_index, 1);
-            fix_positions_index = zeros(n_vals, 1);
-            for j = 1:n_vals
-                if isnan(face_fix_positions_index(j))
-                    fix_positions_index(j) = object_fix_positions_index(j);
-                else
-                    fix_positions_index(j) = face_fix_positions_index(j);
-                end
-            end
-            % Add to paradigm data
-            pd_std.fix_positions = fix_positions;
-            pd_std.fix_positions_index = fix_positions_index;
-        end
-
         % Add standardized paradigm fields to list
         std.paradigms_data{i} = pd_std;
     end

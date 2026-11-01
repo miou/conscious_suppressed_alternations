@@ -1,8 +1,22 @@
 function [config,folder_name,peri_stimulus_range,unique_stimuli,unique_stimulus_index_other_list,unique_stimuli_is_high_repeat,unique_stimuli_is_red,unique_stimuli_is_cyan,red_cyan_pair_indices,number_of_features,xml_folder,xml_filename,feat_map,feat_map_stim_condition_stimulus,feat_map_stim_names,stimulus_index_in_range,priming_stimuli,dominant_image,suppressed_image,b_trial_in_range_is_proportion_priming,trial_is_binocular_context,b_trial_in_range_is_proportion,number_of_stimuli_total_list,number_of_stimuli_for_decoding_list]...
     =flash_suppression_axes_get_stimuli(...
-    config,session,paradigm_data,flash_suppression_results);
+    config,session,paradigm_data,flash_suppression_results,session_variables);
 
-flash_suppression_get_variables;
+% Per-session variables from flash_suppression_get_variables (computed once by the caller)
+peri_stimulus_range = session_variables.peri_stimulus_range;
+b_in_range = session_variables.b_in_range;
+stimulus_properties = session_variables.stimulus_properties;
+stimulus_index_in_range = session_variables.stimulus_index_in_range;
+priming_stimuli = session_variables.priming_stimuli;
+priming_stimuli_list = session_variables.priming_stimuli_list;
+dominant_image = session_variables.dominant_image;
+suppressed_image = session_variables.suppressed_image;
+stimulus_is_binocular = session_variables.stimulus_is_binocular;
+trial_is_binocular = session_variables.trial_is_binocular;
+trial_is_transparent = session_variables.trial_is_transparent;
+high_repeat_images_red = session_variables.high_repeat_images_red;
+high_repeat_images_cyan = session_variables.high_repeat_images_cyan;
+
 if isfield(config,'cell_selection_scheme') && ~strcmp(config.cell_selection_scheme,'all')
     config.b_plot_single_cells=false;
 end

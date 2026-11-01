@@ -185,10 +185,6 @@ for i = 1:numel(session.paradigms_data)
     % Write face/object labels for labeled paradigms
     pd_labeled = {
         'FOB';
-        'physical_switches_static';
-        'no_report_v3_physical_switches';
-        'physical_switches_static_triplets';
-        'no_report_v3_physical_switches_triplets'
     };
     if ismember(name, pd_labeled)
 
@@ -203,85 +199,6 @@ for i = 1:numel(session.paradigms_data)
     	ds_data = uint8(pd.trial_is_object);
     	h5create(fname, ds_path, size(ds_data), 'Datatype', 'uint8');
     	h5write(fname, ds_path, ds_data);
-    end
-
-    % Write fixation points and inferred percepts for rivalry no-report paradigms
-    pd_brn = {
-        'no_report_v3_binocular_rivalry';
-        'no_report_v3_binocular_rivalry_triplets';
-    };
-    if ismember(name, pd_brn)
-
-        % List of all fixation points (x- and y-values)
-        ds_path = sprintf('%s/fix_positions', group_path);
-        ds_data = pd_std.fix_positions'; % Save transpose
-        h5create(fname, ds_path, size(ds_data), 'Datatype', 'double');
-        h5write(fname, ds_path, ds_data);
-
-        % Index identifying fixation point in face stimulus
-        ds_path = sprintf('%s/face_fix_positions_index', group_path);
-        face_fix_positions_index_python = pd_std.face_fix_positions_index - 1;
-        ds_data = int32(face_fix_positions_index_python);
-        h5create(fname, ds_path, size(ds_data), 'Datatype', 'int32');
-        h5write(fname, ds_path, ds_data);
-
-        % Index identifying fixation point in object stimulus
-        ds_path = sprintf('%s/object_fix_positions_index', group_path);
-        object_fix_positions_index_python = pd_std.object_fix_positions_index - 1;
-        ds_data = int32(object_fix_positions_index_python);
-        h5create(fname, ds_path, size(ds_data), 'Datatype', 'int32');
-        h5write(fname, ds_path, ds_data);
-
-        % Indicator: Equal to 1 if monkey is fixating on some point during trial
-    	ds_path = sprintf('%s/trials_fixated', group_path);
-    	ds_data = uint8(pd_std.trials_fixated);
-    	h5create(fname, ds_path, size(ds_data), 'Datatype', 'uint8');
-    	h5write(fname, ds_path, ds_data);
-
-	    % Indicator: Equal to 1 if monkey is fixating on face point during trial
-    	ds_path = sprintf('%s/trials_fixated_face', group_path);
-    	ds_data = uint8(pd_std.trials_fixated_face);
-    	h5create(fname, ds_path, size(ds_data), 'Datatype', 'uint8');
-    	h5write(fname, ds_path, ds_data);
-
-	    % Indicator: Equal to 1 if monkey is fixating on object point during trial
-    	ds_path = sprintf('%s/trials_fixated_object', group_path);
-    	ds_data = uint8(pd_std.trials_fixated_object);
-    	h5create(fname, ds_path, size(ds_data), 'Datatype', 'uint8');
-    	h5write(fname, ds_path, ds_data);
-
-	    % Indicator: "Good" face trials
-    	ds_path = sprintf('%s/good_face_trial', group_path);
-    	ds_data = uint8(pd_std.good_face_trial);
-    	h5create(fname, ds_path, size(ds_data), 'Datatype', 'uint8');
-    	h5write(fname, ds_path, ds_data);
-
-	    % Indicator: "Good" object trials
-    	ds_path = sprintf('%s/good_object_trial', group_path);
-    	ds_data = uint8(pd_std.good_object_trial);
-    	h5create(fname, ds_path, size(ds_data), 'Datatype', 'uint8');
-    	h5write(fname, ds_path, ds_data);
-    end
-
-    % Write fixation points and inferred percepts for physical switches no-report paradigms
-    pd_psn = {
-        'no_report_v3_physical_switches'; 
-        'no_report_v3_physical_switches_triplets';
-    };
-    if ismember(name, pd_psn)
-
-        % List of all fixation points (x- and y-values)
-        ds_path = sprintf('%s/fix_positions', group_path);
-        ds_data = pd_std.fix_positions'; % Save transpose
-        h5create(fname, ds_path, size(ds_data), 'Datatype', 'double');
-        h5write(fname, ds_path, ds_data);
-
-        % Index identifying fixation point in stimulus
-        ds_path = sprintf('%s/fix_positions_index', group_path);
-        fix_positions_index_python = pd_std.fix_positions_index - 1;
-        ds_data = int32(fix_positions_index_python);
-        h5create(fname, ds_path, size(ds_data), 'Datatype', 'int32');
-        h5write(fname, ds_path, ds_data);
     end
 
     % Write variables for flash suppression paradigms

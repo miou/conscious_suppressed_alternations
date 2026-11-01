@@ -1,4 +1,4 @@
-%% generate_transition_rasters_251218.m
+%% generate_fig_2_example_stimulus_pair.m
 % Percept-transition rasters for session 251218_142027_Alfie, stimulus pair
 % (monkey_face_120d_0051 / monkey_face_120d_0052), CYAN-DOMINANT binocular condition.
 % Paper-ready (nature / poster), style of generate_fig_2_example_raster_with_states.m.
@@ -20,7 +20,7 @@
 %   suppressed-preferring example cell (682, purple)  state1->2 / state2->1
 %   conscious-preferring  example cell (250, orange)  state1->2 / state2->1
 %
-% plotSpikeRaster CAVEAT (verified by test_transition_rasters.m): RasterWindowOffset is given in
+% plotSpikeRaster CAVEAT: RasterWindowOffset is given in
 % SECONDS but the plotted x-axis comes out in MILLISECONDS (offset is divided by TimePerBin=1e-3),
 % and a spike at column c is drawn at x=c-50. build_raster puts the transition sample in column
 % (win+1), so to place the transition exactly at x=0 use RasterWindowOffset = -(win+1)*1e-3, and
@@ -57,6 +57,7 @@ end
 
 %% ---------------- states + raster ----------------
 si_index = 1;   % LLR IT (conscious/suppressed) inference scheme in inference_results (1=conscious, 2=suppressed; see switches_infer_states)
+session = load_example_states_if_missing(session, paradigm_index, si_index);
 state_timecourse  = session.inference_results{paradigm_index, si_index}.state_timecourse;   % 1 x nT
 timecourse_raster = paradigm_data.timecourse_all_units';                                     % units x nT (spikes/ms)
 nT = size(timecourse_raster,2);

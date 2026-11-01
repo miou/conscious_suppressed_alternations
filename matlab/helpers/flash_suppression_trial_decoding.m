@@ -108,8 +108,6 @@ for probe_index=-2:session.number_of_probes
             decoding_accuracy_testing_suppressed_state_full_trial.(trial_context_name) = mean(pred_state(:)==sup(:));
 
         end
-        % (per-session debug PNGs of the time-resolved decoding curves were written here;
-        % removed for the release -- the paper panels are produced by generate_fig_2/3/6.)
 
         flash_suppression_results.time_window_starts = time_window_starts;
         flash_suppression_results.time_window_length = time_window_length;

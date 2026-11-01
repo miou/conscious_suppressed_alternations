@@ -18,6 +18,7 @@ end
 %Used for paper:
 trial_index = 3738; %251218_142027_Alfie
 si_index = 1; %LLR IT (see switches_infer_states)
+session = load_example_states_if_missing(session, paradigm_index, si_index);
 
 
 

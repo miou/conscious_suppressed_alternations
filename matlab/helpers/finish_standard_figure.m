@@ -26,7 +26,8 @@ function finish_standard_figure(fig, ax, S, varargin)
 %       Default: false
 %
 %   'ExportEMF'
-%       Export EMF for PowerPoint on Windows.
+%       Export EMF for PowerPoint on Windows. EMF export (print -dmeta) exists
+%       only on Windows; on other platforms a vector PDF is written instead.
 %       Default: false
 %
 %   'CloseAfterExport'
@@ -365,7 +366,7 @@ end
 
 %% Export EMF
 
-if p.Results.ExportEMF
+if p.Results.ExportEMF && ispc
 
     old_renderer = fig.Renderer;
     old_color = fig.Color;
@@ -381,6 +382,13 @@ if p.Results.ExportEMF
     set(fig, ...
         'Renderer', old_renderer, ...
         'Color', old_color);
+elseif p.Results.ExportEMF && ~p.Results.ExportPDF
+
+    exportgraphics( ...
+        fig, ...
+        [output_base '.pdf'], ...
+        'ContentType', 'vector', ...
+        'BackgroundColor', 'none');
 end
 
 %% Restore white live preview after export

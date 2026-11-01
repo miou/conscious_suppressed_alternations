@@ -95,7 +95,7 @@ finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[figure_folder_na
 
 %% Statistical test for decoding: 
 % Stimulus-level tests (each high-repeat identity is the unit). Primary = double dissociation (interaction),
-% paired by stimulus across states; one-sided since the direction is predicted a priori.
+% paired by stimulus across states.
 min_samples_per_stim = 20;
 s1 = summaries.state_1; s2 = summaries.state_2;
 a1 = s1.correct_cv_per_stim ./ s1.count_per_stim;  b1 = s1.correct_cvo_per_stim ./ s1.count_per_stim;
@@ -126,7 +126,7 @@ region = 'IT';
 summary_state_1 = load(release_modulation_summary(paths,'Fixed rate LLR IT 10 ms half neurons',1));
 summary_state_2 = load(release_modulation_summary(paths,'Fixed rate LLR IT 10 ms half neurons',2));
 figure_folder_name = fullfile(paths.figures_out,'fig_3_half_neurons'); if ~exist(figure_folder_name,'dir'); mkdir(figure_folder_name); end
-example_session_index = 7; %250518_Mowgli (the paper's example session, originally index 146)
+example_session_index = 7; %250518_Mowgli (example session)
 
 decoding_unambiguous_dominant_all_states = [];
 decoding_unambiguous_suppressed_all_states = [];

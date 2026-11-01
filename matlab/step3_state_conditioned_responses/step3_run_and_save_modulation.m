@@ -4,8 +4,8 @@
 % then assembles the per-state summaries the modulation figures load (fig_1_modulation,
 % fig_6 PFC panels). Parallelizable: run with disjoint session_list, then combine once.
 %
-% One load per session: all variants (IT, PFC, PFC half) x (state 1, state 2) are
-% computed from the single loaded session. States attached here if absent.
+% One load per session: all variants (IT half, PFC half, IT full population) x (state 1,
+% state 2) are computed from the single loaded session. States attached here if absent.
 
 paths = set_paths;
 rivalry_config  = switches_config_release;
@@ -19,10 +19,12 @@ end
 output_directory = fullfile(paths.results,'per_session_modulation');
 if ~exist(output_directory,'dir'); mkdir(output_directory); end
 
-% Modulation indices are half-neuron cross-validated in the paper (states inferred from
-% one half of the neurons, modulation measured on the other half), so use only the
-% half-neuron variants: IT half (ML/AM) for Fig 1/4, PFC half for Fig 6.
-variant_names = {'Fixed rate LLR IT 10 ms half neurons', 'Fixed rate LLR PFC 10 ms half neurons'};
+% State-conditioned modulation indices are half-neuron cross-validated (states inferred from
+% one half of the neurons, modulation measured on the other half): IT half (ML/AM) for Fig 4,
+% PFC half for Fig 6. The full IT population is used for Fig 1h, which compares the
+% unambiguous and binocular conditions and does not depend on the states.
+variant_names = {'Fixed rate LLR IT 10 ms half neurons', 'Fixed rate LLR PFC 10 ms half neurons', 'Fixed rate LLR IT 10 ms'};
+full_population_variant = 'Fixed rate LLR IT 10 ms';
 state_values  = [1 2];
 
 for session_index = session_list
@@ -75,23 +77,24 @@ for session_index = session_list
                 flash_suppression_results = struct();
                 flash_suppression_compute_modulation_indices_all;   % fills .<context>.modulation_indices
 
-                % Half-neuron held-out control: mark the neurons NOT used for state inference.
-                % The figure-time aux (across_sessions_analysis_all_combinations_modulation_aux,
-                % line 191) applies this mask so modulation is measured only on the held-out half.
-                % flash_suppression_compute_modulation_indices measures ALL neurons, so without
-                % this field the modulation pools both halves (~2x the cell-stimulus pairs) and
-                % does not match the paper. Mirrors flash_suppression_trial_decoding.m.
+                % Half-neuron variants: mark the neurons NOT used for state inference. The
+                % figure-time aux (across_sessions_analysis_all_combinations_modulation_aux)
+                % uses this mask to measure modulation on the held-out half only, as in
+                % flash_suppression_trial_decoding.m.
                 infres = session.inference_results{paradigm_index, scheme_index};
                 if isfield(infres,'selected_indices_for_state_inference') && ~isempty(infres.selected_indices_for_state_inference)
                     flash_suppression_results.b_neuron_is_not_for_state_inference = ...
                         ~ismember(1:size(raster,3), infres.selected_indices_for_state_inference);
                 end
 
-                % Single-trial decoding, computed in the SAME session load as the modulation
-                % (as in the lab pipeline). Fills flash_suppression_results.trial_decoding.<region>
-                % for the single-trial panels (Fig 2k/l, 3h/i, 6). Train-once inside the helper.
+                % Single-trial decoding, computed in the same session load as the modulation.
+                % Fills flash_suppression_results.trial_decoding.<region> for the single-trial
+                % panels (Fig 3h/i). Train-once inside the helper. The full-population IT
+                % decoding (Fig 2k/l) comes from step3_run_and_save_trial_decoding_full.
                 config.time_window_priming = rivalry_config.time_window_priming;
-                flash_suppression_trial_decoding;
+                if ~strcmp(variant_names{variant_index}, full_population_variant)
+                    flash_suppression_trial_decoding;
+                end
 
                 flash_suppression_results.unit_probes_index = session.unit_probes_index;
                 flash_suppression_results.regions           = session.regions;

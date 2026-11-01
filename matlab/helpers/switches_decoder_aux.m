@@ -39,18 +39,18 @@ if isempty(testing_label_vector) && all(size(testing_label_vector)==0)
         hyperparameter_optimization_options.CVPartition = cvpartition_to_use;
         if number_of_classes>2
             tic;[mdl,hyperparameter_optimization_results] = fitcecoc(training_feature_matrix_standardized,training_label_vector,'OptimizeHyperparameters','all','HyperParameterOptimizationOptions',hyperparameter_optimization_options);toc
-            decoding_results.prediction_accuracy_training = 1 - hyperparameter_optimization_results.MinEstimatedObjective; % To implement: Split set into optimization set and crossvalidation set.
+            decoding_results.prediction_accuracy_training = 1 - hyperparameter_optimization_results.MinEstimatedObjective;
 
         else
             tic;[mdl,fit_info,hyperparameter_optimization_results] = fitclinear(training_feature_matrix_standardized,training_label_vector,'OptimizeHyperparameters','all','HyperParameterOptimizationOptions',hyperparameter_optimization_options);toc
-            decoding_results.prediction_accuracy_training = 1 - hyperparameter_optimization_results.MinEstimatedObjective; % To implement: Split set into optimization set and crossvalidation set.
+            decoding_results.prediction_accuracy_training = 1 - hyperparameter_optimization_results.MinEstimatedObjective;
         end
         decoding_results.model = mdl;
     else
         if length(training_label_vector)>1
             if number_of_classes>2
                 cv_mdl = fitcecoc(training_feature_matrix_standardized,training_label_vector,'CVPartition',cvpartition_to_use,'Coding',coding,'Learners',learners); %Leave-one-out takes too long for multi-class.
-            else %to fix
+            else
                 cv_mdl = fitclinear(training_feature_matrix_standardized,training_label_vector,'CVPartition',cvpartition_to_use,'Lambda',decoding_scheme.lambda); %Leave-one-out takes too long for multi-class.'LeaveOut','On'
             end
             decoding_results.prediction_accuracy_training = 1 - cv_mdl.kfoldLoss;
@@ -72,11 +72,11 @@ else
         hyperparameter_optimization_options.CVPartition = cvpartition(length(training_label_vector),'KFold',10);
         if number_of_classes>2
             tic;[mdl,fit_info,hyperparameter_optimization_results] = fitcecoc(training_feature_matrix_standardized,training_label_vector,'OptimizeHyperparameters','all','HyperParameterOptimizationOptions',hyperparameter_optimization_options);toc
-            decoding_results.prediction_accuracy = 1 - hyperparameter_optimization_results.MinEstimatedObjective; % To implement: Split set into optimization set and crossvalidation set.
+            decoding_results.prediction_accuracy = 1 - hyperparameter_optimization_results.MinEstimatedObjective;
 
         else
             tic;[mdl,fit_info,hyperparameter_optimization_results] = fitclinear(training_feature_matrix_standardized,training_label_vector,'OptimizeHyperparameters','all','HyperParameterOptimizationOptions',hyperparameter_optimization_options);toc
-            decoding_results.prediction_accuracy = 1 - hyperparameter_optimization_results.MinEstimatedObjective; % To implement: Split set into optimization set and crossvalidation set.
+            decoding_results.prediction_accuracy = 1 - hyperparameter_optimization_results.MinEstimatedObjective;
         end
     else
         if number_of_classes>2

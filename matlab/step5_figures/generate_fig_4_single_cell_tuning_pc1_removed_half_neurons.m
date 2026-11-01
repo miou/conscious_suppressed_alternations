@@ -94,7 +94,7 @@ b_state_2_suppressed_unsorted = lscov_columns_nonan(x_for_regression,responses_o
 
 
 % Single cell example
-cell_index = 547;% for neuron-half; used to be 1100 for full population
+cell_index = 547; % example cell (held-out half)
 
 preferred_axis = weights_predicting_responses(2:end,cell_index); %Ignore the offset
 features_orthogonalized = nan(size(features));
@@ -226,7 +226,7 @@ elseif strcmp(mode,'nature')
 end
 
 % Cell 1
-bins_x_range=[0 5];bins_y_range=[-2 4];bin_size =1;margin_range = [0 12];x_lim_total_range = [];y_lim_total_range = [];%cell_index = 1100;
+bins_x_range=[0 5];bins_y_range=[-2 4];bin_size =1;margin_range = [0 12];x_lim_total_range = [];y_lim_total_range = [];
 
 [f, ax, S] = make_standard_figure(mode,'FigureNumber',501, 'HeightInHalfColumnWidths', panel_height, 'WidthInHalfColumns', panel_width);
 scatter(predicted_responses_cv(:,cell_index),orthogonal_axis,scatter_size,responses_state_1(:,cell_index),'filled');caxis([color_range]); colormap redblue;if x_lim_total_range;set(gca,'xlim',x_lim_total_range);end;if y_lim_total_range;set(gca,'xlim',y_lim_total_range);end
@@ -275,38 +275,6 @@ finish_standard_figure(f, ax, S, 'ExportEMF',true,'OutputBase',[outputfolder fil
 %% Slopes, offset, decoding
 max_slope = max([abs(b_state_1_dominant(2,b_selected_neurons)),abs(b_state_2_suppressed(2,b_selected_neurons))]);
 max_offset = max([abs(b_state_1_dominant(1,b_selected_neurons)),abs(b_state_2_suppressed(1,b_selected_neurons))]);
-
-[fig, ax, S] = make_standard_figure(mode,'FigureNumber',601, 'HeightInHalfColumnWidths', panel_height, 'WidthInHalfColumns', panel_width);
-
-data_cell = { b_state_1_dominant(2,b_selected_neurons), b_state_1_suppressed(2,b_selected_neurons), b_state_2_dominant(2,b_selected_neurons),  b_state_2_suppressed(2,b_selected_neurons)};
-labels = {'State 1 conscious', 'State 2 suppressed', 'State 1 conscious', 'State 2 suppressed'};
-yline(0, '--k', 'LineWidth', 1); violin_width = 0.35; dot_alpha = 0.18;dot_size = 8;
-colors = [
-    hex2rgb('#FCAE34');  % state 1 conscious
-    hex2rgb('#B86F1E');  % state 1 suppressed
-    hex2rgb('#8E5BAA');  % state 2 conscious
-    hex2rgb('#543379')   % state 2 suppressed
-];
-for i = 1:length(data_cell)
-    x = data_cell{i};
-    x = x(~isnan(x));
-    [f, xi] = ksdensity(x);
-    f = f ./ max(f) * violin_width;
-    patch([i - f, fliplr(i + f)], [xi, fliplr(xi)], colors(i,:),'FaceAlpha', 0.35, 'EdgeColor', 'none');
-    med_x = median(x, 'omitnan');
-    plot([i - violin_width*0.7, i + violin_width*0.7], [med_x, med_x], 'Color', colors(i,:), 'LineWidth', 2);
-    jitter = (rand(size(x)) - 0.5) * 0.16;
-    scatter(i + jitter, x, 8, ...
-        'MarkerFaceColor', colors(i,:), ...
-        'MarkerEdgeColor', 'none', ...
-        'MarkerFaceAlpha', dot_alpha);
-end
-xlim([0.4, numel(data_cell)+0.6]);
-set(gca, 'XTick', 1:numel(data_cell), 'XTickLabel', labels);
-ylabel('Tuning slope');
-finish_standard_figure(fig, ax, S);figure(fig);
-
-
 
 slope_lims = [-0.5 2.5]
 

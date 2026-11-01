@@ -46,12 +46,10 @@ for iteration_index = 1:num_iterations
                 stimuli_for_decoding = randperm(length(unique_stimuli),number_of_stimuli_for_decoding);
             end
 
-        %All features
-        %Features 1-50 (works better)
+        %Use the first 50 face-model features
         selected_features = 1:50;
-        %Features with explained variance > 0 (works about the same)
 
-        b_normalize_features = true; %works better
+        b_normalize_features = true; %z-score each feature across stimuli
 
         distance_metric = @(x,y) vecnorm(x-y,2,2);
 

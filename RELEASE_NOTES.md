@@ -30,10 +30,8 @@ from the session `.mat` files.
 These are omitted to stay within the repository/archive size limits; none are needed to
 reproduce the figures:
 
-- **Channel-resolved LFP.** Each session also has a per-channel LFP (768 channels, ~14 GB/session,
-  ~1.16 TB total; still ~0.5–0.6 TB even compressed, since LFP is broadband and compresses only
-  ~2×), which exceeds Zenodo's 200 GB cap. The **per-probe LFP is included**; the channel-resolved
-  LFP is available on request.
+- **Channel-resolved LFP.** The per-channel LFP exceeds the space available on Zenodo. The
+  **per-probe LFP is included**; the channel-resolved LFP is available on request.
 - **HDF5 exports (`sessions_h5/`).** These are the input to the Python state-inference pipeline
   and are **regenerable** from the sessions via step 1 (`step1_export/step1_export_sessions.m`).
 - **Non-compressed sessions.** The full uncompressed session files are available on request.
@@ -50,6 +48,8 @@ reproduce the figures:
 ## Notes on exact reproduction
 
 All deterministic statistics reproduce the paper exactly (e.g. the reconstruction dissociation,
-t(29)=48.5; modulation r=0.45). The single-trial decoding panels (Fig. 2l, 3i) use a
-cross-validated decoder whose random fold assignment makes the exact t-values vary slightly
-between runs while the effect and significance are unchanged.
+t(29)=48.5; modulation r=0.45). The single-trial decoders (Fig. 2l, 3i) are trained on a random
+subset of priming trials that equalizes the number of repeats per stimulus, and this subsampling
+is not seeded. The shipped `trial_decoding` values are those of the analysis run reported in the
+paper; regenerating them draws a different subset, so these statistics vary slightly between runs
+but do not change qualitatively (see the README).

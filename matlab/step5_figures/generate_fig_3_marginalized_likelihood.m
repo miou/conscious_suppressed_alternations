@@ -1,17 +1,16 @@
 %% generate_fig_3_marginalized_likelihood.m
-% Box-and-whisker (Nature style) of Conor's per-record MARGINALIZED log-likelihood gain of the
-% 2-state model over the 1-state model. Real only (no shuffle control). One value per record
-% (n = 19) = mll_2s - mll_1s, the model log-likelihood marginalized over the latent state sequence.
-% Statistical unit = record (session/probe). Signrank and t-test vs 0.
-% Input: data/python_summaries/marg_loglik.mat (shipped; produced by the Python pipeline).
-% Style matches generate_fig_3_likelihood.m.
+% Box-and-whisker (Nature style) of the per-record marginalized log-likelihood gain of the
+% 2-state model over the 1-state model. One value per record (n = 19) = mll_2s - mll_1s, the
+% model log-likelihood marginalized over the latent state sequence.
+% Statistical unit = record (session/probe). Two-sided t-test vs 0.
+% Input: data/python_summaries/marg_loglik.mat (produced by the Python pipeline, step 2).
 
 paths = set_paths;
 mode = 'nature';
 figure_folder_name = fullfile(paths.figures_out,'fig_3_half_neurons'); if ~exist(figure_folder_name,'dir'); mkdir(figure_folder_name); end
 loglik_file        = fullfile(paths.python_summaries,'marg_loglik.mat');
 
-%% Load Conor's per-record marginalized log-likelihoods
+%% Load the per-record marginalized log-likelihoods
 R    = load(loglik_file);
 vals = R.diff_real(:);                 % mll_2s - mll_1s per record (marginalized model log-likelihood gain)
 n    = numel(vals);

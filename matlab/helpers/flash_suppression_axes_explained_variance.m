@@ -1,4 +1,4 @@
-function [explained_variance_features,explained_variance_features_cv,explained_variance_features_cv_high_repeat,explained_variance_features_cv_high_repeat_other,explained_variance_features_st,explained_variance_features_st_loto,explained_variance_features_cv_alpha,explained_variance_responses,explained_variance_responses_cv,explained_variance_responses_cv_high_repeat,explained_variance_responses_st,explained_variance_responses_ot_stimulus,explained_variance_responses_cv_weighted_average,explained_variance_responses_cv_high_repeat_weighted_average,explained_variance_responses_cv_high_repeat_weighted_average_across_halves,alpha_strct,predicted_responses_weighted_average...
+function [explained_variance_features,explained_variance_features_cv,explained_variance_features_cv_high_repeat,explained_variance_features_cv_high_repeat_other,explained_variance_features_st,explained_variance_features_st_loto,explained_variance_features_cv_alpha,explained_variance_responses,explained_variance_responses_cv,explained_variance_responses_cv_high_repeat,explained_variance_responses_st,explained_variance_responses_ot_stimulus,explained_variance_responses_cv_weighted_average,explained_variance_responses_cv_high_repeat_weighted_average,explained_variance_responses_cv_high_repeat_weighted_halves,alpha_strct,predicted_responses_weighted_average...
     ] = flash_suppression_axes_explained_variance(...
     config,features,responses_to_use_testing,responses_st,responses_ot_stimulus,predicted_features,predicted_features_cv,predicted_features_st,predicted_features_st_loto,predicted_responses,predicted_responses_cv,unique_stimuli_is_high_repeat,unique_stimuli,unique_stimulus_index_other_list,responses_priming,responses_dominant_binocular,red_cyan_pair_indices)
 
@@ -32,11 +32,6 @@ for feature_index = 1:size(features,2)
     explained_variance_features_st_loto(feature_index) = Rsquared(features(:,feature_index),predicted_features_st_loto(:,feature_index));
 end
 
-% (A within-state EV-contrast sign-flip permutation p-value used to be computed and
-% printed here. It is NOT one of the statistics reported in the paper -- the reconstruction
-% dissociation the paper reports is the paired t-test computed in the figure scripts -- and
-% it was never returned or used downstream, so it has been removed.)
-
 alpha_list = 0:.1:1;
 features_average = nan(size(responses_to_use_testing,1),size(features,2),length(alpha_list));
 %Fit with different alphas
@@ -67,7 +62,7 @@ explained_variance_responses_st = nan(size(responses_to_use_testing,2),1);
 explained_variance_responses_ot_stimulus = nan(size(responses_to_use_testing,2),1);
 explained_variance_responses_cv_weighted_average = nan(size(responses_to_use_testing,2),1);
 explained_variance_responses_cv_high_repeat_weighted_average = nan(size(responses_to_use_testing,2),1);
-explained_variance_responses_cv_high_repeat_weighted_average_across_halves = nan(size(responses_to_use_testing,2),1);
+explained_variance_responses_cv_high_repeat_weighted_halves = nan(size(responses_to_use_testing,2),1);
 
 coefs_alpha = nan(1,size(responses_to_use_testing,2));
 coefs_alpha_high_repeat = nan(1,size(responses_to_use_testing,2));
@@ -130,9 +125,9 @@ for cell_index = 1:size(responses_to_use_testing,2)
         explained_variance_responses_cv_high_repeat_weighted_average(cell_index)=Rsquared(responses_dominant_binocular(unique_stimuli_is_high_repeat,cell_index),predicted_responses_weighted_average(unique_stimuli_is_high_repeat,cell_index));
 
 
-        explained_variance_responses_cv_high_repeat_weighted_average_across_halves(cell_index)=Rsquared(responses_dominant_binocular(indices_second_half,cell_index),(coefs_alpha_high_repeat_first_half(cell_index))*responses_priming(indices_second_half,cell_index) + (1-coefs_alpha_high_repeat_first_half(cell_index))*responses_priming(unique_stimulus_index_other_list(indices_second_half),cell_index));
+        explained_variance_responses_cv_high_repeat_weighted_halves(cell_index)=Rsquared(responses_dominant_binocular(indices_second_half,cell_index),(coefs_alpha_high_repeat_first_half(cell_index))*responses_priming(indices_second_half,cell_index) + (1-coefs_alpha_high_repeat_first_half(cell_index))*responses_priming(unique_stimulus_index_other_list(indices_second_half),cell_index));
     else
-        explained_variance_responses_cv_weighted_average(cell_index)=nan;explained_variance_responses_cv_high_repeat_weighted_average(cell_index)=nan;explained_variance_responses_cv_high_repeat_weighted_average_across_halves(cell_index)=nan;
+        explained_variance_responses_cv_weighted_average(cell_index)=nan;explained_variance_responses_cv_high_repeat_weighted_average(cell_index)=nan;explained_variance_responses_cv_high_repeat_weighted_halves(cell_index)=nan;
     end
 end
 

@@ -29,7 +29,7 @@ for context_combinations_index = 1:length(context_combinations)
 
 
     for session_index_across_sessions = 1:length(summary_state_1.flash_suppression_results_all_sessions)
-        if ~isempty(summary_state_1.flash_suppression_results_all_sessions{session_index_across_sessions})% && ismember(session_index_across_sessions,[133,137,138,140,143,145, 146,148, 167,151])
+        if ~isempty(summary_state_1.flash_suppression_results_all_sessions{session_index_across_sessions})
             fs_1 = summary_state_1.flash_suppression_results_all_sessions{session_index_across_sessions};
             fs_2 = summary_state_2.flash_suppression_results_all_sessions{session_index_across_sessions};
             disp(fs_1.regions)
@@ -110,7 +110,7 @@ for context_combinations_index = 1:length(context_combinations)
                                 end
                             end
                             at_least_one_spike = fs_1.(context_2).responses_red_dominant_state(:,R_1,C_1)>0 & fs_1.(context_2).responses_cyan_dominant_state(:,R_1,C_1) & fs_2.(context_2).responses_red_dominant_state(:,R_1,C_1)>0 & fs_2.(context_2).responses_cyan_dominant_state(:,R_1,C_1);
-                            b_selected = b_selected_region & (fs_1.(context_significance).responses_p_value(:,R_1,C_1)<0.05) & at_least_one_spike; %Try priming instead!!
+                            b_selected = b_selected_region & (fs_1.(context_significance).responses_p_value(:,R_1,C_1)<0.05) & at_least_one_spike;
                             % The held-out-half restriction avoids circularity for the STATE-conditioned
                             % modulation panels (states inferred from, and modulation measured on, the same
                             % cells): the half-neuron summaries carry b_neuron_is_not_for_state_inference.

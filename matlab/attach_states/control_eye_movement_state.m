@@ -5,12 +5,7 @@ function out = control_eye_movement_state(paths, rivalry_config)
 %   aligns the per-sample state label (conscious vs suppressed) to the simultaneously
 %   recorded eye position and compares the two states by (i) mean eye position / eye speed
 %   (Cohen's d) and (ii) cross-validated decodability of the state from eye position (AUC).
-%   Eye position is read from the released HDF5 export; state labels from the LLR partition.
-%
-%   Result (2 monkeys, all dual-probe sessions): states are indistinguishable by eye position
-%   (|d|~0.02) and eye position decodes the state only marginally above chance (AUC~0.51),
-%   far below decoding from neural activity (0.66). The alternation is therefore not an
-%   oculomotor artifact. (Pupil/arousal give the same conclusion from the full session files.)
+%   Eye position is read from the step-1 HDF5 export; state labels from the LLR partition.
 %
 %   out = control_eye_movement_state(set_paths, switches_config_release)
 
@@ -67,9 +62,9 @@ end
 out = rows;
 if ~isempty(rows)
     aucs = [rows.auc];
-    fprintf('\nAGGREGATE n=%d sessions: mean AUC(eye->state)=%.3f (chance=0.5; neural state decoder=0.66)\n', ...
+    fprintf('\nAGGREGATE n=%d sessions: mean AUC(eye->state)=%.3f (chance=0.5)\n', ...
         numel(rows), mean(aucs(isfinite(aucs))));
-    fprintf('mean|d| eyex=%.3f eyey=%.3f speed=%.3f  -> states not separable by eye position.\n', ...
+    fprintf('mean|d| eyex=%.3f eyey=%.3f speed=%.3f\n', ...
         mean(abs([rows.d_eyex])), mean(abs([rows.d_eyey])), mean(abs([rows.d_speed])));
 end
 end

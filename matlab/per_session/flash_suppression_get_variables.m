@@ -5,9 +5,9 @@
 %   Produces (in the workspace): stimulus_properties; the raster and its peri_stimulus_range
 %     / b_in_range window; stimulus_index_in_range; the priming-stimulus lists; and the
 %     trial-context masks trial_is_priming / _unambiguous / _binocular / _transparent / _gray
-%     and dominant_image / suppressed_image. Called by step-1 export, get_stimuli,
-%     compute_axes, compute_modulation_indices and the example-raster figures.
-b_balance_high_repeats_for_all_analyses = true; %Throw away trials to balance same number of retreats per stimulus (used for e.g.. trial_is_priming_selected, does not apply to trial_is_priming for compute_axes
+%     and dominant_image / suppressed_image. Called by step-1 export, the step-3 drivers,
+%     state_method_hmm and the example-raster figures.
+b_balance_high_repeats_for_all_analyses = true; %Subsample trials so that all stimuli have the same number of repeats (used for e.g. trial_is_priming_selected; does not apply to trial_is_priming, which compute_axes uses)
 require_previous_trial_valid = true; %Require priming trial prior to binocular/transparent/unambiguous to be valid in order for the binocular/transparent/unambiguous to be valid.
 
 
@@ -67,7 +67,7 @@ trial_red_image = stimulus_properties.image_red(stimulus_index_in_range);
 trial_cyan_image = stimulus_properties.image_cyan(stimulus_index_in_range);
 
 b_keep_trials = true(size(paradigm_data.b_previous_trial_valid));
-if any(contains(paradigm_data.comments,'Throw away last ')) %Exception when forgot goggles
+if any(contains(paradigm_data.comments,'Throw away last ')) && strcmp(session.session_name,'250513_160124_Alfie')  %Exceptions for goggles
     comment_indices = find(contains(paradigm_data.comments,'Throw away last '));
     for comment_index = comment_indices
         fileparts = strsplit(paradigm_data.comments{comment_index},'Throw away last ');
@@ -81,6 +81,8 @@ if any(contains(paradigm_data.comments,'Throw away last ')) %Exception when forg
         b_keep_trials((trial_index - num_valid_trials_to_throw):trial_index) = false;
     end
     disp(['Throwing away ' num2str(sum(~b_keep_trials)) ' trials.'])
+elseif any(contains(paradigm_data.comments,'goggles fell off')) && strcmp(session.session_name,'260309_205247_Alfie')
+    %according to experiment notes affected only a few trials, ignoring...
 end
 
 if require_previous_trial_valid

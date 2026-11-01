@@ -1,8 +1,12 @@
 function [b_selected,features,responses_to_use_training,responses_to_use_testing,responses_st,responses_ot_stimulus,responses_priming,responses_dominant_binocular,responses_suppressed_binocular]...
     = flash_suppression_axes_get_features_responses(...
-    config,session,paradigm_data,raster_state,unique_stimuli,unique_stimulus_index_other_list,number_of_features,feat_map,feat_map_stim_condition_stimulus,feat_map_stim_names,stimulus_index_in_range,priming_stimuli,dominant_image,suppressed_image,b_trial_in_range_is_proportion_priming,trial_is_binocular_context,b_trial_in_range_is_proportion);
+    config,session,paradigm_data,raster_state,unique_stimuli,unique_stimulus_index_other_list,number_of_features,feat_map,feat_map_stim_condition_stimulus,feat_map_stim_names,stimulus_index_in_range,priming_stimuli,dominant_image,suppressed_image,b_trial_in_range_is_proportion_priming,trial_is_binocular_context,b_trial_in_range_is_proportion,session_variables);
 
-flash_suppression_get_variables;
+% Per-session variables from flash_suppression_get_variables (computed once by the caller)
+raster = session_variables.raster;
+peri_stimulus_range = session_variables.peri_stimulus_range;
+on_durations_in_range = session_variables.on_durations_in_range;
+trial_is_gray = session_variables.trial_is_gray;
 
 gray_duration = median(on_durations_in_range(trial_is_gray));
 
