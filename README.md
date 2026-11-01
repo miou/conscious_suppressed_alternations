@@ -15,7 +15,8 @@ and reduce the memory and compute requirements so the analysis runs on a wider r
 
 ## Installation
 
-The MATLAB code was tested with MATLAB R2023b on Windows 11. The Python code needs to be run
+The MATLAB code was tested with MATLAB R2023b on Windows 11 and needs the Statistics and Machine
+Learning, Image Processing and Signal Processing Toolboxes. The Python code needs to be run
 inside a specific Python environment installed using the Python tool
 [uv](https://docs.astral.sh/uv/), which can be installed using the
 instructions found [here](https://docs.astral.sh/uv/getting-started/installation/). Once `uv` is

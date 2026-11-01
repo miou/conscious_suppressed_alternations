@@ -13,8 +13,8 @@ The data is in two parts on Zenodo, both within its size limits:
 
 - **The 19 recording sessions** — individual `session_<date>_<monkey>.mat` files
   (e.g. `session_250225_Alfie.mat`), roughly 0.2–2.7 GB each, gzip-compressed (v7.3). Each holds
-  the per-trial spike raster, the concatenated spike timecourse, per-probe LFP, eye traces,
-  stimulus indices, and inferred-state fields. Download them into `data/sessions/`.
+  the per-trial spike raster, the concatenated spike timecourse, per-probe LFP, eye traces and
+  stimulus indices. Download them into `data/sessions/`.
 - **The data bundle** — `data.zip` (~2.1 GB). Unzip it at the repository root; it fills in the
   pooled summaries the figures load (`data/results/`) plus the inputs that cannot be regenerated:
   `data/python_summaries/` (dynamics summaries), `data/stimuli/` (stimulus feature maps),
