@@ -38,4 +38,4 @@ dt_loglik:
 # Results aggregation parameters
 results:
   # Edges of median dwell time bins (ms) for log-likelihood curves
-  bin_edges: [2, 3, 5, 10, 20, 50, 70, 100, 200, 300]
+  bin_edges: [10, 20, 50, 70, 100, 200, 300]

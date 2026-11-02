@@ -520,7 +520,7 @@ dwell_time_1 = np.array(dwell_time_1)
 rel_loglik = np.array(rel_loglik)
 
 # Compute normalized relative log-likelihood
-rel_loglik_norm = (rel_loglik - rel_loglik.min()) / (rel_loglik.max() - rel_loglik.min())
+rel_loglik_norm = rel_loglik / rel_loglik.max()
 
 
 # %%
